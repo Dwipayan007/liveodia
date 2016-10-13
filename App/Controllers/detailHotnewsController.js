@@ -11,6 +11,23 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     $scope.hnewssummary = false;
     $scope.tpnews = false;
 
+    $scope.index = "";
+    $scope.hnewsData = [];
+    $scope.hnewsid = "";
+    $scope.nHNews = "";
+    $scope.pHNews = "";
+
+
+    $scope.getPreviousHotNews = function (newsid) {
+        $scope.hnewsid = newsid;
+        $scope.getHotNewsOnClick($scope.hnewsid);
+    };
+
+    $scope.getNextHotNews = function (newsid) {
+        $scope.hnewsid = newsid;
+        $scope.getHotNewsOnClick($scope.hnewsid);
+    };
+
     $scope.getAllTopNews = function () {
         HotnewsServiceFactory.getAllTopNews().then(function (newsData) {
             debugger;
@@ -55,7 +72,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
                 $scope.hnewssummary = true;
                 $scope.hnews = false;
                 $scope.tpnews = false;
-                $scope.hnewsDetail = hnewsdata;
+                $scope.hnewsDetail = hnewsdata[0];
                 $scope.getHotNewsTitle();
                 $scope.getAllTopNews();
             };
@@ -64,13 +81,29 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
     $scope.getHotNewsOnClick = function (hnid) {
         debugger;
+        $scope.hnewsid = hnid;
         HotnewsServiceFactory.getHotNewsByID(hnid).then(function (result) {
             if (result) {
                 $scope.hnews = false;
                 $scope.tpnews = false;
                 $scope.hnewssummary = [];
                 $scope.hnewssummary = true;
-                $scope.hnewsDetail = result;
+                $scope.hnewsDetail = result[0];
+                $scope.getHotNewsData();
+            }
+        });
+    };
+
+    $scope.getHotNewsData = function () {
+        homeServiceFactory.getAllHotNews().then(function (hnewsData) {
+            debugger;
+            if (hnewsData) {
+                $scope.hnewsData = hnewsData;
+                if ($scope.hnewsid != "") {
+                    $scope.index = _.findIndex($scope.hnewsData, { "hnid": parseInt($scope.hnewsid) });
+                    $scope.pHNews = $scope.hnewsData[$scope.index - 1];
+                    $scope.nHNews = $scope.hnewsData[$scope.index + 1];
+                }
             }
         });
     };

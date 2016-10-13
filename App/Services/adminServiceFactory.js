@@ -11,7 +11,8 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', function ($http, $q) 
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("hotNews", data.HotNews);
             dataAsFormData.append("title", data.title);
-            dataAsFormData.append("hsub", data.hsub);
+            if (data.hsub)
+                dataAsFormData.append("hsub", data.hsub);
             dataAsFormData.append("selOption", data.selOption);
             dataAsFormData.append("hfullNews", data.hnewsTotal);
         }
@@ -19,14 +20,16 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', function ($http, $q) 
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("Newstory", data.Newstory);
             dataAsFormData.append("title", data.ntitle);
-            dataAsFormData.append("nsub", data.nsub);
+            if (data.nsub)
+                dataAsFormData.append("nsub", data.nsub);
             dataAsFormData.append("nstory", data.newstory);
         }
         if (data.TopNews) {
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("Topnews", data.TopNews);
             dataAsFormData.append("title", data.ttitle);
-            dataAsFormData.append("tsub", data.tsub);
+            if (data.tsub)
+                dataAsFormData.append("tsub", data.tsub);
             dataAsFormData.append("tnews", data.topnews);
         }
         return dataAsFormData;

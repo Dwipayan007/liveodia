@@ -11,7 +11,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
 
     $scope.changeOption = function () {
         debugger;
-        $scope.ntitle = $scope.selectedOption.HID;
+        $scope.ntitle = $scope.selectedOption.ndid;
     };
 
     $scope.AddNewCategory = function (cname) {
@@ -28,7 +28,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
         if ($scope.selectedOption == undefined)
             file["selOption"] = "1";
         else
-            file["selOption"] = $scope.selectedOption.HID;
+            file["selOption"] = $scope.selectedOption.ndid;
         if ($scope.myFile1 != undefined)
             file["file"] = $scope.myFile1;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
@@ -60,7 +60,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
             if (hnewsdata) {
                 debugger;
                 $scope.hnewsTitle = hnewsdata;
-                $scope.selectedOption = $scope.hnewsTitle.HotNewsTitle[0];
+                $scope.selectedOption = $scope.hnewsTitle[0];
             };
         })
     };

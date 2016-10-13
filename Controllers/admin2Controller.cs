@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -14,10 +15,11 @@ namespace LiveodiaFinal.Controllers
     public class admin2Controller : ApiController
     {
         // GET: api/admin2
-        public IEnumerable<string> Get()
+        public DataTable Get()
         {
-            return new string[] { "value1", "value2" };
+            return dbutility.GetHotNewsData();
         }
+
 
         // GET: api/admin2/5
         public string Get(int id)
@@ -30,7 +32,7 @@ namespace LiveodiaFinal.Controllers
         {
 
             // const string StoragePath = "~/UploadedImage";
-            Dictionary<string, object> myData = new Dictionary<string, object>();
+            Dictionary<string, string> myData = new Dictionary<string, string>();
             string StoragePath = HttpContext.Current.Server.MapPath("~/UploadedImage");
             if (Request.Content.IsMimeMultipartContent())
             {
@@ -42,20 +44,23 @@ namespace LiveodiaFinal.Controllers
                     {
                         if (string.IsNullOrEmpty(fileData.Headers.ContentDisposition.FileName))
                         {
-                            return Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted");   
+                            return Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted");
                         }
                         string fileName = fileData.Headers.ContentDisposition.FileName;
+                        string dttime = DateTime.Now.ToString("dd_MM_yyyy_HH_MM_ss");
+                        string fname = "";
                         if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
                         {
                             fileName = fileName.Trim('"');
-                            myData.Add("fname", fileName);
+                            fname = dttime + fileName;
+                            myData.Add("img", fname);
                         }
                         if (fileName.Contains(@"/") || fileName.Contains(@"\"))
                         {
                             fileName = Path.GetFileName(fileName);
-                          
+
                         }
-                        File.Copy(fileData.LocalFileName, Path.Combine(StoragePath, fileName));
+                        File.Copy(fileData.LocalFileName, Path.Combine(StoragePath, fname));
                     }
                     foreach (var key in streamProvider.FormData.AllKeys)
                     {
@@ -66,15 +71,15 @@ namespace LiveodiaFinal.Controllers
                     }
                     if (streamProvider.FileData.Count == 0)
                     {
-                        myData.Add("fname", "Default");
+                        myData.Add("img", "Default");
                     }
-                    myData.Add("tdate", DateTime.Now.ToString("dd-MM-yyyy"));
+                    myData.Add("todaydate", DateTime.Now.ToString("dd-MM-yyyy"));
 
                     dbutility.SaveData(myData);
                 }
                 catch (Exception e)
                 {
-                   
+
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK);

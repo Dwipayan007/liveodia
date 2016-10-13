@@ -83,6 +83,20 @@ LiveOdiaApp.factory('homeServiceFactory', ['$http', '$q', function ($http, $q) {
         return deffer.promise;
     };
 
+    var _getAllHotNews = function () {
+        debugger;
+        var deffer = $q.defer();
+        $http.get(baseService + 'api/admin2/').success(function (data, status) {
+            debugger;
+            deffer.resolve(data);
+        }).error(function (err, status) {
+            debugger;
+            deffer.reject(err);
+        })
+
+        return deffer.promise;
+    };
+
     var _getHotNewsSummary = function (ndid) {
         debugger;
         var deffer = $q.defer();
@@ -99,6 +113,8 @@ LiveOdiaApp.factory('homeServiceFactory', ['$http', '$q', function ($http, $q) {
     homeServiceFactory.DeleteTopNews = _DeleteTopNews;
     homeServiceFactory.DeleteHotNews = _DeleteHotNews;
     homeServiceFactory.DeleteNewsStory = _DeleteNewsStory;
+
+    homeServiceFactory.getAllHotNews = _getAllHotNews;
     homeServiceFactory.getAllNewsStory = _getAllNewsStory;
     homeServiceFactory.getAllNews = _getAllNews;
     homeServiceFactory.getTopNewsByID = _getTopNewsByID;
