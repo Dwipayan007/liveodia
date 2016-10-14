@@ -1,7 +1,7 @@
 ﻿'use strict';
-LiveOdiaApp.factory('loginServiceFactory', ['$http', '$q', 'localStorageService', function ($http, $q, localStorageService) {
+LiveOdiaApp.factory('loginServiceFactory', ['$http', '$q', 'localStorageService', 'baseService', function ($http, $q, localStorageService, baseService) {
     debugger;
-    var baseService = "http://localhost:49937/";
+    var baseService = baseService;
     //var baseService = "http://www.liveodia.co/";
 
     var _authentication = {

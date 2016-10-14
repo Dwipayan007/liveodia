@@ -1,5 +1,7 @@
-﻿/// <reference path="C:\Users\dtrip4\Documents\Visual Studio 2015\Projects\LiveOdia\LiveOdia\js/angular.min.js" />
-/// <reference path="C:\Users\dtrip4\Documents\Visual Studio 2015\Projects\LiveOdia\LiveOdia\js/angular-route.min.js" />
+﻿/// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular.min.js" />
+/// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular.js" />
+/// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular-route.js" />
+/// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular-route.min.js" />
 
 var LiveOdiaApp = angular.module('LiveOdia', ['ngRoute', 'LocalStorageModule', 'ui.bootstrap']);
 debugger;
@@ -9,6 +11,7 @@ var _isNotMobile = (function () {
     return !check;
 })();
 LiveOdiaApp.constant('mobileCheck', check);
+LiveOdiaApp.constant('baseService', 'http://localhost:19471/');
 LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
     $httpProvider.defaults.headers.common = {};
     $httpProvider.defaults.headers.post = {};

@@ -1,7 +1,7 @@
 ﻿/// <reference path="../app.js" />
-LiveOdiaApp.factory('detailTopnewsService', ['$http', '$q', function ($http, $q) {
+LiveOdiaApp.factory('detailTopnewsService', ['$http', '$q', 'baseService', function ($http, $q, baseService) {
     //var baseService = "http://www.liveodia.co/";
-    var baseService = "http://localhost:51999/";
+    var baseService = baseService;
     var detailTopnewsFactory = {};
     var _getTopDetailNews = function (id) {
         debugger;
