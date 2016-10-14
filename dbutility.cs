@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Configuration;
 using LiveOdiaFinal.Models;
 
-namespace LiveodiaFinal
+namespace LiveOdiaFinal
 {
     public class dbutility
     {
