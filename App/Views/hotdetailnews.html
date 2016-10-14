@@ -34,12 +34,10 @@
                 <ul class="featured_nav">
                     <li class="wow fadeInDown" ng-repeat="news in tnews">
                         <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.timage}}" alt=""></a></figure>
-                        <article class="featured_article">
-                            <h2 class="article_titile"><a class="odia-font">{{news.ttitle}}</a></h2>
-                            <h4>{{news.tsub}}</h4>
-                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
-                            <p class="odia-font">{{news.topnews}}</p>
-                        </article>
+                        <h2 class="article_titile">{{news.ttitle}}</h2>
+                        <h4>{{news.tsub}}</h4>
+                        <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                        <p class="odia-font">{{news.topnews}}</p>
                     </li>
                 </ul>
                 <pagination ng-model="currentPage" total-items="newsories.length" max-size="maxSize" boundary-links="true">
@@ -52,7 +50,11 @@
                         <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.himage}}" alt=""></a></figure>
                         <article class="featured_article">
                             <h2 class="article_titile"><a class="odia-font" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></h2>
-                            <h4 ng-show="news.hsub!=null">{{news.hsub}}</h4>
+                            <h4 ng-show="news.hsub!=null">
+                                {{news.hsub}}</
+                                h4>
+                            </h4>
+                            </
                             <!--<p class="odia-font">{{news.hsub}}</p>-->
                         </article>
                     </li>
@@ -105,7 +107,7 @@
                             <ul class="ppost_nav wow fadeInDown">
                                 <li ng-repeat="news in topstories | orderBy :'-tnid'">
                                     <div class="media">
-                                        <a class="media-left" href="#"><img src="images/70x70.jpg" alt=""></a>
+                                        <a class="media-left" href="#"><img ng-src="../UploadedImage/{{news.timage}}" width="100" height="100" alt=""></a>
                                         <div class="media-body"><a class="catg_title" href="#" ng-click="getTopNewsByID(news.tnid)">{{news.ttitle}}</a></div>
                                     </div>
                                 </li>
