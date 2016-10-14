@@ -13,56 +13,90 @@ namespace LiveodiaFinal
     {
         public static DataTable getAllTopStory()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM topnews";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM topnews";
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
 
         public static DataTable GetHotNewsData()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM hotnews";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM hotnews";
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
 
         public static DataTable getHotNewsSummaryDetail(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM hotnews where hnid="+id;
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM hotnews where hnid=" + id;
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
@@ -165,121 +199,185 @@ namespace LiveodiaFinal
 
         public static DataTable getNewstoryById(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM newstory where nsid=" + id;
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM newstory where nsid=" + id;
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
 
         public static DataTable getAllNewStory()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM newstory";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM newstory";
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
 
         public static DataTable getHotNewsSummary(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM hotnews WHERE ndid=" + id;
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM hotnews WHERE ndid=" + id;
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
 
         public static DataTable GetHotNewsTitle()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM newsdivision";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM newsdivision";
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
 
         public static DataTable getTopNewsById(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
-                string query = "SELECT * FROM topnews where tnid=" + id;
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-                dt.Load(cmd.ExecuteReader());
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM topnews where tnid=" + id;
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
             }
             catch (Exception ex)
             {
 
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
             }
             return dt;
         }
 
         public static bool addNewCategory(AdminModel value)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
             bool res = false;
             try
             {
-                MySqlCommand cmd = new MySqlCommand();
-                conn.Open();
-                cmd.CommandText = "INSERT INTO newsdivision (newsdiv) VALUES (@newsdiv)";
-                cmd.Parameters.AddWithValue("newsdiv", value.CNAME);
-                cmd.Connection = conn;
-                cmd.Prepare();
-                cmd.ExecuteNonQuery();
+                scon.Open();
+                scmd.CommandText = "INSERT INTO newsdivision (newsdiv) VALUES (@newsdiv)";
+                scmd.Parameters.AddWithValue("newsdiv", value.CNAME);
+                scmd.Connection = scon;
+                scmd.Prepare();
+                scmd.ExecuteNonQuery();
                 res = true;
             }
             catch (Exception ex)
             {
                 res = false;
             }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
             return res;
-
         }
 
         public static bool SaveData(Dictionary<string, string> valDict)
@@ -289,8 +387,6 @@ namespace LiveodiaFinal
             MySqlCommand scmd = new MySqlCommand();
             scon.Open();
             scmd.Connection = scon;
-            //Dictionary<string, List<HotNewsModel>> fullNews = new Dictionary<string, List<HotNewsModel>>();
-            //List<HotNewsModel> _newsData = new List<HotNewsModel>();
             try
             {
                 foreach (KeyValuePair<string, string> kvp in valDict)
