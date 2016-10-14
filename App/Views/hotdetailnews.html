@@ -20,12 +20,21 @@
                 <h2>Hot News Detail</h2>
                 <ul class="featured_nav">
                     <li class="wow fadeInDown">
-                        <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{hnewsDetail.himage}}" alt=""></a></figure>
-                        <h2 class="article_titile">
-                            {{hnewsDetail.htitle}}
-                        </h2>
-                        <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{hnewsDetail.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
-                        <p class="odia-font">{{hnewsDetail.hotnews}}</p>
+                        <div ng-show="hnewsDetail.himage!='Default'">
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{hnewsDetail.himage}}" alt=""></a></figure>
+                            <h2 class="article_titile">
+                                {{hnewsDetail.htitle}}
+                            </h2>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{hnewsDetail.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{hnewsDetail.hotnews}}</p>
+                        </div>
+                        <div ng-show="hnewsDetail.himage=='Default'">
+                            <h2 class="article_titile">
+                                {{hnewsDetail.htitle}}
+                            </h2>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{hnewsDetail.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{hnewsDetail.hotnews}}</p>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -33,11 +42,20 @@
                 <h2>Top News Detail</h2>
                 <ul class="featured_nav">
                     <li class="wow fadeInDown" ng-repeat="news in tnews | orderBy :'-tnid'">
-                        <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.timage}}" alt=""></a></figure>
-                        <h2 class="article_titile">{{news.ttitle}}</h2>
-                        <h4>{{news.tsub}}</h4>
-                        <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
-                        <p class="odia-font">{{news.topnews}}</p>
+                        <div ng-show="news.timage!='Default'">
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.timage}}" alt=""></a></figure>
+                            <h2 class="article_titile">{{news.ttitle}}</h2>
+                            <h4>{{news.tsub}}</h4>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{news.topnews}}</p>
+                        </div>
+                        <div ng-show="news.timage=='Default'">
+
+                            <h2 class="article_titile1">{{news.ttitle}}</h2>
+                            <h4>{{news.tsub}}</h4>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{news.topnews}}</p>
+                        </div>
                     </li>
                 </ul>
                 <pagination ng-model="currentPage" total-items="newsories.length" max-size="maxSize" boundary-links="true">
@@ -47,13 +65,23 @@
                 <h2>Hot News Summary</h2>
                 <ul class="featured_nav">
                     <li class="wow fadeInDown" ng-repeat="news in  hotnews | orderBy :'-hnid'">
-                        <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.himage}}" alt=""></a></figure>
-                        <article class="featured_article">
-                            <h2 class="article_titile"><a class="odia-font" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></h2>
-                            <h4 ng-show="news.hsub!=null">
-                                {{news.hsub}}
-                            </h4>
-                        </article>
+                        <div ng-show="news.himage!='Default'">
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.himage}}" alt=""></a></figure>
+                            <article class="featured_article">
+                                <h2 class="article_titile"><a class="odia-font" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></h2>
+                                <h4 ng-show="news.hsub!=null">
+                                    {{news.hsub}}
+                                </h4>
+                            </article>
+                        </div>
+                        <div ng-show="news.himage=='Default'">
+                            <article class="featured_article1">
+                                <h2 class="article_titile"><a class="odia-font" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></h2>
+                                <h4 ng-show="news.hsub!=null">
+                                    {{news.hsub}}
+                                </h4>
+                            </article>
+                        </div>
                     </li>
                 </ul>
                 <pagination ng-model="currentPage" total-items="newsories.length" max-size="maxSize" boundary-links="true">
@@ -78,7 +106,7 @@
                 <div>
                     <span>Previous News</span>
                     <h3>{{pHNews.htitle}}</h3>
-                    <img ng-src="../UploadedImage/{{pHNews.himage}}" width="100" height="100" alt="" />
+                    <img ng-show="pHNews.himage!='Default'" ng-src="../UploadedImage/{{pHNews.himage}}" width="100" height="100" alt="" />
                 </div>
             </a>
             <a class="next" href="#" ng-click="getNextHotNews(nHNews.hnid)" ng-show="nHNews!=undefind">
@@ -86,7 +114,7 @@
                 <div>
                     <span>Next Story</span>
                     <h3>{{nHNews.htitle}}</h3>
-                    <img ng-src="../UploadedImage/{{nHNews.himage}}" height="100" width="100" alt="" />
+                    <img ng-show="nHNews.himage!='Default'" ng-src="../UploadedImage/{{nHNews.himage}}" height="100" width="100" alt="" />
                 </div>
             </a>
         </nav>
@@ -104,7 +132,7 @@
                             <ul class="ppost_nav wow fadeInDown">
                                 <li ng-repeat="news in topstories | orderBy :'-tnid'">
                                     <div class="media">
-                                        <a class="media-left" href="#"><img ng-src="../UploadedImage/{{news.timage}}" width="100" height="100" alt=""></a>
+                                        <a class="media-left" href="#"><img ng-show="news.timage!='Default'" ng-src="../UploadedImage/{{news.timage}}" width="100" height="100" alt=""></a>
                                         <div class="media-body"><a class="catg_title" href="#" ng-click="getTopNewsByID(news.tnid)">{{news.ttitle}}</a></div>
                                     </div>
                                 </li>
