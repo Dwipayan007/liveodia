@@ -58,7 +58,6 @@ LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory) {
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
         debugger;
         var path = $location.path();
-        loginServiceFactory.authentication.isAuth = true;
         if (!loginServiceFactory.authentication.isAuth && path == "/login") {
             //event.preventDefault();
             $location.path('/login');

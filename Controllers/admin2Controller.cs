@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
-namespace LiveodiaFinal.Controllers
+namespace LiveOdiaFinal.Controllers
 {
     public class admin2Controller : ApiController
     {
@@ -19,7 +19,6 @@ namespace LiveodiaFinal.Controllers
         {
             return dbutility.GetHotNewsData();
         }
-
 
         // GET: api/admin2/5
         public string Get(int id)
@@ -32,12 +31,14 @@ namespace LiveodiaFinal.Controllers
         {
 
             // const string StoragePath = "~/UploadedImage";
+            bool res = false;
             Dictionary<string, string> myData = new Dictionary<string, string>();
-            string StoragePath = HttpContext.Current.Server.MapPath("~/UploadedImage");
+            string StoragePath = HttpContext.Current.Server.MapPath("~/UploadedImage/");
             if (Request.Content.IsMimeMultipartContent())
             {
                 try
                 {
+                    string fname = "";
                     var streamProvider = new MultipartFormDataStreamProvider(StoragePath);
                     await Request.Content.ReadAsMultipartAsync(streamProvider);
                     foreach (MultipartFileData fileData in streamProvider.FileData)
@@ -47,17 +48,16 @@ namespace LiveodiaFinal.Controllers
                             return Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted");
                         }
                         string fileName = fileData.Headers.ContentDisposition.FileName;
-                        string dttime = DateTime.Now.ToString("dd_MM_yyyy_HH_MM_ss");
-                        string fname = "";
+
                         if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
                         {
                             fileName = fileName.Trim('"');
-                            fname = dttime + fileName;
+                            fname = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss") + "_" + fileName;
                             myData.Add("img", fname);
                         }
                         if (fileName.Contains(@"/") || fileName.Contains(@"\"))
                         {
-                            fileName = Path.GetFileName(fileName);
+                            fname = Path.GetFileName(fileName);
 
                         }
                         File.Copy(fileData.LocalFileName, Path.Combine(StoragePath, fname));
@@ -79,11 +79,10 @@ namespace LiveodiaFinal.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    Request.CreateResponse(HttpStatusCode.NotAcceptable, "This request is not properly formatted");
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK);
-
             }
             else
             {

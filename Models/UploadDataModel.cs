@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace LiveodiaFinal.Models
+namespace LiveOdiaFinal.Models
 {
     public class UploadDataModel
     {

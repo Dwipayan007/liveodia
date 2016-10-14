@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
-using LiveodiaFinal.Models;
+using LiveOdiaFinal.Models;
 using System.Web.Configuration;
 
-namespace LiveodiaFinal
+namespace LiveOdiaFinal
 {
     public class dbutility
     {
         public static DataTable getAllTopStory()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
@@ -33,7 +33,7 @@ namespace LiveodiaFinal
 
         public static DataTable GetHotNewsData()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
@@ -49,14 +49,15 @@ namespace LiveodiaFinal
             return dt;
         }
 
+
         public static DataTable getHotNewsSummaryDetail(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
                 conn.Open();
-                string query = "SELECT * FROM hotnews where hnid="+id;
+                string query = "SELECT * FROM hotnews where hnid=" + id;
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 dt.Load(cmd.ExecuteReader());
             }
@@ -165,7 +166,7 @@ namespace LiveodiaFinal
 
         public static DataTable getNewstoryById(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
@@ -183,7 +184,7 @@ namespace LiveodiaFinal
 
         public static DataTable getAllNewStory()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
@@ -203,7 +204,7 @@ namespace LiveodiaFinal
 
         public static DataTable getHotNewsSummary(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
@@ -221,7 +222,7 @@ namespace LiveodiaFinal
 
         public static DataTable GetHotNewsTitle()
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
@@ -241,7 +242,7 @@ namespace LiveodiaFinal
 
         public static DataTable getTopNewsById(int id)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             DataTable dt = new DataTable();
             try
             {
@@ -261,7 +262,7 @@ namespace LiveodiaFinal
 
         public static bool addNewCategory(AdminModel value)
         {
-            MySqlConnection conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlConnection conn = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             bool res = false;
             try
             {
@@ -289,8 +290,8 @@ namespace LiveodiaFinal
             MySqlCommand scmd = new MySqlCommand();
             scon.Open();
             scmd.Connection = scon;
-            //Dictionary<string, List<HotNewsModel>> fullNews = new Dictionary<string, List<HotNewsModel>>();
-            //List<HotNewsModel> _newsData = new List<HotNewsModel>();
+            Dictionary<string, List<HotNewsModel>> fullNews = new Dictionary<string, List<HotNewsModel>>();
+            List<HotNewsModel> _newsData = new List<HotNewsModel>();
             try
             {
                 foreach (KeyValuePair<string, string> kvp in valDict)
@@ -404,6 +405,39 @@ namespace LiveodiaFinal
                         res = true;
                     }
                 }
+            }
+            catch (Exception ee)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
+        public static bool getLoginData(Login ldata)
+        {
+            bool res = false;
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            scon.Open();
+            scmd.Connection = scon;
+            Dictionary<string, List<HotNewsModel>> fullNews = new Dictionary<string, List<HotNewsModel>>();
+            List<HotNewsModel> _newsData = new List<HotNewsModel>();
+            try
+            {
+                scmd.CommandText = "SELECT * FROM login WHERE uname='" + ldata.USERNAME + "' AND pword='" + ldata.PASSWORD + "'";
+                scmd.Prepare();
+                res = Convert.ToBoolean(scmd.ExecuteScalar());
+
             }
             catch (Exception ee)
             {

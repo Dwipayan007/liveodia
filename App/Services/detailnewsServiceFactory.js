@@ -1,7 +1,7 @@
 ﻿'use strict';
 LiveOdiaApp.factory('detailnewsServiceFactory', ['$http', '$q', function ($http, $q) {
     debugger;
-    var baseService = "http://localhost:49937/";
+    var baseService = "http://localhost:51999/";
     //var baseService = "http://www.liveodia.co/";
     var detailnewsServiceFactory = {};
     var _getDetailNews = function (id) {

@@ -1,4 +1,4 @@
-﻿using LiveodiaFinal.Models;
+﻿using LiveOdiaFinal.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace LiveodiaFinal.Controllers
+namespace LiveOdiaFinal.Controllers
 {
     public class homeController : ApiController
     {
@@ -34,7 +34,7 @@ namespace LiveodiaFinal.Controllers
         {
             //Top News Delete
             bool res = false;
-            res=dbutility.deleteTopNews(id);
+            res = dbutility.deleteTopNews(id);
             return res;
 
         }
