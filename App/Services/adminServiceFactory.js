@@ -1,6 +1,6 @@
 ﻿'use strict';
 LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', function ($http, $q) {
-    var baseService = "http://localhost:51999/";
+    var baseService = "http://localhost:49937/";
     //var baseService = "http://www.liveodia.co/";
     var adminServiceFactory = {};
     //File Upload

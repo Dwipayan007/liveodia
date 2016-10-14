@@ -51,7 +51,7 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     });
 
     $routeProvider.otherwise({ redirectTo: '/home' });
-    
+
 }]);
 LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory) {
     loginServiceFactory.fillAuthData();
@@ -59,14 +59,13 @@ LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory) {
         debugger;
         var path = $location.path();
         if (!loginServiceFactory.authentication.isAuth && path == "/login") {
-            //event.preventDefault();
             $location.path('/login');
         }
-        else {
-            if (next.$$route.originalPath == '/login')
-                $location.path('/admin');
+        if (path != '/') {
+            if (next.$$route.originalPath == '/login') {
+                $location.path('/login');
+            }
         }
-        //event.preventDefault();
         if ($location.path() != '/home') {
             $rootScope.hideit = true;
         }

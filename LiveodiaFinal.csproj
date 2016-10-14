@@ -198,12 +198,15 @@
     <Compile Include="Controllers\HnewsSummaryController.cs" />
     <Compile Include="Controllers\homeController.cs" />
     <Compile Include="Controllers\HotNewsController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\NewStoryController.cs" />
     <Compile Include="dbutility.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminModel.cs" />
+    <Compile Include="Models\HotNewsModel.cs" />
+    <Compile Include="Models\Login.cs" />
     <Compile Include="Models\TutorialModel.cs" />
     <Compile Include="Models\UploadDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

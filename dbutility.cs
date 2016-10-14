@@ -41,6 +41,39 @@ namespace LiveOdiaFinal
             return dt;
         }
 
+        public static bool getLoginData(Login ldata)
+        {
+            bool res = false;
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            scon.Open();
+            scmd.Connection = scon;
+            Dictionary<string, List<HotNewsModel>> fullNews = new Dictionary<string, List<HotNewsModel>>();
+            List<HotNewsModel> _newsData = new List<HotNewsModel>();
+            try
+            {
+                scmd.CommandText = "SELECT * FROM login WHERE uname='" + ldata.USERNAME + "' AND pword='" + ldata.PASSWORD + "'";
+                scmd.Prepare();
+                res = Convert.ToBoolean(scmd.ExecuteScalar());
+
+            }
+            catch (Exception ee)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
         public static DataTable GetHotNewsData()
         {
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
