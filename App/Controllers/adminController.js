@@ -8,7 +8,14 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
     $scope.hnewsTitle = {};
     $scope.selectedOption;
     $scope.ntitle = "";
-
+    $scope.mesgHnews = "";
+    $scope.mesgTnews = "";
+    $scope.mesgNnews = "";
+    $scope.loader = {
+        loading1: false,
+        loading2: false,
+        loading3: false,
+    };
     $scope.changeOption = function () {
         debugger;
         $scope.ntitle = $scope.selectedOption.ndid;
@@ -22,17 +29,24 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
 
     $scope.submitHotNews = function () {
         debugger;
+        $scope.loader.loading1 = true;
         var file = {};
         file = $scope.hotnews;
         file["HotNews"] = "hnews";
-        if ($scope.selectedOption == undefined)
-            file["selOption"] = "1";
-        else
-            file["selOption"] = $scope.selectedOption.ndid;
+
+        file["selOption"] = $scope.selectedOption.ndid;
         if ($scope.myFile1 != undefined)
             file["file"] = $scope.myFile1;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
             debugger;
+            if (data == "") {
+                $scope.loader.loading1 = false;
+                $scope.mesgHnews = "Uploaded Successfully";
+            }
+            else {
+                $scope.loader.loading1 = false;
+                $scope.mesgHnews = "Not Successful";
+            }
             file = null;
             $scope.hotnews = {};
             $scope.resetForm("submitHotNews");
@@ -41,6 +55,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
 
     $scope.submitNewstory = function () {
         debugger;
+        $scope.loader.loading2 = true;
         var file = {};
         file = $scope.Newstory;
         file["Newstory"] = "nstory";
@@ -48,6 +63,14 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
             file["file"] = $scope.myFile2;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
             debugger;
+            if (data == "") {
+                $scope.loader.loading2 = false;
+                $scope.mesgNnews = "Uploaded Successfully";
+            }
+            else {
+                $scope.loader.loading2 = false;
+                $scope.mesgNnews = "Not Successful";
+            }
             file = null;
             $scope.Newstory = {};
             $scope.resetForm('submitNewstory');
@@ -67,6 +90,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
 
     $scope.submitTopNews = function () {
         debugger;
+        $scope.loader.loading3 = true;
         var file = {};
         file = $scope.Topnews;
         file["TopNews"] = "tnews";
@@ -74,6 +98,14 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
             file["file"] = $scope.myFile3;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
             debugger;
+            if (data == "") {
+                $scope.loader.loading3 = false;
+                $scope.mesgTnews = "Uploaded Successfully";
+            }
+            else {
+                $scope.loader.loading3 = false;
+                $scope.mesgTnews = "Not Successful";
+            }
             file = null;
             $scope.Topnews = {};
             $scope.resetForm("submitTopNews");

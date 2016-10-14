@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace LiveodiaFinal
+namespace LiveOdiaFinal
 {
     public static class WebApiConfig
     {

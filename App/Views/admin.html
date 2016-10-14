@@ -1,4 +1,3 @@
-﻿
 <section id="content">
     <div class="container">
         <div class="row">
@@ -31,8 +30,14 @@
                             <input type="file" image-upload="myFile1" id="file1" />
                         </div>
                         <div class="col-lg-1">
-                            <input type="submit" value="Add Hotnews" class="btn-sm btn-success" />
+                            <input type="submit" value="Add Hotnews" class="btn-sm btn-success" ng-hide="loader.loading1==true"/>
+<button ng-show="loader.loading1" class="btn btn-success">
+                                Uploading...
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </button>
+
                         </div>
+<span class="success">{{mesgHnews}}</span>
                     </form>
                 </div>
             </div>
@@ -54,8 +59,13 @@
                             <input type="file" image-upload="myFile2" id="file2" />
                         </div>
                         <div class="col-lg-1">
-                            <input type="submit" value="Add Newstory" class="btn-sm btn-success" />
+                            <input type="submit" value="Add Newstory" class="btn-sm btn-success" ng-hide="loader.loading2==true" />
+<button ng-show="loader.loading2" class="btn btn-success">
+                                Uploading...
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </button>
                         </div>
+ <span class="success">{{mesgNnews}}</span>
                     </form>
                 </div>
             </div>
@@ -77,8 +87,13 @@
                             <input type="file" image-upload="myFile3" id="file3" />
                         </div>
                         <div class="col-lg-1">
-                            <input type="submit" value="Add Topnews" class="btn-sm btn-success" />
+                            <input type="submit" value="Add Topnews" class="btn-sm btn-success" ng-hide="loader.loading3==true" />
+ <button ng-show="loader.loading3" class="btn btn-success">
+                                Uploading...
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </button>
                         </div>
+<span class="success">{{mesgTnews}}</span>
                     </form>
                 </div>
             </div>

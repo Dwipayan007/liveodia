@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace LiveodiaFinal.Controllers
+namespace LiveOdiaFinal.Controllers
 {
     public class HnewsSummaryController : ApiController
     {

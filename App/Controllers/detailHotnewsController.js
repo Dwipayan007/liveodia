@@ -65,6 +65,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
     $scope.getHotNewsByID = function () {
         debugger;
+        $scope.hnewsid = $scope.newsid;
         HotnewsServiceFactory.getHotNewsSummary($scope.newsid).then(function (hnewsdata) {
             if (hnewsdata) {
                 debugger;
@@ -75,6 +76,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
                 $scope.hnewsDetail = hnewsdata[0];
                 $scope.getHotNewsTitle();
                 $scope.getAllTopNews();
+                $scope.getHotNewsData();
             };
         })
     };
@@ -107,6 +109,8 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
             }
         });
     };
+
+
 
     $scope.getHotNewsSummary = function (ndid) {
         debugger;

@@ -1,4 +1,4 @@
-﻿<div class="container">
+<div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-4">
             <div class="left_sidebar">
@@ -19,32 +19,51 @@
             <div class="middle_content" ng-show="hnews!=false">
                 <h2>Hot Stories Summary</h2>
                 <ul class="featured_nav">
-                    <li class="wow fadeInDown" ng-repeat="news in hnewsDetail">
-                        <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.himage}}" alt=""></a></figure>
-                        <article class="featured_article">
-                            <h2 class="article_titile"><a class="odia-font" href="detailhotnews/{{news.hnid}}">{{news.htitle}}</a></h2>
-                            <h4 ng-show="news.hsub!=null">{{news.hsub}}</h4>
-                            <!--<p class="odia-font">{{news.hotnews}}</p>-->
-                        </article>
-                        <button value="Delete" ng-click="DeleteHotNews(news.hnid)">Delete</button>
+                    <li class="wow fadeInDown" ng-repeat="news in hnewsDetail | orderBy :'-hnid'">
+                        <div ng-show="news.himage!='Default'">
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.himage}}" alt=""></a></figure>
+                            <article class="featured_article">
+                                <h2 class="article_titile"><a class="odia-font" href="detailhotnews/{{news.hnid}}">{{news.htitle}}</a></h2>
+                                <h4 ng-show="news.hsub!=null">{{news.hsub}}</h4>
+                                <!--<p class="odia-font">{{news.hotnews}}</p>-->
+                            </article>
+                        </div>
+                        <div ng-show="news.himage=='Default'">
+                            <article class="featured_article1">
+                                <h2 class="article_titile"><a class="odia-font" href="detailhotnews/{{news.hnid}}">{{news.htitle}}</a></h2>
+                                <h4 ng-show="news.hsub!=null">{{news.hsub}}</h4>
+                                <!--<p class="odia-font">{{news.hotnews}}</p>-->
+                            </article>
+                        </div>
+                        <button value="Delete" ng-click="DeleteHotNews(news.hnid)" ng-hide="!authentication.isAuth">Delete</button>
                     </li>
                 </ul>
                 <pagination ng-model="currentPage" total-items="newsories.length" max-size="maxSize" boundary-links="true">
                 </pagination>
-                
+
             </div>
             <div class="middle_content" ng-show="tpnews!=false">
                 <h2>Top News Detail</h2>
                 <ul class="featured_nav">
-                    <li class="wow fadeInDown" ng-repeat="news in tnews">
-                        <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.timage}}" alt=""></a></figure>
-                        <article class="featured_article">
-                            <h2 class="article_titile"><a class="odia-font">{{news.ttitle}}</a></h2>
-                            <h4>{{news.tsub}}</h4>
-                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
-                            <p class="odia-font">{{news.topnews}}</p>
-                        </article>
-                        <button value="Delete" ng-click="DeleteTopNews(news.tnid)">Delete</button>
+                    <li class="wow fadeInDown" ng-repeat="news in tnews | orderBy :'-tnid'">
+                        <div ng-show="news.timage!='Default'">
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.timage}}" alt=""></a></figure>
+                            <article class="featured_article">
+                                <h2 class="article_titile"><a class="odia-font">{{news.ttitle}}</a></h2>
+                                <h4>{{news.tsub}}</h4>
+                                <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                                <p class="odia-font">{{news.topnews}}</p>
+                            </article>
+                        </div>
+                        <div ng-show="news.timage=='Default'">
+                            <article class="featured_article1">
+                                <h2 class="article_titile"><a class="odia-font">{{news.ttitle}}</a></h2>
+                                <h4>{{news.tsub}}</h4>
+                                <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                                <p class="odia-font">{{news.topnews}}</p>
+                            </article>
+                        </div>
+                        <button value="Delete" ng-click="DeleteTopNews(news.tnid)" ng-hide="!authentication.isAuth">Delete</button>
                     </li>
                 </ul>
                 <pagination ng-model="currentPage" total-items="newsories.length" max-size="maxSize" boundary-links="true">
@@ -53,14 +72,24 @@
             <div class="middle_content" ng-show="nstory!=false">
                 <h2>New Stories</h2>
                 <ul class="featured_nav">
-                    <li class="wow fadeInDown" ng-repeat="news in newstory">
-                        <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.nimage}}" alt=""></a></figure>
-                        <article class="featured_article">
-                            <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}">{{news.ntitle}}</a></h2>
-                            <h4>{{news.nsub}}</h4>
-                            <p class="odia-font">{{news.newstory}}</p>
-                        </article>
-                        <button value="Delete" ng-click="DeleteNewsStory(news.nsid)">Delete</button>
+                    <li class="wow fadeInDown" ng-repeat="news in newstory | orderBy :'-nsid'">
+                        <div ng-show="news.nimage!='Default'">
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.nimage}}" alt=""></a></figure>
+                            <article class="featured_article">
+                                <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}">{{news.ntitle}}</a></h2>
+                                <h4>{{news.nsub}}</h4>
+                                <p class="odia-font">{{news.newstory}}</p>
+                            </article>
+                        </div>
+                        <div ng-show="news.nimage=='Default'">
+
+                            <article class="featured_article1">
+                                <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}">{{news.ntitle}}</a></h2>
+                                <h4>{{news.nsub}}</h4>
+                                <p class="odia-font">{{news.newstory}}</p>
+                            </article>
+                        </div>
+                        <button value="Delete" ng-click="DeleteNewsStory(news.nsid)" ng-hide="!authentication.isAuth">Delete</button>
                     </li>
                 </ul>
                 <pagination ng-model="currentPage" total-items="newsories.length" max-size="maxSize" boundary-links="true">
@@ -78,7 +107,7 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade active in" id="mostPopular">
                             <ul class="ppost_nav wow fadeInDown">
-                                <li ng-repeat="news in topstories | orderBy :'-tnid'">
+                                <li ng-repeat="news in topstories  |  orderBy :'-tnid'">
                                     <div class="media">
                                         <a class="media-left" href="#"><img src="images/70x70.jpg" alt=""></a>
                                         <div class="media-body"><a class="catg_title" href="#" ng-click="getTopNewsByID(news.tnid)">{{news.ttitle}}</a></div>
