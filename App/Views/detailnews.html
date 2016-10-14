@@ -28,7 +28,7 @@
             <div class="middle_content" ng-show="hnews!=false">
                 <h2>Hot News Summary</h2>
                 <ul class="featured_nav">
-                    <li class="wow fadeInDown" ng-repeat="news in  hotnews">
+                    <li class="wow fadeInDown" ng-repeat="news in  hotnews | orderBy:'-hnid'">
                         <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.himage}}" alt=""></a></figure>
                         <article class="featured_article">
                             <h2 class="article_titile"><a class="odia-font" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></h2>
@@ -53,7 +53,7 @@
             <div class="middle_content" ng-show="tpnews!=false">
                 <h2>Top News Detail</h2>
                 <ul class="featured_nav">
-                    <li class="wow fadeInDown" ng-repeat="news in tnews">
+                    <li class="wow fadeInDown" ng-repeat="news in tnews | orderBy:'-tnid'">
                         <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.timage}}" alt=""></a></figure>
                         <h2 class="article_titile odia-font">{{news.ttitle}}</h2>
                         <h4>{{news.tsub}}</h4>

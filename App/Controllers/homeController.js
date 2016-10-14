@@ -14,7 +14,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.topnews = [];
     $scope.hotnews = [];
     $scope.newstory = [];
-
+    $scope.letterLimit = 120;
     $scope.tpnews = false;
     $scope.hnews = false;
     $scope.nstory = false;

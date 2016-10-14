@@ -73,14 +73,14 @@
                             <article class="featured_article">
                                 <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}">{{news.ntitle}}</a></h2>
                                 <h4>{{news.nsub}}</h4>
-                                <p class="odia-font">{{news.newstory}}</p>
+                                <p class="odia-font"><strong>{{news.newstory | limitTo:letterLimit}} . . .</strong></p>
                             </article>
                         </div>
                         <div ng-show="news.nimage=='Default'">
                             <article class="featured_article1">
                                 <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}">{{news.ntitle}}</a></h2>
                                 <h4>{{news.nsub}}</h4>
-                                <p class="odia-font">{{news.newstory}}</p>
+                                <p class="odia-font"><strong>{{news.newstory | limitTo:letterLimit}} . . .</strong></p>
                             </article>
                         </div>
                         <button value="Delete" ng-click="DeleteNewsStory(news.nsid)" ng-hide="!authentication.isAuth">Delete</button>

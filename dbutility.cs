@@ -13,6 +13,7 @@ namespace LiveOdiaFinal
     {
         public static DataTable getAllTopStory()
         {
+            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -20,7 +21,8 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM topnews";
+                scmd.CommandText = "SELECT * FROM topnews where newsdate='" + tdate + "'";
+                scmd.Parameters.AddWithValue("newsdate", tdate);
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -76,6 +78,7 @@ namespace LiveOdiaFinal
 
         public static DataTable GetHotNewsData()
         {
+            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -83,7 +86,8 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM hotnews";
+                scmd.CommandText = "SELECT * FROM hotnews where newsdate='" + tdate + "'"; ;
+                scmd.Parameters.AddWithValue("newsdate", tdate);
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -262,6 +266,7 @@ namespace LiveOdiaFinal
 
         public static DataTable getAllNewStory()
         {
+            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -269,7 +274,8 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM newstory";
+                scmd.CommandText = "SELECT * FROM newstory where newsdate='"+tdate+"'";
+                scmd.Parameters.AddWithValue("newsdate", tdate);
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
