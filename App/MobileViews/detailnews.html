@@ -1,4 +1,39 @@
-﻿<div class="container">
+﻿
+<header id="header" ng-show="mobile==true">
+    <div id="wrapper">
+        <div class="overlay"></div>
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+            <ul class="nav sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        <h2>Live Odia</h2>
+                    </a>
+                </li>
+                <li><a href="home" ng-click="onHomeClick();">ହୋମ ପେଜ୍</a></li>
+                <li><a href="about">ଆମ ବିଷୟରେ</a></li>
+                <li><a href="#">ଯୋଗାଯୋଗ</a></li>
+                <li><a href="#">ବିଜ୍ଞାପନ</a></li>
+                <li><h2>Hot News</h2></li>
+                <li class="odia-font" ng-repeat="hnews in hnewsTitle">
+                    <figcaption><a ng-click="getHotNewsSummary(hnews.ndid)">{{hnews.htitle}}</a></figcaption>
+                </li>
+            </ul>
+        </nav>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
+            </button>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+</header>
+
+<div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="topadd_bar">
@@ -149,22 +184,6 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-4">
-            <div class="left_sidebar">
-                <div class="single_widget">
-                    <h2>Hot News</h2>
-                    <ul class="post_nav">
-                        <li class="odia-font" ng-repeat="hnews in hnewsTitle">
-                            <figure class="effect-lily">
-                                <a href="pages/single_page.html"><img src="images/270x150x4.jpg" alt=""></a>
-                                <figcaption><a ng-click="getHotNewsSummary(hnews.ndid)">{{hnews.htitle}}</a></figcaption>
-                            </figure>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-       
         <nav class="nav-growpop" ng-show="hnewssummary!=false">
             <a class="prev" href="#" ng-click="getPreviousHotNews(pHNews.hnid)" ng-show="pHNews!=undefind">
                 <span class="icon-wrap"><i class="fa fa-angle-left"></i></span>

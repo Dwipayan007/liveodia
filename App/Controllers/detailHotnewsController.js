@@ -1,5 +1,5 @@
 ﻿'use strict';
-LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$location', '$routeParams', 'HotnewsServiceFactory', 'sharedService', 'homeServiceFactory', function ($scope, $rootScope, $location, $routeParams, HotnewsServiceFactory, sharedService, homeServiceFactory) {
+LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$location', '$routeParams', '$anchorScroll', 'HotnewsServiceFactory', 'sharedService', 'homeServiceFactory', function ($scope, $rootScope, $location, $routeParams, $anchorScroll,HotnewsServiceFactory, sharedService, homeServiceFactory) {
     debugger;
     $scope.newsid = $routeParams.id;
     $scope.viewActive = $rootScope.hideit;
@@ -124,6 +124,44 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
             };
         })
     };
+
+
+    if ($scope.mobile) {
+        debugger;
+        $location.hash('middle');
+        $anchorScroll.yOffset = 20;
+        $anchorScroll();
+    }
+
+    $(document).ready(function () {
+        debugger;
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+           isClosed = false;
+
+        trigger.click(function () {
+            hamburger_cross();
+        });
+
+        function hamburger_cross() {
+
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
 
 
     //$scope.getHDetailNews = function (hid) {

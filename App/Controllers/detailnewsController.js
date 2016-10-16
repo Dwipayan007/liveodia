@@ -1,5 +1,5 @@
 ﻿'use strict';
-LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', 'detailnewsServiceFactory', 'HotnewsServiceFactory', 'homeServiceFactory', function ($scope, $routeParams, detailnewsServiceFactory, HotnewsServiceFactory, homeServiceFactory) {
+LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$location','$anchorScroll', 'detailnewsServiceFactory', 'HotnewsServiceFactory', 'homeServiceFactory', function ($scope, $routeParams,$location, $anchorScroll,detailnewsServiceFactory, HotnewsServiceFactory, homeServiceFactory) {
     debugger;
     $scope.message = "Welcome to detail view page";
     $scope.detailNews = [];
@@ -204,5 +204,43 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', 'detai
         });
 
     };
+
+     if ($scope.mobile) {
+        debugger;
+        $location.hash('middle');
+        $anchorScroll.yOffset = 20;
+        $anchorScroll();
+    }
+
+    $(document).ready(function () {
+        debugger;
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+           isClosed = false;
+
+        trigger.click(function () {
+            hamburger_cross();
+        });
+
+        function hamburger_cross() {
+
+            if (isClosed == true) {
+                overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('#wrapper').toggleClass('toggled');
+        });
+    });
+
     $scope.GetDetailNews();
 }]);
