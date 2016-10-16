@@ -1,9 +1,9 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.controller('indexController', ['$scope', '$rootScope', '$location', '$anchorScroll', 'homeServiceFactory', 'HotnewsServiceFactory', 'loginServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, homeServiceFactory,HotnewsServiceFactory, loginServiceFactory, mobileCheck) {
-    debugger;
+    
     $scope.mobile = mobileCheck;
     //if ($scope.mobile) {
-    //    debugger;
+    //    
     //    $location.hash('middle');
     //    $anchorScroll.yOffset = 20;
     //    $anchorScroll();

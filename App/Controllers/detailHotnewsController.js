@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$location', '$routeParams', '$anchorScroll', 'HotnewsServiceFactory', 'sharedService', 'homeServiceFactory', function ($scope, $rootScope, $location, $routeParams, $anchorScroll,HotnewsServiceFactory, sharedService, homeServiceFactory) {
-    debugger;
+    
     $scope.newsid = $routeParams.id;
     $scope.viewActive = $rootScope.hideit;
     $scope.hnewsDetail = [];
@@ -30,7 +30,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
     $scope.getAllTopNews = function () {
         HotnewsServiceFactory.getAllTopNews().then(function (newsData) {
-            debugger;
+            
             if (newsData) {
                 $scope.topstories = [];
                 $scope.topstories = newsData;
@@ -39,7 +39,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getTopNewsByID = function (newsid) {
-        debugger;
+        
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
@@ -52,23 +52,23 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getHotNewsTitle = function () {
-        debugger;
+        
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
-                debugger;
+
                 $scope.hnewsTitle = [];
                 $scope.hnewsTitle = hnewsdata;
 
-            };
-        })
+            }
+        });
     };
 
     $scope.getHotNewsByID = function () {
-        debugger;
+        
         $scope.hnewsid = $scope.newsid;
         HotnewsServiceFactory.getHotNewsSummary($scope.newsid).then(function (hnewsdata) {
             if (hnewsdata) {
-                debugger;
+
                 $scope.hnewsDetail = [];
                 $scope.hnewssummary = true;
                 $scope.hnews = false;
@@ -77,12 +77,12 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
                 $scope.getHotNewsTitle();
                 $scope.getAllTopNews();
                 $scope.getHotNewsData();
-            };
-        })
+            }
+        });
     };
 
     $scope.getHotNewsOnClick = function (hnid) {
-        debugger;
+        
         $scope.hnewsid = hnid;
         HotnewsServiceFactory.getHotNewsByID(hnid).then(function (result) {
             if (result) {
@@ -98,10 +98,10 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
     $scope.getHotNewsData = function () {
         homeServiceFactory.getAllHotNews().then(function (hnewsData) {
-            debugger;
+            
             if (hnewsData) {
                 $scope.hnewsData = hnewsData;
-                if ($scope.hnewsid != "") {
+                if ($scope.hnewsid !== "") {
                     $scope.index = _.findIndex($scope.hnewsData, { "hnid": parseInt($scope.hnewsid) });
                     $scope.pHNews = $scope.hnewsData[$scope.index - 1];
                     $scope.nHNews = $scope.hnewsData[$scope.index + 1];
@@ -113,28 +113,28 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
 
     $scope.getHotNewsSummary = function (ndid) {
-        debugger;
+        
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
-                debugger;
+
                 $scope.hnewssummary = false;
                 $scope.hnews = true;
                 $scope.tpnews = false;
                 $scope.hotnews = hnewsdata;
-            };
-        })
+            }
+        });
     };
 
 
     if ($scope.mobile) {
-        debugger;
+        
         //$location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }
 
     $(document).ready(function () {
-        debugger;
+        
         var trigger = $('.hamburger'),
             overlay = $('.overlay'),
            isClosed = false;
@@ -145,7 +145,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
         function hamburger_cross() {
 
-            if (isClosed == true) {
+            if (isClosed === true) {
                 overlay.hide();
                 trigger.removeClass('is-open');
                 trigger.addClass('is-closed');
@@ -165,7 +165,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
 
     //$scope.getHDetailNews = function (hid) {
-    //    debugger;
+    //    
     //    sharedService.getHotDetailNews(hid);
     //    $location.path('/detailhotnews');
     //};

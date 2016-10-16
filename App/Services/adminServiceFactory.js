@@ -1,11 +1,11 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', function ($http, $q, baseService) {
-    var baseService = baseService;
+    //var baseService = baseService;
     //var baseService = "http://www.liveodia.co/";
     var adminServiceFactory = {};
     //File Upload
     var getModelAsFormData = function (data) {
-        debugger;
+       
         var dataAsFormData = new FormData();
         if (data.HotNews) {
             dataAsFormData.append('file', data.file);
@@ -36,7 +36,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
     };
     //File Upload Service
     var _uploadFileToUrl = function (file) {
-        debugger;
+       
         var deffer = $q.defer();
         $http({
             url: baseService + 'api/admin2/',
@@ -45,7 +45,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
         }).success(function (result, status) {
-            debugger;
+           
             deffer.resolve(result, status);
         }).error(function (result, status) {
             deffer.reject(result);
@@ -54,23 +54,23 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
     };
 
     var _getHotFullNewsTitle = function () {
-        debugger;
+       
         var deffer = $q.defer();
         $http.get(baseService + 'api/HotNews').success(function (data, status) {
             deffer.resolve(data);
         }).error(function (err, status) {
             deffer.reject(err);
-        })
+        });
         return deffer.promise;
     };
 
     var _AddCategory = function (cname) {
         var deffer = $q.defer();
-        var data = { cname };
-        $http.post(baseService + 'api/home/', JSON.stringify(data), {
+        //var data = { cname };
+        $http.post(baseService + 'api/home/', JSON.stringify(cname), {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         }).success(function (data, status) {
-            debugger;
+           
             deffer.resolve(data, status);
         }).error(function (result, status) {
             deffer.reject(result);

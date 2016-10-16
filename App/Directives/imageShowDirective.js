@@ -1,4 +1,4 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.directive('imageShowDirective', function () {
     return {
         restrict: 'E',
@@ -7,7 +7,7 @@ LiveOdiaApp.directive('imageShowDirective', function () {
         //},
         transclude: 'true',
         templateUrl: function (elem, attr) {
-            debugger;
+            
             var imgPosition = attr.imageposition;
             if (imgPosition === 'top-left')
                 return 'App/Directives/image-top-left.html';
@@ -17,7 +17,7 @@ LiveOdiaApp.directive('imageShowDirective', function () {
                 return 'App/Directives/error.html';
         }
         //link: function (scope, ele, attr) {
-        //    debugger;
+        //    
         //    scope.imagePosition;
 
         //}

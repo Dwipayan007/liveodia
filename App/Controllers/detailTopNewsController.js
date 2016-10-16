@@ -11,8 +11,8 @@ LiveOdiaApp.controller('detailTopNewsController', ['$scope', '$routeParams', 'de
         detailTopnewsService.getTopDetailNews($scope.newsid).then(function (dnewsdata) {
             if (dnewsdata) {
                 $scope.detailNews = dnewsdata;
-            };
+            }
         });
     };
     $scope.GetTopDetailNews();
-}])
+}]);

@@ -1,4 +1,4 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.directive('imageDirective', ['$document', '$rootScope', function ($document, $rootScope) {
     return {
         link: function (scope, element, attr) {
@@ -28,7 +28,7 @@ LiveOdiaApp.directive('imageDirective', ['$document', '$rootScope', function ($d
                 y = event.pageY - startY;
                 x = event.pageX - startX;
                 console.log(event.pageY, event.pageX);
-                console.log(x,y)
+                console.log(x, y);
                 element.css({
                     top: y + 'px',
                     left: x + 'px'

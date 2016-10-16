@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$location','$anchorScroll', 'detailnewsServiceFactory', 'HotnewsServiceFactory', 'homeServiceFactory', function ($scope, $routeParams,$location, $anchorScroll,detailnewsServiceFactory, HotnewsServiceFactory, homeServiceFactory) {
-    debugger;
+    
     $scope.message = "Welcome to detail view page";
     $scope.detailNews = [];
     $scope.newsid = $routeParams.id;
@@ -43,7 +43,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
 
     $scope.getAllTopNews = function () {
         HotnewsServiceFactory.getAllTopNews().then(function (newsData) {
-            debugger;
+            
             if (newsData) {
                 $scope.topstories = [];
                 $scope.topstories = newsData;
@@ -52,19 +52,19 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
     $scope.getHotNewsTitle = function () {
-        debugger;
+        
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
-                debugger;
+
                 $scope.hnewsTitle = [];
                 $scope.hnewsTitle = hnewsdata;
 
-            };
-        })
+            }
+        });
     };
 
     $scope.getTopNewsByID = function (newsid) {
-        debugger;
+        
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
@@ -79,21 +79,21 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
 
 
     $scope.getHotNewsSummary = function (ndid) {
-        debugger;
+        
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
-                debugger;
+
                 $scope.hnewssummary = false;
                 $scope.hnews = true;
                 $scope.nstory = false;
                 $scope.tpnews = false;
                 $scope.hotnews = hnewsdata;
-            };
-        })
+            }
+        });
     };
 
     $scope.getHotNewsOnClick = function (hnid) {
-        debugger;
+        
         $scope.hnewsid = hnid;
         HotnewsServiceFactory.getHotNewsByID(hnid).then(function (result) {
             if (result) {
@@ -109,12 +109,12 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
     $scope.getHotNewsData = function () {
-        debugger;
+        
         homeServiceFactory.getAllHotNews().then(function (hnewsData) {
-            debugger;
+            
             if (hnewsData) {
                 $scope.hnewsData = hnewsData;
-                if ($scope.hnewsid != "") {
+                if ($scope.hnewsid !== "") {
                     $scope.index = _.findIndex($scope.hnewsData, { "hnid": parseInt($scope.hnewsid) });
                     $scope.pHNews = $scope.hnewsData[$scope.index - 1];
                     $scope.nHNews = $scope.hnewsData[$scope.index + 1];
@@ -133,10 +133,10 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
                 $scope.detailNews = dnewsdata;
                 $scope.getHotNewsTitle();
                 $scope.getAllTopNews();
-            };
+            }
         });
         homeServiceFactory.getAllNewsStory().then(function (newsData) {
-            debugger;
+            
             if (newsData) {
                 $scope.newstory = newsData;
                 $scope.index = _.findIndex($scope.newstory, { "nsid": parseInt($scope.newsid) });
@@ -155,7 +155,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     });
 
     function hamburger_cross() {
-        if (isClosed == true) {
+        if (isClosed === true) {
             overlay.hide();
             trigger.removeClass('is-open');
             trigger.addClass('is-closed');
@@ -173,7 +173,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     });
 
      if ($scope.mobile) {
-        debugger;
+        
        // $location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();

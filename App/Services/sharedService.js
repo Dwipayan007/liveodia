@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.factory('sharedService', ['$rootScope', function ($rootScope) {
-    debugger;
+   
     var shareServiceFactory = {};
     //shareServiceFactory.aldata = '';
     //shareServiceFactory.idata = '';
@@ -9,7 +9,7 @@ LiveOdiaApp.factory('sharedService', ['$rootScope', function ($rootScope) {
 
     //ste the Selected Config
     var _getHDetailNews = function (hnid) {
-        debugger;
+       
         this.hnid = hnid;
         this.broadcastHdetailNews();
     };

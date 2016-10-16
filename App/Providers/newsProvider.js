@@ -1,6 +1,5 @@
 ﻿/// <reference path="../app.js" />
 LiveOdiaApp.provider("news", function () {
-    debugger;
     var $http;
     var newsData = "";
     this.getAllNewsValue = function (newvalue) {

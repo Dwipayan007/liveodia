@@ -1,4 +1,4 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.service('fileUpload', ['$http', function ($http) {
     this.uploadFileToUrl = function (file, uploadUrl) {
         var fd = new FormData();
@@ -11,5 +11,5 @@ LiveOdiaApp.service('fileUpload', ['$http', function ($http) {
         })
         .error(function () {
         });
-    }
+    };
 }]);

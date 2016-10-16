@@ -11,3 +11,4 @@
 /LiveOdiaFinal
 /LiveOdiaFinal.csproj
 *.xml
+/node_modules

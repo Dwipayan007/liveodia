@@ -1,7 +1,5 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.factory('loginServiceFactory', ['$http', '$q', 'localStorageService', 'baseService', function ($http, $q, localStorageService, baseService) {
-    debugger;
-    var baseService = baseService;
     //var baseService = "http://www.liveodia.co/";
 
     var _authentication = {
@@ -17,8 +15,8 @@ LiveOdiaApp.factory('loginServiceFactory', ['$http', '$q', 'localStorageService'
         $http.post(baseService + 'api/login/', JSON.stringify(ldata), {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }
         }).success(function (data, status) {
-            debugger;
-            if (data != false) {
+           
+            if (data !== false) {
                 _authentication.isAuth = true;
                 _authentication.userName = ldata.userName;
                 _authentication.userRole = ldata.userRole;
@@ -26,7 +24,7 @@ LiveOdiaApp.factory('loginServiceFactory', ['$http', '$q', 'localStorageService'
             }
             deffer.resolve(data);
         }).error(function (err, status) {
-            debugger;
+           
             _logOut();
             deffer.reject(err);
         });
@@ -35,7 +33,7 @@ LiveOdiaApp.factory('loginServiceFactory', ['$http', '$q', 'localStorageService'
 
     //Logout Service
     var _logOut = function () {
-        debugger;
+       
         localStorageService.remove('authorizationData');
         _authentication.isAuth = false;
         _authentication.userName = "";
@@ -50,7 +48,7 @@ LiveOdiaApp.factory('loginServiceFactory', ['$http', '$q', 'localStorageService'
             _authentication.userRole = authData.userRole;
             _authentication.isAuth = true;
         }
-    }
+    };
 
     loginServiceFactory.fillAuthData = _fillAuthData;
     loginServiceFactory.logOut = _logOut;

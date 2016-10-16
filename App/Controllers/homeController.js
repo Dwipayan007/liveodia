@@ -1,6 +1,6 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
-    debugger;
+    
     $scope.mobile = mobileCheck;
     $scope.hotNews = [];
     $scope.topstories = [];
@@ -23,7 +23,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.order_reverse = false;
 
     //$scope.FormatData = function () {
-    //    debugger;
+    //    
     //    $scope.fullnews.push($scope.fnews);
     //    var clean = pruneEmpty($scope.fullnews);
     //    $scope.cleanData = clean;
@@ -48,7 +48,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     //};
 
     if ($scope.mobile) {
-        debugger;
+        
         //$location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
@@ -56,9 +56,9 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
 
     $scope.DeleteNewsStory = function (nsid) {
-        debugger;
+
         homeServiceFactory.DeleteNewsStory(nsid).then(function (res) {
-            debugger;
+
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = false;
@@ -66,12 +66,12 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
                 $scope.nstory = true;
             }
         });
-    }
+    };
 
     $scope.DeleteTopNews = function (tnid) {
-        debugger;
+
         homeServiceFactory.DeleteTopNews(tnid).then(function (res) {
-            debugger;
+
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = true;
@@ -79,19 +79,19 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
                 $scope.nstory = false;
             }
         });
-    }
+    };
     $scope.DeleteHotNews = function (hnid) {
-        debugger;
+
         homeServiceFactory.DeleteHotNews(hnid).then(function (res) {
-            debugger;
+
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = false;
                 $scope.hnews = false;
                 $scope.nstory = true;
             }
-        })
-    }
+        });
+    };
 
     //$scope.$watch('currentPage + numPerPage', function () {
     //    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
@@ -102,7 +102,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
     $scope.getAllNews = function () {
         homeServiceFactory.getAllNews().then(function (newsData) {
-            debugger;
+            
             if (newsData) {
                 //$scope.fullnews = newsData;
                 $scope.topstories = newsData;
@@ -111,7 +111,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
         });
 
         homeServiceFactory.getAllNewsStory().then(function (newsData) {
-            debugger;
+            
             if (newsData) {
                 $scope.nstory = true;
                 $scope.newstory = newsData;
@@ -125,7 +125,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
     //Get top news by tnid
     $scope.getTopNewsByID = function (newsid) {
-        debugger;
+        
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
@@ -138,31 +138,31 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
     //Get Title for hot news
     $scope.getHotNewsTitle = function () {
-        debugger;
+        
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
-                debugger;
+
                 $scope.hotNews = hnewsdata;
-            };
-        })
+            }
+        });
     };
 
     //get All hot summary news by ndid
     $scope.getHotNewsSummary = function (ndid) {
-        debugger;
+        
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
-                debugger;
+
                 $scope.tpnews = false;
                 $scope.nstory = false;
                 $scope.hnews = true;
                 $scope.hnewsDetail = hnewsdata;
-            };
-        })
+            }
+        });
     };
 
      $(document).ready(function () {
-        debugger;
+        
         var trigger = $('.hamburger'),
             overlay = $('.overlay'),
            isClosed = false;
@@ -173,7 +173,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
         function hamburger_cross() {
 
-            if (isClosed == true) {
+            if (isClosed === true) {
                 overlay.hide();
                 trigger.removeClass('is-open');
                 trigger.addClass('is-closed');

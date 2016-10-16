@@ -1,12 +1,12 @@
-﻿'use strict';
+﻿
 LiveOdiaApp.directive('myTickerDirective', function ($interval, $timeout) {
-    debugger;
+    
     return {
 
         restrict: 'A',
         scope: true,
         compile: function () {
-            debugger;
+            
             return function (scope, element, attributes) {
 
                 var timing,
@@ -25,7 +25,7 @@ LiveOdiaApp.directive('myTickerDirective', function ($interval, $timeout) {
                 }
 
                 scope.$watch(element, function () {
-                    debugger;
+                    
                     var list = element,
                     items = element.find('li'),
                     itemFirst;
