@@ -8,7 +8,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     $scope.hnewssummary = false;
     $scope.nstory = false;
     $scope.tpnews = false;
-
+    $scope.pnewsclck = false;
     $scope.newstory = [];
     $scope.pNews = "";
     $scope.nNews = "";
@@ -30,6 +30,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
 
     $scope.getPreviousHotNews = function (newsid) {
         $scope.hnewsid = newsid;
+        $scope.pnewsclck = true;
         $scope.getHotNewsOnClick($scope.hnewsid);
     };
 
@@ -108,6 +109,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
     $scope.getHotNewsData = function () {
+        debugger;
         homeServiceFactory.getAllHotNews().then(function (hnewsData) {
             debugger;
             if (hnewsData) {
@@ -120,66 +122,6 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
             }
         });
     };
-
-    //$scope.getHotNewsSummary = function (ndid) {
-    //    debugger;
-    //    HotnewsServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
-    //        if (hnewsdata) {
-    //            debugger;
-    //            $scope.hnewsDetail = [];
-    //            $scope.hnewssummary = true;
-    //            $scope.hnews = false;
-    //            $scope.tpnews = false;
-    //            $scope.hnewsDetail = hnewsdata;
-    //            $scope.getHotNewsTitle();
-    //            $scope.getAllTopNews();
-    //        };
-    //    })
-    //};
-
-    //$scope.getHotNewsByID = function (newsid) {
-    //    debugger;
-    //    homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
-    //        if (result) {
-    //            $scope.hnews = true;
-    //            $scope.tpnews = false;
-    //            $scope.hnewssummary = [];
-    //            $scope.hnewssummary = false;
-    //            $scope.hotnews = result;
-    //        }
-    //    });
-    //};
-
-
-    ////$scope.getHotNewsByID = function () {
-    ////    debugger;
-    ////    HotnewsServiceFactory.getHotNewsSummary($scope.newsid).then(function (hnewsdata) {
-    ////        if (hnewsdata) {
-    ////            debugger;
-    ////            $scope.hnewsDetail = [];
-    ////            $scope.hnewssummary = true;
-    ////            $scope.hnews = false;
-    ////            $scope.tpnews = false;
-    ////            $scope.hnewsDetail = hnewsdata;
-    ////            $scope.getHotNewsTitle();
-    ////            $scope.getAllTopNews();
-    ////        };
-    ////    })
-    ////};
-
-
-    //$scope.getHotNewsOnClick = function (hnid) {
-    //    debugger;
-    //    HotnewsServiceFactory.getHotNewsByID(hnid).then(function (result) {
-    //        if (result) {
-    //            $scope.hnews = false;
-    //            $scope.tpnews = false;
-    //            $scope.hnewssummary = [];
-    //            $scope.hnewssummary = true;
-    //            $scope.hnewsDetail = result;
-    //        }
-    //    });
-    //};
 
     $scope.GetDetailNews = function () {
         detailnewsServiceFactory.getDetailNews($scope.newsid).then(function (dnewsdata) {
@@ -202,45 +144,40 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
                 $scope.nNews = $scope.newstory[$scope.index + 1];
             }
         });
-
     };
+
+    var trigger = $('.hamburger'),
+          overlay = $('.overlay'),
+         isClosed = false;
+
+    trigger.click(function () {
+        hamburger_cross();
+    });
+
+    function hamburger_cross() {
+        if (isClosed == true) {
+            overlay.hide();
+            trigger.removeClass('is-open');
+            trigger.addClass('is-closed');
+            isClosed = false;
+        } else {
+            overlay.show();
+            trigger.removeClass('is-closed');
+            trigger.addClass('is-open');
+            isClosed = true;
+        }
+    }
+
+    $('[data-toggle="offcanvas"]').click(function () {
+        $('#wrapper').toggleClass('toggled');
+    });
 
      if ($scope.mobile) {
         debugger;
-        $location.hash('middle');
+       // $location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }
-
-    $(document).ready(function () {
-        debugger;
-        var trigger = $('.hamburger'),
-            overlay = $('.overlay'),
-           isClosed = false;
-
-        trigger.click(function () {
-            hamburger_cross();
-        });
-
-        function hamburger_cross() {
-
-            if (isClosed == true) {
-                overlay.hide();
-                trigger.removeClass('is-open');
-                trigger.addClass('is-closed');
-                isClosed = false;
-            } else {
-                overlay.show();
-                trigger.removeClass('is-closed');
-                trigger.addClass('is-open');
-                isClosed = true;
-            }
-        }
-
-        $('[data-toggle="offcanvas"]').click(function () {
-            $('#wrapper').toggleClass('toggled');
-        });
-    });
 
     $scope.GetDetailNews();
 }]);

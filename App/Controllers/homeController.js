@@ -49,7 +49,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
     if ($scope.mobile) {
         debugger;
-        $location.hash('middle');
+        //$location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }

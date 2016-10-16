@@ -128,7 +128,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
     if ($scope.mobile) {
         debugger;
-        $location.hash('middle');
+        //$location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }
