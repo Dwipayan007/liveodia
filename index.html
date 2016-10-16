@@ -1,20 +1,21 @@
 ﻿<!DOCTYPE html>
 <html lang="en" ng-app="LiveOdia">
 <head>
-   
+
     <title>Cyber Tech</title>
     <base href="/" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-    <meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" /> 
+    <meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
     <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
     <link rel="stylesheet" type="text/css" href="assets/css/theme.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link href="css/mobileview.css" rel="stylesheet" />
     <!--[if lt IE 9]>
     <script src="assets/js/html5shiv.min.js"></script>
     <script src="assets/js/respond.min.js"></script>
@@ -31,7 +32,37 @@
     </div>
     <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
     <header id="header">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+        <div id="wrapper" ng-show="mobile==true">
+            <div class="overlay"></div>
+
+            <!-- Sidebar -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+                <ul class="nav sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            Live Odia
+                        </a>
+                    </li>
+                    <li><a href="home" ng-click="onHomeClick();">ହୋମ ପେଜ୍</a></li>
+                    <li><a href="about">ଆମ ବିଷୟରେ</a></li>
+                    <li><a href="#">ଯୋଗାଯୋଗ</a></li>
+                    <li><a href="#">ବିଜ୍ଞାପନ</a></li>
+                </ul>
+            </nav>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                    <span class="hamb-top"></span>
+                    <span class="hamb-middle"></span>
+                    <span class="hamb-bottom"></span>
+                </button>
+            </div>
+            <!-- /#page-content-wrapper -->
+
+        </div>
+        <!-- /#wrapper -->
+        <nav class="navbar navbar-default navbar-static-top" ng-show="mobile==false" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
@@ -39,10 +70,11 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav custom_nav">
-                        <li ><a href="home" ng-click="onHomeClick();">ହୋମ ପେଜ୍</a></li>
+                        <li><a href="home" ng-click="onHomeClick();">ହୋମ ପେଜ୍</a></li>
                         <li><a href="about">ଆମ ବିଷୟରେ</a></li>
                         <li><a href="#">ଯୋଗାଯୋଗ</a></li>
                         <li><a href="#">ବିଜ୍ଞାପନ</a></li>
+                        <li><a href="hotnews">Hotnews</a></li>
                         <li ng-hide="!authentication.isAuth"><a href="admin">Admin</a></li>
                     </ul>
                     <ul class="nav navbar-right navbar-nav">
@@ -207,6 +239,6 @@
     <script src="App/Services/loginServiceFactory.js"></script>
     <script src="App/Services/adminServiceFactory.js"></script>
     <!--Providers-->
-    
+
 </body>
 </html>

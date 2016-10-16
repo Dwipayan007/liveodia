@@ -26,7 +26,8 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
         //controller: 'homeController',
         //templateUrl: 'App/Views/home.html'
         templateUrl: (_isNotMobile) ? 'App/Views/home.html' : 'App/MobileViews/home.html',
-        controller: (_isNotMobile) ? 'homeController' : 'homeController'
+        controller: (_isNotMobile) ? 'homeController' : 'homeController',
+        css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'
     });
     $routeProvider.when('/about', {
         controller: 'aboutController',
@@ -38,11 +39,13 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     });
     $routeProvider.when('/detailnews/:id', {
         controller: (_isNotMobile) ? 'detailnewsController' : 'detailnewsController',
-        templateUrl: (_isNotMobile) ? 'App/Views/detailnews.html' : 'App/MobileViews/detailnews.html'
+        templateUrl: (_isNotMobile) ? 'App/Views/detailnews.html' : 'App/MobileViews/detailnews.html',
+        css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'
     });
     $routeProvider.when('/detailhotnews/:id', {
         controller: (_isNotMobile) ? 'detailHotnewsController' : 'detailHotnewsController',
-        templateUrl: (_isNotMobile) ? 'App/Views/hotdetailnews.html' : 'App/MobileViews/hotdetailnews.html'
+        templateUrl: (_isNotMobile) ? 'App/Views/hotdetailnews.html' : 'App/MobileViews/hotdetailnews.html',
+        css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'
     });
     $routeProvider.when('/admin', {
         controller: 'adminController',
@@ -50,7 +53,13 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     });
     $routeProvider.when('/hotnewsdetail/:id', {
         controller: (_isNotMobile) ? 'detailHotnewsController' : 'detailHotnewsController',
-        templateUrl: (_isNotMobile) ? 'App/Views/hotdetailnews.html' : 'App/MobileViews/hotdetailnews.html'
+        templateUrl: (_isNotMobile) ? 'App/Views/hotdetailnews.html' : 'App/MobileViews/hotdetailnews.html',
+        css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'
+    });
+     $routeProvider.when('/hotnews', {
+         controller: (_isNotMobile) ? 'hotnewsController' : 'hotnewsController',
+         templateUrl: (_isNotMobile) ? 'App/Views/hotnews.html' : 'App/MobileViews/hotnews.html',
+         css:(_isNotMobile)?'css/mobileview.css':'css/mobileview.css'
     });
 
     $routeProvider.otherwise({ redirectTo: '/home' });
