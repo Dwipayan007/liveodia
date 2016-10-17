@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveOdiaFinal.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -23,8 +24,11 @@ namespace LiveOdiaFinal.Controllers
         }
 
         // POST: api/HnewsSummary
-        public void Post([FromBody]string value)
+        public bool Post(AdminModel newsDate)
         {
+            bool res = false;
+            return res = dbutility.updateNewsDate(newsDate);
+
         }
 
         // PUT: api/HnewsSummary/5

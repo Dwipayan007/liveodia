@@ -1,5 +1,5 @@
 ﻿
-LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminServiceFactory', function ($scope, $rootScope, adminServiceFactory) {
+LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$location', 'adminServiceFactory', function ($scope, $rootScope, $filter, $location, adminServiceFactory) {
 
     //Save new file 
     $scope.hotnews = {};
@@ -11,13 +11,43 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
     $scope.mesgHnews = "";
     $scope.mesgTnews = "";
     $scope.mesgNnews = "";
+
     $scope.loader = {
         loading1: false,
         loading2: false,
         loading3: false,
     };
+
+    $scope.myDate = new Date();
+
+    $scope.minDate = new Date(
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth() - 2,
+        $scope.myDate.getDate());
+
+    $scope.maxDate = new Date(
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth() + 2,
+        $scope.myDate.getDate());
+
+    $scope.onlyWeekendsPredicate = function (date) {
+        var day = date.getDay();
+        return day === 0 || day === 6;
+    };
+
+    $scope.updateDate = function () {
+        debugger;
+        $scope.SelectedDate = $filter('date')(new Date($scope.myDate), 'dd-MM-yyyy');
+        adminServiceFactory.updateNewsDate($scope.SelectedDate).then(function (res) {
+            if (res) {
+                //$location.path('/admin');
+                $location.path('/home');
+            }
+        });
+
+    }
     $scope.changeOption = function () {
-        
+
         $scope.ntitle = $scope.selectedOption.ndid;
     };
 
@@ -28,7 +58,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
     }
 
     $scope.submitHotNews = function () {
-        
+
         $scope.loader.loading1 = true;
         var file = {};
         file = $scope.hotnews;
@@ -38,7 +68,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
         if ($scope.myFile1 !== undefined)
             file["file"] = $scope.myFile1;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
-            
+
             if (data === "") {
                 $scope.loader.loading1 = false;
                 $scope.mesgHnews = "Uploaded Successfully";
@@ -54,7 +84,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
     };
 
     $scope.submitNewstory = function () {
-        
+
         $scope.loader.loading2 = true;
         var file = {};
         file = $scope.Newstory;
@@ -62,7 +92,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
         if ($scope.myFile2 !== undefined)
             file["file"] = $scope.myFile2;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
-            
+
             if (data === "") {
                 $scope.loader.loading2 = false;
                 $scope.mesgNnews = "Uploaded Successfully";
@@ -78,7 +108,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
     };
 
     $scope.getAllHotNewsTitle = function () {
-        
+
         adminServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
 
@@ -89,7 +119,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
     };
 
     $scope.submitTopNews = function () {
-        
+
         $scope.loader.loading3 = true;
         var file = {};
         file = $scope.Topnews;
@@ -97,7 +127,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', 'adminService
         if ($scope.myFile3 !== undefined)
             file["file"] = $scope.myFile3;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
-            
+
             if (data === "") {
                 $scope.loader.loading3 = false;
                 $scope.mesgTnews = "Uploaded Successfully";

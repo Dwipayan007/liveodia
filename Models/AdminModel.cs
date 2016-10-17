@@ -8,5 +8,6 @@ namespace LiveOdiaFinal.Models
     public class AdminModel
     {
         public string CNAME { get; set; }
+        public string newsdate { get; set; }
     }
 }

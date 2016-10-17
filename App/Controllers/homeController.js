@@ -1,6 +1,5 @@
 ﻿
 LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
-    
     $scope.mobile = mobileCheck;
     $scope.hotNews = [];
     $scope.topstories = [];
@@ -18,47 +17,16 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.tpnews = false;
     $scope.hnews = false;
     $scope.nstory = false;
-
-    $scope.order_item = "priority";
-    $scope.order_reverse = false;
-
-    //$scope.FormatData = function () {
-    //    
-    //    $scope.fullnews.push($scope.fnews);
-    //    var clean = pruneEmpty($scope.fullnews);
-    //    $scope.cleanData = clean;
-    //    $scope.topnews = _.filter($scope.cleanData[0].fullnews, "topnews");
-    //    $scope.newstory = _.filter($scope.cleanData[0].fullnews, "newstory");
-    //    $scope.hotnews = _.filter($scope.cleanData[0].fullnews, "hotnews");
-    //};
-
-    //function pruneEmpty(obj) {
-    //    return function prune(current) {
-    //        _.forOwn(current, function (value, key) {
-    //            if (_.isUndefined(value) || _.isNull(value) || _.isNaN(value) ||
-    //              (_.isString(value) && _.isEmpty(value)) || _.includes(value, 0) ||
-    //              (_.isObject(value) && _.isEmpty(prune(value)))) {
-    //                delete current[key];
-    //            }
-    //        });
-    //        if (_.isArray(current)) _.pull(current, undefined);
-    //        return current;
-
-    //    }(_.cloneDeep(obj));
-    //};
+    $scope.isClosed = false;
 
     if ($scope.mobile) {
-        
-        //$location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }
 
 
     $scope.DeleteNewsStory = function (nsid) {
-
         homeServiceFactory.DeleteNewsStory(nsid).then(function (res) {
-
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = false;
@@ -69,9 +37,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     };
 
     $scope.DeleteTopNews = function (tnid) {
-
         homeServiceFactory.DeleteTopNews(tnid).then(function (res) {
-
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = true;
@@ -81,9 +47,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
         });
     };
     $scope.DeleteHotNews = function (hnid) {
-
         homeServiceFactory.DeleteHotNews(hnid).then(function (res) {
-
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = false;
@@ -93,39 +57,23 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
         });
     };
 
-    //$scope.$watch('currentPage + numPerPage', function () {
-    //    var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-    //    , end = begin + $scope.numPerPage;
-
-    //    $scope.filteredNews = $scope.newsories.slice(begin, end);
-    //});
-
     $scope.getAllNews = function () {
         homeServiceFactory.getAllNews().then(function (newsData) {
-            
             if (newsData) {
-                //$scope.fullnews = newsData;
                 $scope.topstories = newsData;
                 $scope.getHotNewsTitle();
             }
         });
-
         homeServiceFactory.getAllNewsStory().then(function (newsData) {
-            
             if (newsData) {
                 $scope.nstory = true;
                 $scope.newstory = newsData;
-                //angular.forEach($scope.fullnews, function (value, key) {
-                //    $scope.topstories.push({ "title": value.ttitle, "topnews": value.topnews, "newsid": value.tnid, "imgurl": value.timageurl, "tsub": value.tsub, "newsdate": value.newsdate });
-                //});
             }
         });
-
     };
 
     //Get top news by tnid
     $scope.getTopNewsByID = function (newsid) {
-        
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
@@ -138,21 +86,43 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
     //Get Title for hot news
     $scope.getHotNewsTitle = function () {
-        
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
-
                 $scope.hotNews = hnewsdata;
             }
         });
     };
 
+    var trigger = $('.hamburger'),
+        overlay = $('.overlay');
+
+    trigger.click(function () {
+        hamburger_cross();
+    });
+
+    function hamburger_cross() {
+        debugger;
+        if ($scope.isClosed === true) {
+            overlay.hide();
+            trigger.removeClass('is-open');
+            trigger.addClass('is-closed');
+            $scope.isClosed = false;
+        } else {
+            overlay.show();
+            trigger.removeClass('is-closed');
+            trigger.addClass('is-open');
+            $scope.isClosed = true;
+        }
+    }
+
+    $('[data-toggle="offcanvas"]').click(function () {
+        $('#wrapper').toggleClass('toggled');
+    });
+
     //get All hot summary news by ndid
     $scope.getHotNewsSummary = function (ndid) {
-        
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
-
                 $scope.tpnews = false;
                 $scope.nstory = false;
                 $scope.hnews = true;
@@ -160,37 +130,6 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
             }
         });
     };
-
-     $(document).ready(function () {
-        
-        var trigger = $('.hamburger'),
-            overlay = $('.overlay'),
-           isClosed = false;
-
-        trigger.click(function () {
-            hamburger_cross();
-        });
-
-        function hamburger_cross() {
-
-            if (isClosed === true) {
-                overlay.hide();
-                trigger.removeClass('is-open');
-                trigger.addClass('is-closed');
-                isClosed = false;
-            } else {
-                overlay.show();
-                trigger.removeClass('is-closed');
-                trigger.addClass('is-open');
-                isClosed = true;
-            }
-        }
-
-        $('[data-toggle="offcanvas"]').click(function () {
-            $('#wrapper').toggleClass('toggled');
-        });
-    });
-
 
     $scope.getAllNews();
     //$scope.FormatData();

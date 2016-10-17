@@ -16,19 +16,22 @@
 .odia-font {
     font-family: "Odia-font";
 }
+
 #triangle-topleft {
     position: relative;
 }
-#triangle-topleft:before {
-    content:'';
-    border-top: 15px solid red;
-    border-right: 15px solid transparent;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height:2px;
-    width:2px;
-}
+
+    #triangle-topleft:before {
+        content: '';
+        border-top: 15px solid red;
+        border-right: 15px solid transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 2px;
+    }
+
 @import url('http://fonts.googleapis.com/css?family=Open+Sans:300,400');
 
 header {
@@ -51,8 +54,8 @@ header {
         width: 179px;
     }
 
-    
-    #sidebar.affix-bottom{
+
+    #sidebar.affix-bottom {
         width: 178px;
     }
 
@@ -60,7 +63,7 @@ header {
     #sidebar.affix {
         position: fixed !important;
         top: 20px;
-         width: 178px;
+        width: 178px;
     }
 
     #midCol.affix-top {
@@ -258,41 +261,41 @@ footer {
     line-height:1em;
 }*/
 
-.news {   
-    max-width:800px;
-    margin:0 auto;
-  }
+.news {
+    max-width: 800px;
+    margin: 0 auto;
+}
 
 .paper {
-    width:100%;
-    float:left;
-    column-count:2;
-    -moz-column-count:2;
-    -webkit-column-count:2;
+    width: 100%;
+    float: left;
+    column-count: 2;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
     text-align: justify;
-    padding:1em 0;
+    padding: 1em 0;
 }
 
 imgNews {
-    width:auto;
-    height:5em;
+    width: auto;
+    height: 5em;
 }
 
 #right imgNews {
-    padding:1.5em 1.5em 1em 0;   
+    padding: 1.5em 1.5em 1em 0;
 }
 
 #left imgNews {
-    padding:1.5em 0 1em 1.5em ; 
+    padding: 1.5em 0 1em 1.5em;
 }
 
 #right {
-    float:left;
-    margin-left:-5.5em;
+    float: left;
+    margin-left: -5.5em;
 }
 
 #left {
-   float: right;
+    float: right;
     margin-right: 0.5em;
     margin-top: -3.5em;
     margin-left: 0.5em;
@@ -304,34 +307,54 @@ imgNews {
 
 
 #sidebar ul {
-  margin-bottom: 1em;
-}
-@media (min-width: 786) {
- #sidebar ul {
     margin-bottom: 1em;
-  }
 }
+
+@media (min-width: 786) {
+    #sidebar ul {
+        margin-bottom: 1em;
+    }
+}
+
 #sidebar .active {
-  display: block;
-  height: 190px;
-  overflow-y: hidden;
+    display: block;
+    height: 190px;
+    overflow-y: hidden;
 }
+
 #sidebar li {
-  padding: 2px;
-  transition: opacity .3s ease, margin 1s ease;
+    padding: 2px;
+    transition: opacity .3s ease, margin 1s ease;
 }
+
 #sidebar .fade-out {
-  opacity: -10;
+    opacity: -10;
 }
+
 #sidebar .minus-margin-top {
-  margin-top: -39px;
+    margin-top: -39px;
 }
 
 #scontainer {
-    overflow-x:hidden;
-    width:100%;
-    position:relative;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
 }
-  #main {
-    top:0;
-  }
+
+#main {
+    top: 0;
+}
+
+.datepickerdemoBasicUsage {
+    /** Demo styles for mdCalendar. */
+}
+
+    .datepickerdemoBasicUsage md-content {
+        padding-bottom: 200px;
+    }
+
+    .datepickerdemoBasicUsage .validation-messages {
+        font-size: 12px;
+        color: #dd2c00;
+        margin-left: 15px;
+    }

@@ -43,6 +43,57 @@ namespace LiveOdiaFinal
             return dt;
         }
 
+        public static bool updateNewsDate(AdminModel newsDate)
+        {
+            bool res = false;
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            scon.Open();
+            scmd.Connection = scon;
+            Dictionary<string, List<HotNewsModel>> fullNews = new Dictionary<string, List<HotNewsModel>>();
+            List<HotNewsModel> _newsData = new List<HotNewsModel>();
+            try
+            {
+                string newsdt = newsDate.newsdate;
+                scmd.CommandText = "Update newstory set newsdate='" + newsdt + "'";
+                //scmd.Parameters.AddWithValue("newsdate", newsDate.newsdate);
+                scmd.Prepare();
+                res = Convert.ToBoolean(scmd.ExecuteNonQuery());
+                if (res)
+                {
+                    scmd.Parameters.Clear();
+                    scmd.CommandText = "Update topnews set newsdate='" + newsdt + "'";
+                    //scmd.Parameters.AddWithValue("newsdate", newsDate.newsdate);
+                    scmd.Prepare();
+                    res = Convert.ToBoolean(scmd.ExecuteNonQuery());
+                    if (res)
+                    {
+                        scmd.Parameters.Clear();
+                        scmd.CommandText = "Update hotnews set newsdate='" + newsdt + "'";
+                        // scmd.Parameters.AddWithValue("newsdate", newsDate.newsdate);
+                        scmd.Prepare();
+                        res = Convert.ToBoolean(scmd.ExecuteNonQuery());
+                    }
+                }
+                res = true;
+            }
+            catch (Exception ee)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
         public static bool getLoginData(Login ldata)
         {
             bool res = false;
@@ -274,7 +325,7 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM newstory where newsdate='"+tdate+"'";
+                scmd.CommandText = "SELECT * FROM newstory where newsdate='" + tdate + "'";
                 scmd.Parameters.AddWithValue("newsdate", tdate);
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());

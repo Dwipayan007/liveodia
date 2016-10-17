@@ -1,10 +1,23 @@
 <section id="content">
     <div class="container">
         <div class="row">
+            <div class="col-lg-2"><h4>Update News Date</h4></div>
+            <div class="col-lg-4">
+                <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+            </div>
+            <div class="col-lg-2">
+                {{myDate | date:'dd-MM-yyyy'}}
+            </div>
+            <div class="col-lg-4">
+                <input type="button" value="Update News Date" ng-click="updateDate()" class="btn btn-success" />
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <h2>Hot News Upload</h2>
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12 col-sm-12 col-sm-12">
                 <div class="contact_area wow fadeInLeftBig">
@@ -30,14 +43,14 @@
                             <input type="file" image-upload="myFile1" id="file1" />
                         </div>
                         <div class="col-lg-1">
-                            <input type="submit" value="Add Hotnews" class="btn-sm btn-success" ng-hide="loader.loading1==true"/>
-<button ng-show="loader.loading1" class="btn btn-success">
+                            <input type="submit" value="Add Hotnews" class="btn-sm btn-success" ng-hide="loader.loading1==true" />
+                            <button ng-show="loader.loading1" class="btn btn-success">
                                 Uploading...
                                 <i class="fa fa-spinner fa-spin"></i>
                             </button>
 
                         </div>
-<span class="success">{{mesgHnews}}</span>
+                        <span class="success">{{mesgHnews}}</span>
                     </form>
                 </div>
             </div>
@@ -60,12 +73,12 @@
                         </div>
                         <div class="col-lg-1">
                             <input type="submit" value="Add Newstory" class="btn-sm btn-success" ng-hide="loader.loading2==true" />
-<button ng-show="loader.loading2" class="btn btn-success">
+                            <button ng-show="loader.loading2" class="btn btn-success">
                                 Uploading...
                                 <i class="fa fa-spinner fa-spin"></i>
                             </button>
                         </div>
- <span class="success">{{mesgNnews}}</span>
+                        <span class="success">{{mesgNnews}}</span>
                     </form>
                 </div>
             </div>
@@ -88,12 +101,12 @@
                         </div>
                         <div class="col-lg-1">
                             <input type="submit" value="Add Topnews" class="btn-sm btn-success" ng-hide="loader.loading3==true" />
- <button ng-show="loader.loading3" class="btn btn-success">
+                            <button ng-show="loader.loading3" class="btn btn-success">
                                 Uploading...
                                 <i class="fa fa-spinner fa-spin"></i>
                             </button>
                         </div>
-<span class="success">{{mesgTnews}}</span>
+                        <span class="success">{{mesgTnews}}</span>
                     </form>
                 </div>
             </div>
