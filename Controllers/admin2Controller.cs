@@ -138,11 +138,17 @@ namespace LiveOdiaFinal.Controllers
         {
             bool res = false;
             res = dbutility.DeleteAllNews(id);
-            if (res == true)
+            try
             {
-                res = deleteFromDrive();
+                if (res == true)
+                {
+                    res = deleteFromDrive();
+                }
             }
-            res = deleteFromDrive();
+            catch (Exception ex)
+            {
+                res = false;
+            }
             return res;
         }
 
@@ -150,15 +156,35 @@ namespace LiveOdiaFinal.Controllers
         {
             bool res = false;
             int count = 0;
-            string path = HttpContext.Current.Server.MapPath("~/UploadedImage/");
-            DirectoryInfo di = new DirectoryInfo(path);
-            foreach (FileInfo file in di.GetFiles())
+            int fileCopied = 0;
+            try
             {
-                file.Delete();
-                count++;
+                string path = HttpContext.Current.Server.MapPath("~/UploadedImage/");
+                string targetPath = HttpContext.Current.Server.MapPath("~/backupFiles/");
+                DirectoryInfo di = new DirectoryInfo(path);
+                if (!Directory.Exists(targetPath))
+                {
+                    Directory.CreateDirectory(targetPath);
+                }
+                foreach (var srcPath in Directory.GetFiles(path))
+                {
+                    //Copy the file from sourcepath and place into mentioned target path, 
+                    //Overwrite the file if same file is exist in target path
+                    File.Copy(srcPath, srcPath.Replace(path, targetPath), true);
+                    fileCopied++;
+                }
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                    count++;
+                }
+                if (count >= 0 && fileCopied >= 0)
+                    res = true;
             }
-            if (count >= 0)
-                res = true;
+            catch (Exception ex)
+            {
+                res = false;
+            }
             return res;
         }
     }

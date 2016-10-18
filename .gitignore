@@ -12,3 +12,4 @@
 /LiveOdiaFinal.csproj
 *.xml
 /node_modules
+/backupFiles
