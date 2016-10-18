@@ -134,8 +134,32 @@ namespace LiveOdiaFinal.Controllers
         }
 
         // DELETE: api/admin2/5
-        public void Delete(int id)
+        public bool Delete(int id)
         {
+            bool res = false;
+            res = dbutility.DeleteAllNews(id);
+            if (res == true)
+            {
+                res = deleteFromDrive();
+            }
+            res = deleteFromDrive();
+            return res;
+        }
+
+        private bool deleteFromDrive()
+        {
+            bool res = false;
+            int count = 0;
+            string path = HttpContext.Current.Server.MapPath("~/UploadedImage/");
+            DirectoryInfo di = new DirectoryInfo(path);
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+                count++;
+            }
+            if (count >= 0)
+                res = true;
+            return res;
         }
     }
 }

@@ -64,6 +64,16 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
         return deffer.promise;
     };
 
+    var _DeleteAllNews = function () {
+        var id = 1;
+        var deffer = $q.defer();
+        $http.delete(baseService + 'api/admin2/'+id).success(function (data, status) {
+            deffer.resolve(data);
+        }).error(function (err, status) {
+            deffer.reject(err);
+        });
+        return deffer.promise;
+    };
     var _AddCategory = function (cname) {
         var deffer = $q.defer();
         //var data = { cname };
@@ -88,6 +98,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
         });
         return deffer.promise;
     };
+    adminServiceFactory.DeleteAllNews = _DeleteAllNews;
     adminServiceFactory.updateNewsDate = _updateNewsDate;
     adminServiceFactory.AddCategory = _AddCategory;
     adminServiceFactory.getHotFullNewsTitle = _getHotFullNewsTitle;

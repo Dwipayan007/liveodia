@@ -8,8 +8,19 @@
             <div class="col-lg-2">
                 {{myDate | date:'dd-MM-yyyy'}}
             </div>
+            <div class="col-lg-2">
+                <input type="button" value="Update News Date" ng-click="updateDate()" class="btn-sm btn-success" />
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-4">
-                <input type="button" value="Update News Date" ng-click="updateDate()" class="btn btn-success" />
+                <h4>Delete All news</h4>
+            </div>
+            <div class="col-lg-1">
+                <input type="button" value="Delete" class="btn-sm btn-success" ng-click="DeleteAllNews();" />
+            </div>
+            <div class="col-lg-6">
+                <em>{{mesg}}</em>
             </div>
         </div>
         <div class="row">
@@ -17,7 +28,6 @@
                 <h2>Hot News Upload</h2>
             </div>
         </div>
-
         <div class="row">
             <div class="col-lg-12 col-sm-12 col-sm-12">
                 <div class="contact_area wow fadeInLeftBig">

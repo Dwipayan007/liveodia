@@ -1,6 +1,5 @@
 ﻿
 LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$location', 'adminServiceFactory', function ($scope, $rootScope, $filter, $location, adminServiceFactory) {
-
     //Save new file 
     $scope.hotnews = {};
     $scope.Newstory = {};
@@ -45,6 +44,13 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
             }
         });
 
+    };
+    $scope.DeleteAllNews = function () {
+        adminServiceFactory.DeleteAllNews().then(function (res) {
+            if (res) {
+                $scope.mesg = "You have deleted all News Please add some fresh news...";
+            }
+        });
     }
     $scope.changeOption = function () {
 
