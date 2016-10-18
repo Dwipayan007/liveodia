@@ -58,17 +58,14 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     }
 
     $scope.submitHotNews = function () {
-
         $scope.loader.loading1 = true;
         var file = {};
         file = $scope.hotnews;
         file["HotNews"] = "hnews";
-
         file["selOption"] = $scope.selectedOption.ndid;
         if ($scope.myFile1 !== undefined)
             file["file"] = $scope.myFile1;
         adminServiceFactory.uploadFileToUrl(file).then(function (data) {
-
             if (data === "") {
                 $scope.loader.loading1 = false;
                 $scope.mesgHnews = "Uploaded Successfully";
@@ -148,10 +145,14 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
             angular.element(document.querySelector('#file2')).val(null);
             $scope.myFile2 = undefined;
         }
-        else if (filereset === "submitTopNews")
+        else if (filereset === "submitTopNews") {
             angular.element(document.querySelector('#file3')).val(null);
-        else if (filereset === "submitHotNews")
+            $scope.myFile3 = undefined;
+        }
+        else if (filereset === "submitHotNews") {
             angular.element(document.querySelector('#file1')).val(null);
+            $scope.myFile1 = undefined;
+        }
     };
 
 }]);
