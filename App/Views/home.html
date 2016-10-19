@@ -1,5 +1,23 @@
 <div class="container">
     <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="featured_slider">
+                <h2 class="featured_title">On Featured</h2>
+                <div class="slick_slider" ng-repeat="inews in impnews">
+                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 box trimLR">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-left trimLR">
+                            <div class="media">
+                                <a href="pages/single_page.html" class="media-left"><img alt="" ng-src="../UploadedImage/{{inews.iimage}}" width="70" height="70" data-pin-nopin="true"></a>
+                                <div class="media-body-center"><a href="pages/single_page.html" class="catg_title">{{inews.ititle}}</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-4">
             <div class="left_sidebar">
                 <div class="single_widget">

@@ -28,15 +28,46 @@
                 <h4>Download All news</h4>
             </div>
             <div class="col-lg-1">
-                <a ng-href="/NewsPdf/{{pdfname}}" target="_self" download>
                     <input type="button" value="Download News" class="btn-sm btn-success" ng-click="DownloadNews();" />
-                </a>
                 
             </div>
             <div class="col-lg-6">
                 <em>{{mesg}}</em>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2>Important News Upload</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-sm-12">
+                <div class="contact_area wow fadeInLeftBig">
+                    <input class="form-control" type="text" placeholder="News Title" ng-model="impnews.title">
+                    <br />
+                    <input class="form-control" type="number" placeholder="Priorty" ng-model="impnews.priority">
+                    <input class="form-control" type="text" placeholder="News Subheading" ng-model="impnews.isub">
+                    <textarea class="form-control" cols="30" rows="10" placeholder="Hot News" ng-model="impnews.inewsTotal"></textarea>
+                    <form enctype="multipart/form-data" name="form1" ng-submit="submitImpNews()">
+                        <div class="col-lg-11">
+                            <input type="file" image-upload="myFile4" id="file4" />
+                        </div>
+                        <div class="col-lg-1" ng-hide="loader.loading4==true">
+                            <input type="submit" value="Add Hotnews" class="btn-sm btn-success" />
+                        </div>
+                        <div class="col-lg-1" ng-show="loader.loading4==true">
+                            <button class="btn btn-success">
+                                Uploading...
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </button>
+                        </div>
+                        <span class="success">{{mesgInews}}</span>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <h2>Hot News Upload</h2>

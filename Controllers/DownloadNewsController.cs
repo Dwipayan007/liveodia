@@ -23,37 +23,11 @@ namespace LiveOdiaFinal.Controllers
         public HttpResponseMessage Post(AdminModel value)
         {
             ////HttpResponse response = HttpContext.Current.Response;
-            //DataTable dt = null;
-            //string pdfname = "";
-            //dt = dbutility.getAllNews(value);
-            //pdfname = CreatePdfFile(dt, value);
-            //string StoragePath = HttpContext.Current.Server.MapPath("~/NewsPdf/");
-            ////FileStream fs = File.Open(StoragePath + pdfname, FileMode.Open);
-            ////fs.Position = 0;
-            ////HttpResponseMessage response = new HttpResponseMessage();
-            ////response.StatusCode = HttpStatusCode.OK;
-            ////response.Content = new StreamContent(fs);
-
-            //Stream file = new MemoryStream();
-            //// Stream result = _service.GetMyForm(id, dir, file);
-            //FileStream fs = File.Open(StoragePath + pdfname, FileMode.Open);
-            //if (fs == null)
-            //{
-            //    return Request.CreateResponse(HttpStatusCode.NotFound);
-            //}
-            //fs.Position = 0;
-            //HttpResponseMessage response = new HttpResponseMessage();
-            //response.StatusCode = HttpStatusCode.OK;
-            //response.Content = new StreamContent(fs);
-            ////response./*AddHeader*/("Content-Disposition", "attachment; filename=" + fileName);
-            //response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-            //{
-            //    FileName = pdfname
-            //};
-            //return response;
-
-
-            var path = System.Web.HttpContext.Current.Server.MapPath("~/NewsPdf/12.pdf"); ;
+            DataTable dt = null;
+            string pdfname = "";
+            dt = dbutility.getAllNews(value);
+            pdfname = CreatePdfFile(dt, value);
+            var path = System.Web.HttpContext.Current.Server.MapPath("~/NewsPdf/"+pdfname); ;
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             var stream = new FileStream(path, FileMode.Open);
             result.Content = new StreamContent(stream);
@@ -73,7 +47,6 @@ namespace LiveOdiaFinal.Controllers
             String msgstrng = "";
             bool res = false;
             int rcode = 0;
-            Dictionary<string, string> reportvals = new Dictionary<string, string>();
             try
             {
                 string StoragePath = HttpContext.Current.Server.MapPath("~/NewsPdf/");
@@ -104,7 +77,7 @@ namespace LiveOdiaFinal.Controllers
                     writer.PageEvent = PageEventHandler;
                     // Define the page header
                     PageEventHandler.HeaderFont = FontFactory.GetFont("Calibri (Body)", 12, iTextSharp.text.Font.NORMAL, iTextSharp.text.Color.BLACK);
-                    PageEventHandler.HeaderRight = "IAY Inspection Report";
+                    PageEventHandler.HeaderRight = "All Top News";
 
                     document.Open();
 
@@ -130,66 +103,75 @@ namespace LiveOdiaFinal.Controllers
                     try
                     {
                         rcode = 2;
-
-                        PdfPTable nestTBL = new PdfPTable(1);
-                        nestTBL.WidthPercentage = 100;
-                        nestTBL.HorizontalAlignment = iTextSharp.text.Table.ALIGN_LEFT;
-
-                        cell = new PdfPCell(new Phrase("Indira Aawas Yojana", font12B));
-                        cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
-                        cell.Border = 0;
-                        cell.Colspan = 1;
-                        nestTBL.AddCell(cell);
-                        cell = new PdfPCell(new Phrase("Mobile Inspection Report", font8N));
-                        cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
-                        cell.Border = 0;
-                        cell.Colspan = 1;
-                        nestTBL.AddCell(cell);
-
-                        cell = new PdfPCell(new Phrase("District : " + "Bijapur", font8N));
-                        cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
-                        cell.Border = 0;
-                        cell.Colspan = 1;
-                        nestTBL.AddCell(cell);
-
-                        cell = new PdfPCell(nestTBL);
-                        cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_LEFT;
-                        cell.Border = 0;
-                        cell.Colspan = 1;
-                        ptbl.AddCell(cell);
-
-                        cell = new PdfPCell(new Phrase(""));
-                        cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
-                        cell.Border = 0;
-                        cell.Colspan = 3;
-                        ptbl.AddCell(cell);
-
-                        cell = new PdfPCell(new Phrase(" "));
-                        cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
-                        cell.Border = 0;
-                        cell.BorderWidthTop = 1f;
-                        cell.Colspan = 3;
-                        ptbl.AddCell(cell);
-
-                        document.Add(ptbl);
-
-                        PdfPTable nestTBL2 = new PdfPTable(4);
-                        nestTBL2.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
-                        float[] twidth44 = { 85, 100, 105, 110 };
-                        nestTBL2.SetWidths(twidth44);
-                        nestTBL2.WidthPercentage = 95;
-
-                        cell = new PdfPCell(new Phrase("Inspected By :", font10B));
-                        cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_LEFT;
-                        cell.Border = 0;
-                        cell.Colspan = 1;
-                        nestTBL2.AddCell(cell);
-
-                        document.Add(nestTBL2);
+                        foreach (DataRow dr in dt.Rows)
+                        {
 
 
-                        #endregion
+                            PdfPTable nestTBL = new PdfPTable(1);
+                            nestTBL.WidthPercentage = 100;
+                            nestTBL.HorizontalAlignment = iTextSharp.text.Table.ALIGN_LEFT;
 
+                            cell = new PdfPCell(new Phrase(dr["ttitle"].ToString(), font12B));
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
+                            cell.Border = 0;
+                            cell.Colspan = 1;
+                            nestTBL.AddCell(cell);
+                            cell = new PdfPCell(new Phrase(dr["tsub"].ToString(), font8N));
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
+                            cell.Border = 0;
+                            cell.Colspan = 1;
+                            nestTBL.AddCell(cell);
+
+                            cell = new PdfPCell(new Phrase(dr["topnews"].ToString(), font8N));
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
+                            cell.Border = 0;
+                            cell.Colspan = 1;
+                            nestTBL.AddCell(cell);
+
+                            cell = new PdfPCell(new Phrase(dr["timage"].ToString(), font8N));
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
+                            cell.Border = 0;
+                            cell.Colspan = 1;
+                            nestTBL.AddCell(cell);
+
+                            cell = new PdfPCell(nestTBL);
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_LEFT;
+                            cell.Border = 0;
+                            cell.Colspan = 1;
+                            ptbl.AddCell(cell);
+
+                            cell = new PdfPCell(new Phrase(""));
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
+                            cell.Border = 0;
+                            cell.Colspan = 3;
+                            ptbl.AddCell(cell);
+
+                            cell = new PdfPCell(new Phrase(" "));
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
+                            cell.Border = 0;
+                            cell.BorderWidthTop = 1f;
+                            cell.Colspan = 3;
+                            ptbl.AddCell(cell);
+
+                            document.Add(ptbl);
+
+                            PdfPTable nestTBL2 = new PdfPTable(4);
+                            nestTBL2.HorizontalAlignment = iTextSharp.text.Table.ALIGN_CENTER;
+                            float[] twidth44 = { 85, 100, 105, 110 };
+                            nestTBL2.SetWidths(twidth44);
+                            nestTBL2.WidthPercentage = 95;
+
+                            cell = new PdfPCell(new Phrase(dr["timage"].ToString(), font10B));
+                            cell.HorizontalAlignment = iTextSharp.text.Table.ALIGN_LEFT;
+                            cell.Border = 0;
+                            cell.Colspan = 1;
+                            nestTBL2.AddCell(cell);
+
+                            document.Add(nestTBL2);
+
+
+                            #endregion
+                        }
 
                     }
                     catch (Exception exc)

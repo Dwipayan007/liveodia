@@ -7,6 +7,15 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
     var getModelAsFormData = function (data) {
 
         var dataAsFormData = new FormData();
+        if (data.ImpNews) {
+            dataAsFormData.append('file', data.file);
+            dataAsFormData.append("inews", data.inewsTotal);
+            dataAsFormData.append("title", data.title);
+            dataAsFormData.append("ImpNews", data.ImpNews);
+            if (data.isub)
+                dataAsFormData.append("isub", data.isub);
+            dataAsFormData.append("priority", data.priority);
+        }
         if (data.HotNews) {
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("hotNews", data.HotNews);

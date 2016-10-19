@@ -5,20 +5,23 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     $scope.Newstory = {};
     $scope.Topnews = {};
     $scope.hnewsTitle = {};
+    $scope.impnews = {};
     $scope.selectedOption;
     $scope.ntitle = "";
     $scope.mesgHnews = "";
     $scope.mesgTnews = "";
     $scope.mesgNnews = "";
+    $scope.mesgInews = "";
     $scope.myDate = new Date();
 
     $scope.loader = {
         loading1: false,
         loading2: false,
         loading3: false,
+        loading4: false
     };
 
-
+    
 
     $scope.minDate = new Date(
         $scope.myDate.getFullYear(),
@@ -78,6 +81,28 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
             document.body.appendChild(a);
             a.click();
             //saveAs(blob, "download.pdf");
+        });
+    };
+
+    $scope.submitImpNews = function () {
+        $scope.loader.loading4 = true;
+        var file = {};
+        file = $scope.impnews;
+        file["ImpNews"] = "Inews";
+        if ($scope.myFile4 !== undefined)
+            file["file"] = $scope.myFile4;
+        adminServiceFactory.uploadFileToUrl(file).then(function (data) {
+            if (data === "") {
+                $scope.loader.loading4 = false;
+                $scope.mesgInews = "Uploaded Successfully";
+            }
+            else {
+                $scope.loader.loading4 = false;
+                $scope.mesgInews = "Not Successful";
+            }
+            file = null;
+            $scope.impnews = {};
+            $scope.resetForm("submitImpNews");
         });
     };
 
@@ -176,6 +201,10 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
         else if (filereset === "submitHotNews") {
             angular.element(document.querySelector('#file1')).val(null);
             $scope.myFile1 = undefined;
+        }
+        else if (filereset === "submitImpNews") {
+            angular.element(document.querySelector('#file4')).val(null);
+            $scope.myFile4 = undefined;
         }
     };
 

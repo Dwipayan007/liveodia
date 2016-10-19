@@ -43,6 +43,38 @@ namespace LiveOdiaFinal
             return dt;
         }
 
+        public static DataTable GetImpNews()
+        {
+            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM impnews where newsdate='" + tdate + "'";
+                scmd.Parameters.AddWithValue("newsdate", tdate);
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return dt;
+        }
+
         public static DataTable getAllNews(AdminModel val)
         {
             string tdate = val.newsdate;
@@ -629,6 +661,46 @@ namespace LiveOdiaFinal
                         }
                         res = true;
                     }
+
+                    if (kvp.Key == "ImpNews")
+                    {
+                        if (valDict.ContainsKey("isub"))
+                        {
+                            scmd.CommandText = "INSERT INTO impnews (ititle,isub,impnews,iimage,newstype,newsdate,priority) VALUES(@ititle,@isub,@impnews,@iimage,@newstype,@newsdate,@priority)";
+                            scmd.Parameters.AddWithValue("isub", valDict["isub"]);
+                        }
+                        else
+                            scmd.CommandText = "INSERT INTO topnews (ititle,impnews,iimage,newstype,newsdate,priority) VALUES(@ititle,@impnews,@iimage,@newstype,@newsdate,@priority)";
+                        //scmd.Parameters.AddWithValue("lid", valDict["HotNews"]);
+                        scmd.Parameters.AddWithValue("ititle", valDict["title"]);
+                        
+                        scmd.Parameters.AddWithValue("newstype", "Impnews");
+
+                        scmd.Parameters.AddWithValue("impnews", valDict["inews"]);
+                        if (valDict["img"] != "")
+                        {
+                            scmd.Parameters.AddWithValue("iimage", valDict["img"]);
+                        }
+                        else
+                            scmd.Parameters.AddWithValue("iimage", "No Image");
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("priority", valDict["priority"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                        scmd.Parameters.Clear();
+                        if (valDict["img"] != "")
+                        {
+                            long lid = scmd.LastInsertedId;
+                            scmd.CommandText = "INSERT INTO newsimages(imgurl,inid,newsdate) values (@imgurl,@inid,@newsdate)";
+                            scmd.Parameters.AddWithValue("imgurl", valDict["img"]);
+                            scmd.Parameters.AddWithValue("inid", lid);
+                            scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                            scmd.Prepare();
+                            scmd.ExecuteNonQuery();
+                        }
+                        res = true;
+                    }
+
                     if (kvp.Key == "hotNews")
                     {
                         if (valDict.ContainsKey("hsub"))
@@ -659,7 +731,7 @@ namespace LiveOdiaFinal
                             long lid = scmd.LastInsertedId;
                             scmd.CommandText = "INSERT INTO newsimages(imgurl,hnid,newsdate) values (@imgurl,@hnid,@newsdate)";
                             scmd.Parameters.AddWithValue("imgurl", valDict["img"]);
-                            scmd.Parameters.AddWithValue("hnid", lid);
+                            scmd.Parameters.AddWithValue("inid", lid);
                             scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
                             scmd.Prepare();
                             scmd.ExecuteNonQuery();

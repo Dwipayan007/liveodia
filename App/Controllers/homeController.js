@@ -18,12 +18,20 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.hnews = false;
     $scope.nstory = false;
     $scope.isClosed = false;
+    $scope.impnews = [];
 
     if ($scope.mobile) {
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }
 
+    $scope.getImpNews = function () {
+        homeServiceFactory.getImpNews().then(function (newsData) {
+            if (newsData) {
+                $scope.impnews = newsData;
+            }
+        });
+    };
 
     $scope.DeleteNewsStory = function (nsid) {
         homeServiceFactory.DeleteNewsStory(nsid).then(function (res) {
@@ -130,8 +138,9 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
             }
         });
     };
-
+    $scope.getImpNews();
     $scope.getAllNews();
+
     //$scope.FormatData();
 }]);
 //}]).filter('orderObjectBy', function () {
