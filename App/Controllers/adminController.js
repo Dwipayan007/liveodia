@@ -10,6 +10,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     $scope.mesgHnews = "";
     $scope.mesgTnews = "";
     $scope.mesgNnews = "";
+    $scope.myDate = new Date();
 
     $scope.loader = {
         loading1: false,
@@ -17,7 +18,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
         loading3: false,
     };
 
-    $scope.myDate = new Date();
+
 
     $scope.minDate = new Date(
         $scope.myDate.getFullYear(),
@@ -61,7 +62,24 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
         adminServiceFactory.AddCategory(cname).then(function (data) {
 
         });
-    }
+    };
+
+    $scope.DownloadNews = function () {
+        debugger;
+        $scope.SelectedDate = $filter('date')(new Date($scope.myDate), 'dd-MM-yyyy');
+        adminServiceFactory.DownloadNews($scope.SelectedDate).then(function (pdfname) {
+            debugger;
+            var blob = new Blob(([pdfname]), { type: "application/pdf" });
+            var fileURL = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = fileURL;
+            a.target = '_blank';
+            a.download = "mynews" + '.pdf';
+            document.body.appendChild(a);
+            a.click();
+            //saveAs(blob, "download.pdf");
+        });
+    };
 
     $scope.submitHotNews = function () {
         $scope.loader.loading1 = true;

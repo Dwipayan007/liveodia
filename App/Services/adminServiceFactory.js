@@ -53,6 +53,21 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
         return deffer.promise;
     };
 
+
+    var _DownloadNews = function (newsdate) {
+        debugger;
+        var deffer = $q.defer();
+        $http.post(baseService + 'api/DownloadNews/', JSON.stringify({ 'newsDate': newsdate }), {
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        }).success(function (data, status) {
+
+            deffer.resolve(data, status);
+        }).error(function (result, status) {
+            deffer.reject(result);
+        });
+        return deffer.promise;
+    };
+
     var _getHotFullNewsTitle = function () {
 
         var deffer = $q.defer();
@@ -67,7 +82,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
     var _DeleteAllNews = function () {
         var id = 1;
         var deffer = $q.defer();
-        $http.delete(baseService + 'api/admin2/'+id).success(function (data, status) {
+        $http.delete(baseService + 'api/admin2/' + id).success(function (data, status) {
             deffer.resolve(data);
         }).error(function (err, status) {
             deffer.reject(err);
@@ -98,6 +113,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
         });
         return deffer.promise;
     };
+    adminServiceFactory.DownloadNews = _DownloadNews;
     adminServiceFactory.DeleteAllNews = _DeleteAllNews;
     adminServiceFactory.updateNewsDate = _updateNewsDate;
     adminServiceFactory.AddCategory = _AddCategory;

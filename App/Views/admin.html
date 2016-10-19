@@ -24,6 +24,20 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-4">
+                <h4>Download All news</h4>
+            </div>
+            <div class="col-lg-1">
+                <a ng-href="/NewsPdf/{{pdfname}}" target="_self" download>
+                    <input type="button" value="Download News" class="btn-sm btn-success" ng-click="DownloadNews();" />
+                </a>
+                
+            </div>
+            <div class="col-lg-6">
+                <em>{{mesg}}</em>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <h2>Hot News Upload</h2>
             </div>

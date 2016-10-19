@@ -43,6 +43,72 @@ namespace LiveOdiaFinal
             return dt;
         }
 
+        public static DataTable getAllNews(AdminModel val)
+        {
+            string tdate = val.newsdate;
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM topnews where newsdate='" + tdate + "'";
+                scmd.Parameters.AddWithValue("newsdate", tdate);
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return dt;
+        }
+
+        public static bool createPdfName(string pdfname,AdminModel val)
+        {    
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            string pdfdate = val.newsdate;
+            bool res = false;
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "INSERT INTO newspdf (pdfname, pdfdate) VALUES (@pdfname,@pdfdate)";
+                scmd.Parameters.AddWithValue("pdfname", pdfname);
+                scmd.Parameters.AddWithValue("pdfdate", pdfdate);
+                scmd.Prepare();
+                scmd.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
         public static bool updateNewsDate(AdminModel newsDate)
         {
             bool res = false;
@@ -171,20 +237,20 @@ namespace LiveOdiaFinal
                 scmd.Connection = scon;
                 scmd.CommandText = "TRUNCATE TABLE hotnews";
                 scmd.Prepare();
-                result =scmd.ExecuteNonQuery();
-                if (result==0)
+                result = scmd.ExecuteNonQuery();
+                if (result == 0)
                 {
                     scmd.Parameters.Clear();
                     scmd.CommandText = "TRUNCATE TABLE newstory";
                     scmd.Prepare();
-                    result= scmd.ExecuteNonQuery();
+                    result = scmd.ExecuteNonQuery();
                 }
-                if (result==0)
+                if (result == 0)
                 {
                     scmd.Parameters.Clear();
                     scmd.CommandText = "TRUNCATE TABLE topnews";
                     scmd.Prepare();
-                    result= scmd.ExecuteNonQuery();
+                    result = scmd.ExecuteNonQuery();
                 }
                 res = true;
             }
