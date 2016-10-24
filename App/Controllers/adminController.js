@@ -12,6 +12,14 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     $scope.mesgTnews = "";
     $scope.mesgNnews = "";
     $scope.mesgInews = "";
+    $scope.impnews.impdate = "";
+    $scope.hotnews.nstorydt = "";
+    $scope.Newstory.hotnewsdt = "";
+    $scope.Topnews.topnewsdt = "";
+    $scope.impnewsDate = new Date();
+    $scope.hotnewsDate = new Date();
+    $scope.newstoryDate = new Date();
+    $scope.topnewsDate = new Date();
     $scope.myDate = new Date();
 
     $scope.loader = {
@@ -21,7 +29,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
         loading4: false
     };
 
-    
+
 
     $scope.minDate = new Date(
         $scope.myDate.getFullYear(),
@@ -68,10 +76,8 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     };
 
     $scope.DownloadNews = function () {
-        debugger;
         $scope.SelectedDate = $filter('date')(new Date($scope.myDate), 'dd-MM-yyyy');
         adminServiceFactory.DownloadNews($scope.SelectedDate).then(function (pdfname) {
-            debugger;
             var blob = new Blob(([pdfname]), { type: "application/pdf" });
             var fileURL = URL.createObjectURL(blob);
             var a = document.createElement('a');
@@ -85,9 +91,12 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     };
 
     $scope.submitImpNews = function () {
+        debugger;
+        $scope.impnews.impdate = $filter('date')(new Date($scope.impnewsDate), 'dd-MM-yyyy');
         $scope.loader.loading4 = true;
         var file = {};
         file = $scope.impnews;
+
         file["ImpNews"] = "Inews";
         if ($scope.myFile4 !== undefined)
             file["file"] = $scope.myFile4;
@@ -107,6 +116,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     };
 
     $scope.submitHotNews = function () {
+        $scope.hotnews.hotnewsdt = $filter('date')(new Date($scope.hotnewsDate), 'dd-MM-yyyy');
         $scope.loader.loading1 = true;
         var file = {};
         file = $scope.hotnews;
@@ -130,7 +140,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     };
 
     $scope.submitNewstory = function () {
-
+        $scope.Newstory.nstorydt = $filter('date')(new Date($scope.newstoryDate), 'dd-MM-yyyy');
         $scope.loader.loading2 = true;
         var file = {};
         file = $scope.Newstory;
@@ -165,7 +175,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     };
 
     $scope.submitTopNews = function () {
-
+        $scope.Topnews.topnewsdt = $filter('date')(new Date($scope.topnewsDate), 'dd-MM-yyyy');
         $scope.loader.loading3 = true;
         var file = {};
         file = $scope.Topnews;

@@ -2,21 +2,44 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="featured_slider">
-                <h2 class="featured_title">On Featured</h2>
-                <div class="slick_slider" ng-repeat="inews in impnews">
-                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 box trimLR">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-left trimLR">
-                            <div class="media">
-                                <a href="pages/single_page.html" class="media-left"><img alt="" ng-src="../UploadedImage/{{inews.iimage}}" width="70" height="70" data-pin-nopin="true"></a>
-                                <div class="media-body-center"><a href="pages/single_page.html" class="catg_title">{{inews.ititle}}</a></div>
+                <h2 class="featured_title">Important News</h2>
+                <div class="slick_slider" ng-repeat="inews in impnews | orderBy : '-priority'">
+                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 box trimLR scrollbar" id="style-3">
+                        
+                        <div ng-show="inews.iimage!='Default'" ng-click="GetImpNewsById(inews.inid)">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-left trimLR force-overflow" ng-click="GetImpNewsById(inews.inid)">
+                                <div class="media">
+                                    <a class="media-left" ng-click="GetImpNewsById(inews.inid)"><img alt="" ng-src="../UploadedImage/{{inews.iimage}}" width="97" height="97" data-pin-nopin="true"></a>
+                                    <div class="media-body">
+                                        <a class="catg_title" ng-click="GetImpNewsById(inews.inid)">
+                                            <b>{{inews.ititle}}</b>
+                                        </a>
+                                        <br /><br />
+                                        <p class="odia-font">{{inews.impnews | limitTo:impnewsLimit}} <strong>. . .</strong></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div ng-show="inews.iimage=='Default'" ng-click="GetImpNewsById(inews.inid)">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-left trimLR">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <a class="catg_title" ng-click="GetImpNewsById(inews.inid)">
+                                            <b>{{inews.ititle}}</b>
+                                        </a>
+                                        <br /><br />
+                                        <p class="odia-font">{{inews.impnews | limitTo:impnewsLimit}} <strong>. . .</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+        
     </div>
-
     <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-4">
             <div class="left_sidebar">
@@ -34,6 +57,30 @@
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-8">
+
+            <div class="middle_content" ng-show="ipnews!=false">
+                <h2>Important News</h2>
+                <ul class="featured_nav">
+                    <li class="wow fadeInDown">
+                        <div ng-show="imnews[0].iimage!='Default'">
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{imnews[0].iimage}}" alt=""></a></figure>
+                            <h2 class="article_titile">
+                                {{imnews[0].ititle}}
+                            </h2>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{imnews[0].newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{imnews[0].impnews}}</p>
+                        </div>
+                        <div ng-show="imnews[0].iimage=='Default'">
+                            <h2 class="article_titile1">
+                                {{imnews[0].ititle}}
+                            </h2>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{imnews[0].newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{imnews[0].impnews}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
             <div class="middle_content" ng-show="hnews!=false">
                 <h2>Hot Stories Summary</h2>
                 <ul class="featured_nav">
@@ -91,16 +138,16 @@
                         <div ng-show="news.nimage!='Default'">
                             <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.nimage}}" alt=""></a></figure>
                             <article class="featured_article">
-                                <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}">{{news.ntitle}}</a></h2>
+                                <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}"><b>{{news.ntitle}}</b></a></h2>
                                 <h4>{{news.nsub}}</h4>
-                                <p class="odia-font"><strong>{{news.newstory | limitTo:letterLimit}} . . .</strong></p>
+                                <p class="odia-font">{{news.newstory | limitTo:letterLimit}} <strong>. . .</strong></></p>
                             </article>
                         </div>
                         <div ng-show="news.nimage=='Default'">
                             <article class="featured_article1">
-                                <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}">{{news.ntitle}}</a></h2>
+                                <h2 class="article_titile"><a class="odia-font" href="detailnews/{{news.nsid}}"><b>{{news.ntitle}}</b></a></h2>
                                 <h4>{{news.nsub}}</h4>
-                                <p class="odia-font"><strong>{{news.newstory | limitTo:letterLimit}} . . .</strong></p>
+                                <p class="odia-font"><strong>{{news.newstory | limitTo:letterLimit}}<strong>. . .</strong></strong></p>
                             </article>
                         </div>
                         <button value="Delete" ng-click="DeleteNewsStory(news.nsid)" ng-hide="!authentication.isAuth">Delete</button>

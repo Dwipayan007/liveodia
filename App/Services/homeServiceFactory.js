@@ -27,6 +27,18 @@ LiveOdiaApp.factory('homeServiceFactory', ['$http', '$q', 'baseService', functio
         return deffer.promise;
     };
 
+    var _getImpNewsById = function (inid) {
+        var deffer = $q.defer();
+        $http.get(baseService + 'api/ImpNews/'+inid).success(function (data, status) {
+
+            deffer.resolve(data);
+        }).error(function (err, status) {
+
+            deffer.reject(err);
+        });
+        return deffer.promise;
+    };
+
     var _getAllNewsStory = function () {
        
         var deffer = $q.defer();
@@ -124,6 +136,7 @@ LiveOdiaApp.factory('homeServiceFactory', ['$http', '$q', 'baseService', functio
     homeServiceFactory.DeleteHotNews = _DeleteHotNews;
     homeServiceFactory.DeleteNewsStory = _DeleteNewsStory;
     homeServiceFactory.getImpNews = _getImpNews;
+    homeServiceFactory.GetImpNewsById = _getImpNewsById;
     homeServiceFactory.getAllHotNews = _getAllHotNews;
     homeServiceFactory.getAllNewsStory = _getAllNewsStory;
     homeServiceFactory.getAllNews = _getAllNews;

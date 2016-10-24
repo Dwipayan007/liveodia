@@ -11,7 +11,14 @@ namespace LiveOdiaFinal
     {
         protected void Application_Start()
         {
+            Application["NoOfVisitors"]=+1;
+            dbutility.saveuserVisit(Application["NoOfVisitors"]);
             GlobalConfiguration.Configure(WebApiConfig.Register);
+        }
+        protected void Session_Start() {
+            Application.Lock();
+            Application["NoOfVisitors"] = (int)Application["NoOfVisitors"] + 1;
+            Application.UnLock();
         }
     }
 }

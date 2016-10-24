@@ -73,7 +73,8 @@ namespace LiveOdiaFinal.Controllers
                     {
                         myData.Add("img", "Default");
                     }
-                    myData.Add("todaydate", DateTime.Now.ToString("dd-MM-yyyy"));
+                    if (!myData.ContainsKey("todaydate"))
+                        myData.Add("todaydate", DateTime.Now.ToString("dd-MM-yyyy"));
 
                     dbutility.SaveData(myData);
                 }

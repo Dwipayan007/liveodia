@@ -14,11 +14,26 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.hotnews = [];
     $scope.newstory = [];
     $scope.letterLimit = 120;
+    $scope.impnewsLimit = 10;
     $scope.tpnews = false;
     $scope.hnews = false;
     $scope.nstory = false;
+    $scope.ipnews = false;
     $scope.isClosed = false;
     $scope.impnews = [];
+    $scope.imnews = [];
+
+    $scope.GetImpNewsById = function (inid) {
+        homeServiceFactory.GetImpNewsById(inid).then(function (newsData) {
+            if (newsData) {
+                $scope.imnews = newsData;
+                $scope.ipnews = true;
+                $scope.tpnews = false;
+                $scope.hnews = false;
+                $scope.nstory = false;
+            }
+        });
+    };
 
     if ($scope.mobile) {
         $anchorScroll.yOffset = 20;
@@ -37,6 +52,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
         homeServiceFactory.DeleteNewsStory(nsid).then(function (res) {
             if (res) {
                 $scope.getAllNews();
+                $scope.ipnews = false;
                 $scope.tpnews = false;
                 $scope.hnews = false;
                 $scope.nstory = true;
@@ -49,6 +65,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = true;
+                $scope.ipnews = false;
                 $scope.hnews = false;
                 $scope.nstory = false;
             }
@@ -59,6 +76,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
             if (res) {
                 $scope.getAllNews();
                 $scope.tpnews = false;
+                $scope.ipnews = false;
                 $scope.hnews = false;
                 $scope.nstory = true;
             }
@@ -75,6 +93,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
         homeServiceFactory.getAllNewsStory().then(function (newsData) {
             if (newsData) {
                 $scope.nstory = true;
+                $scope.ipnews = false;
                 $scope.newstory = newsData;
             }
         });
@@ -85,6 +104,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
+                $scope.ipnews = false;
                 $scope.hnews = false;
                 $scope.nstory = false;
                 $scope.tnews = result;
@@ -132,6 +152,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
                 $scope.tpnews = false;
+                $scope.ipnews = false;
                 $scope.nstory = false;
                 $scope.hnews = true;
                 $scope.hnewsDetail = hnewsdata;
@@ -140,6 +161,9 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     };
     $scope.getImpNews();
     $scope.getAllNews();
+
+    
+    
 
     //$scope.FormatData();
 }]);

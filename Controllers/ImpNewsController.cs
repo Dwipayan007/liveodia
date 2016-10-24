@@ -17,9 +17,9 @@ namespace LiveOdiaFinal.Controllers
         }
 
         // GET: api/ImpNews/5
-        public string Get(int id)
+        public DataTable Get(int id)
         {
-            return "value";
+            return dbutility.getImpNewsById(id);
         }
 
         // POST: api/ImpNews

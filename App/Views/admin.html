@@ -28,8 +28,8 @@
                 <h4>Download All news</h4>
             </div>
             <div class="col-lg-1">
-                    <input type="button" value="Download News" class="btn-sm btn-success" ng-click="DownloadNews();" />
-                
+                <input type="button" value="Download News" class="btn-sm btn-success" ng-click="DownloadNews();" />
+
             </div>
             <div class="col-lg-6">
                 <em>{{mesg}}</em>
@@ -38,7 +38,13 @@
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <h2>Important News Upload</h2>
+                <div class="col-lg-6">
+                    <h2>Important News Upload</h2>
+                </div>
+                <div class="col-lg-2">Select Date</div>
+                <div class="col-lg-4">
+                    <md-datepicker ng-model="impnewsDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -48,10 +54,12 @@
                     <br />
                     <input class="form-control" type="number" placeholder="Priorty" ng-model="impnews.priority">
                     <input class="form-control" type="text" placeholder="News Subheading" ng-model="impnews.isub">
+                   
+                  
                     <textarea class="form-control" cols="30" rows="10" placeholder="Hot News" ng-model="impnews.inewsTotal"></textarea>
                     <form enctype="multipart/form-data" name="form1" ng-submit="submitImpNews()">
                         <div class="col-lg-11">
-                            <input type="file" image-upload="myFile4" id="file4" />
+                            <input type="file" image-upload="myFile4" id="file4" name="file4"/>
                         </div>
                         <div class="col-lg-1" ng-hide="loader.loading4==true">
                             <input type="submit" value="Add Hotnews" class="btn-sm btn-success" />
@@ -70,7 +78,15 @@
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <h2>Hot News Upload</h2>
+
+                <div class="col-lg-6">
+                    <h2>Hot News Upload</h2>
+                </div>
+                <div class="col-lg-2">Select Date</div>
+                <div class="col-lg-4">
+                    <md-datepicker ng-model="hotnewsDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
+
             </div>
         </div>
         <div class="row">
@@ -113,7 +129,16 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <h2>New Story Upload</h2>
+
+
+                <div class="col-lg-6">
+                    <h2>New Story Upload</h2>
+                </div>
+                <div class="col-lg-2">Select Date</div>
+                <div class="col-lg-4">
+                    <md-datepicker ng-model="newstoryDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
+
             </div>
         </div>
         <div class="row">
@@ -143,7 +168,15 @@
         </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <h2>Top News Upload</h2>
+
+                <div class="col-lg-6">
+                    <h2>Top News Upload</h2>
+                </div>
+                <div class="col-lg-2">Select Date</div>
+                <div class="col-lg-4">
+                    <md-datepicker ng-model="topnewsDate" md-placeholder="Enter date"></md-datepicker>
+                </div>
+
             </div>
         </div>
         <div class="row">

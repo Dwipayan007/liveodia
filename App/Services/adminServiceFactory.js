@@ -8,6 +8,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
 
         var dataAsFormData = new FormData();
         if (data.ImpNews) {
+            dataAsFormData.append('todaydate', data.impdate);
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("inews", data.inewsTotal);
             dataAsFormData.append("title", data.title);
@@ -17,6 +18,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
             dataAsFormData.append("priority", data.priority);
         }
         if (data.HotNews) {
+            dataAsFormData.append('todaydate', data.hotnewsdt);
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("hotNews", data.HotNews);
             dataAsFormData.append("title", data.title);
@@ -26,6 +28,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
             dataAsFormData.append("hfullNews", data.hnewsTotal);
         }
         if (data.Newstory) {
+            dataAsFormData.append('todaydate', data.nstorydt);
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("Newstory", data.Newstory);
             dataAsFormData.append("title", data.ntitle);
@@ -34,6 +37,7 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
             dataAsFormData.append("nstory", data.newstory);
         }
         if (data.TopNews) {
+            dataAsFormData.append('todaydate', data.topnewsdt);
             dataAsFormData.append('file', data.file);
             dataAsFormData.append("Topnews", data.TopNews);
             dataAsFormData.append("title", data.ttitle);
@@ -64,7 +68,6 @@ LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', functi
 
 
     var _DownloadNews = function (newsdate) {
-        debugger;
         var deffer = $q.defer();
         $http.post(baseService + 'api/DownloadNews/', JSON.stringify({ 'newsDate': newsdate }), {
             headers: { 'Content-Type': 'application/json;charset=utf-8' }

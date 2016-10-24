@@ -22,7 +22,79 @@ namespace LiveOdiaFinal
                 scon.Open();
                 scmd.Connection = scon;
                 scmd.CommandText = "SELECT * FROM topnews where newsdate='" + tdate + "'";
-                scmd.Parameters.AddWithValue("newsdate", tdate);
+
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return dt;
+        }
+
+        public static void saveuserVisit(object v)
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "Select usercount from uservisit";
+                scmd.Prepare();
+                int lastuservisitcount = Convert.ToInt32(scmd.ExecuteScalar());
+                scmd.Parameters.Clear();
+                if (lastuservisitcount > 0)
+                {
+                    ++lastuservisitcount;
+                    scmd.CommandText = "update uservisit set usercount=" + lastuservisitcount;
+                }
+                else
+                {
+                    scmd.CommandText = "insert into uservisit(usercount) values (@usercount)";
+                    scmd.Parameters.AddWithValue("usercount", ++lastuservisitcount);
+                }
+                scmd.Prepare();
+                scmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+        }
+
+        public static DataTable getImpNewsById(int id)
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM impnews where inid='" + id + "'";
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -54,7 +126,6 @@ namespace LiveOdiaFinal
                 scon.Open();
                 scmd.Connection = scon;
                 scmd.CommandText = "SELECT * FROM impnews where newsdate='" + tdate + "'";
-                scmd.Parameters.AddWithValue("newsdate", tdate);
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -86,7 +157,6 @@ namespace LiveOdiaFinal
                 scon.Open();
                 scmd.Connection = scon;
                 scmd.CommandText = "SELECT * FROM topnews where newsdate='" + tdate + "'";
-                scmd.Parameters.AddWithValue("newsdate", tdate);
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -107,8 +177,8 @@ namespace LiveOdiaFinal
             return dt;
         }
 
-        public static bool createPdfName(string pdfname,AdminModel val)
-        {    
+        public static bool createPdfName(string pdfname, AdminModel val)
+        {
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             string pdfdate = val.newsdate;
@@ -168,6 +238,14 @@ namespace LiveOdiaFinal
                     {
                         scmd.Parameters.Clear();
                         scmd.CommandText = "Update hotnews set newsdate='" + newsdt + "'";
+                        // scmd.Parameters.AddWithValue("newsdate", newsDate.newsdate);
+                        scmd.Prepare();
+                        res = Convert.ToBoolean(scmd.ExecuteNonQuery());
+                    }
+                    if (res)
+                    {
+                        scmd.Parameters.Clear();
+                        scmd.CommandText = "Update impnews set newsdate='" + newsdt + "'";
                         // scmd.Parameters.AddWithValue("newsdate", newsDate.newsdate);
                         scmd.Prepare();
                         res = Convert.ToBoolean(scmd.ExecuteNonQuery());
@@ -235,8 +313,8 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM hotnews where newsdate='" + tdate + "'"; ;
-                scmd.Parameters.AddWithValue("newsdate", tdate);
+                scmd.CommandText = "SELECT * FROM hotnews where newsdate='" + tdate + "'";
+
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -462,6 +540,7 @@ namespace LiveOdiaFinal
         public static DataTable getAllNewStory()
         {
             string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+            //string yesterday = DateTime.Today.AddDays(-2).ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -469,8 +548,8 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM newstory where newsdate='" + tdate + "'";
-                scmd.Parameters.AddWithValue("newsdate", tdate);
+                scmd.CommandText = "SELECT * FROM newstory WHERE newsdate='" + tdate + "'";
+
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -670,10 +749,10 @@ namespace LiveOdiaFinal
                             scmd.Parameters.AddWithValue("isub", valDict["isub"]);
                         }
                         else
-                            scmd.CommandText = "INSERT INTO topnews (ititle,impnews,iimage,newstype,newsdate,priority) VALUES(@ititle,@impnews,@iimage,@newstype,@newsdate,@priority)";
+                            scmd.CommandText = "INSERT INTO impnews (ititle,impnews,iimage,newstype,newsdate,priority) VALUES(@ititle,@impnews,@iimage,@newstype,@newsdate,@priority)";
                         //scmd.Parameters.AddWithValue("lid", valDict["HotNews"]);
                         scmd.Parameters.AddWithValue("ititle", valDict["title"]);
-                        
+
                         scmd.Parameters.AddWithValue("newstype", "Impnews");
 
                         scmd.Parameters.AddWithValue("impnews", valDict["inews"]);
