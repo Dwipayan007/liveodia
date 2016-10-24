@@ -13,3 +13,4 @@
 *.xml
 /node_modules
 /backupFiles
+/bin

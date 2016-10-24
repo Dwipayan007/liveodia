@@ -14,10 +14,23 @@ namespace LiveOdiaFinal.Controllers
 {
     public class admin2Controller : ApiController
     {
+        System.Threading.Timer Timer;
+        bool endProcess = false;
+        int i = 0;
         // GET: api/admin2
         public DataTable Get()
         {
+            Timer = new System.Threading.Timer(TimerCallback, true, 10, 10);
             return dbutility.GetHotNewsData();
+        }
+
+        private void TimerCallback(object state)
+        {
+            if (endProcess == true)
+            {
+                Timer.Dispose();
+                return;
+            }
         }
 
         // GET: api/admin2/5
