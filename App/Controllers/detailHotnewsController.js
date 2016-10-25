@@ -30,9 +30,11 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
         $scope.getHotNewsOnClick($scope.hnewsid);
     };
 
+
     $scope.getAllTopNews = function () {
         $window.ga('send', 'event', 'detailhotnews', 'All Top News Called');
         HotnewsServiceFactory.getAllTopNews().then(function (newsData) {
+
             if (newsData) {
                 $scope.topstories = [];
                 $scope.topstories = newsData;
@@ -57,6 +59,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
         $window.ga('send', 'event', 'detailhotnews', 'All Hot News Title');
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
+
                 $scope.hnewsTitle = [];
                 $scope.hnewsTitle = hnewsdata;
 
@@ -98,8 +101,8 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getHotNewsData = function () {
-
         homeServiceFactory.getAllHotNews().then(function (hnewsData) {
+
             if (hnewsData) {
                 $scope.hnewsData = hnewsData;
                 if ($scope.hnewsid !== "") {

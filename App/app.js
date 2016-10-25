@@ -2,7 +2,7 @@
 /// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular.js" />
 /// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular-route.js" />
 /// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular-route.min.js" />
-//
+
 var LiveOdiaApp = angular.module('LiveOdia', ['ngRoute', 'LocalStorageModule', 'ui.bootstrap', 'ngAnimate', 'ngMaterial']);
 var check = false;
 var _isNotMobile = (function () {
@@ -10,8 +10,8 @@ var _isNotMobile = (function () {
     return !check;
 })();
 LiveOdiaApp.constant('mobileCheck', check);
-LiveOdiaApp.constant('baseService', 'http://localhost:61348/');
-LiveOdiaApp.constant('baseService', 'http://www.liveodia.co/');
+LiveOdiaApp.constant('baseService', 'http://localhost:19471/');
+//LiveOdiaApp.constant('baseService', 'http://www.liveodia.co.in/');
 LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', function ($routeProvider, $httpProvider, $locationProvider) {
     $httpProvider.defaults.headers.common = {};
     $httpProvider.defaults.headers.post = {};
@@ -65,13 +65,11 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
     $routeProvider.otherwise({ redirectTo: '/home' });
 
 }]);
-LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory, $window) {
-    debugger;
+LiveOdiaApp.run(function ($rootScope, $location, $window, loginServiceFactory) {
     loginServiceFactory.fillAuthData();
-    var path = $location.path();
     $window.ga('create', 'UA-86209320-1', 'auto');
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
-
+        var path = $location.path();
         if (!loginServiceFactory.authentication.isAuth && path == "/login") {
             $location.path('/login');
         }
@@ -87,17 +85,8 @@ LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory, $window) {
             $rootScope.hideit = false;
         }
     });
-    //$rootScope.$on('$routeChangeSuccess', function () {
-    //    $window.ga('create', 'UA-86209320-1', { 'cookieDomain': 'none' });
-    //    $window.ga('set', 'page', $location.path());
-    //    $window.ga('send', 'pageview',  $location.path());
-
-    //})
     $rootScope.$on('$routeChangeSuccess', function (event) {
-     
-
         $window.ga('send', 'pageview', $location.path());
-     //   $window.ga('send', 'pageview', { page: $location.path() });
+        //   $window.ga('send', 'pageview', { page: $location.path() });
     });
-    //Angularytics.init();
 });

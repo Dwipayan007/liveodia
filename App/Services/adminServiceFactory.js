@@ -1,4 +1,4 @@
-﻿
+
 LiveOdiaApp.factory('adminServiceFactory', ['$http', '$q', 'baseService', function ($http, $q, baseService) {
     //var baseService = baseService;
     //var baseService = "http://www.liveodia.co/";
