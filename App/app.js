@@ -2,7 +2,7 @@
 /// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular.js" />
 /// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular-route.js" />
 /// <reference path="c:\users\deep\documents\visual studio 2015\Projects\LiveOdiaFinal\LiveOdiaFinal\js/angular-route.min.js" />
-
+//
 var LiveOdiaApp = angular.module('LiveOdia', ['ngRoute', 'LocalStorageModule', 'ui.bootstrap', 'ngAnimate', 'ngMaterial']);
 var check = false;
 var _isNotMobile = (function () {
