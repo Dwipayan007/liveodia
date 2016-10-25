@@ -56,19 +56,22 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
         templateUrl: (_isNotMobile) ? 'App/Views/hotdetailnews.html' : 'App/MobileViews/hotdetailnews.html',
         css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'
     });
-     $routeProvider.when('/hotnews', {
-         controller: (_isNotMobile) ? 'hotnewsController' : 'hotnewsController',
-         templateUrl: (_isNotMobile) ? 'App/Views/hotnews.html' : 'App/MobileViews/hotnews.html',
-         css:(_isNotMobile)?'css/mobileview.css':'css/mobileview.css'
+    $routeProvider.when('/hotnews', {
+        controller: (_isNotMobile) ? 'hotnewsController' : 'hotnewsController',
+        templateUrl: (_isNotMobile) ? 'App/Views/hotnews.html' : 'App/MobileViews/hotnews.html',
+        css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'
     });
 
     $routeProvider.otherwise({ redirectTo: '/home' });
 
 }]);
-LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory) {
+LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory, $window) {
+    debugger;
     loginServiceFactory.fillAuthData();
+    var path = $location.path();
+    $window.ga('create', 'UA-86209320-1', 'auto');
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
-        var path = $location.path();
+
         if (!loginServiceFactory.authentication.isAuth && path == "/login") {
             $location.path('/login');
         }
@@ -84,4 +87,17 @@ LiveOdiaApp.run(function ($rootScope, $location, loginServiceFactory) {
             $rootScope.hideit = false;
         }
     });
+    //$rootScope.$on('$routeChangeSuccess', function () {
+    //    $window.ga('create', 'UA-86209320-1', { 'cookieDomain': 'none' });
+    //    $window.ga('set', 'page', $location.path());
+    //    $window.ga('send', 'pageview',  $location.path());
+
+    //})
+    $rootScope.$on('$routeChangeSuccess', function (event) {
+     
+
+        $window.ga('send', 'pageview', $location.path());
+     //   $window.ga('send', 'pageview', { page: $location.path() });
+    });
+    //Angularytics.init();
 });

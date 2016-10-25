@@ -1,5 +1,6 @@
 ﻿
-LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
+LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', '$window', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, $window, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
+    $window.ga('send', 'HomePage', $location.path());
     $scope.mobile = mobileCheck;
     $scope.hotNews = [];
     $scope.topstories = [];
@@ -24,6 +25,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.imnews = [];
 
     $scope.GetImpNewsById = function (inid) {
+        $window.ga('send', 'event', 'home', 'Get Imp News by Id');
         homeServiceFactory.GetImpNewsById(inid).then(function (newsData) {
             if (newsData) {
                 $scope.imnews = newsData;
@@ -101,6 +103,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
     //Get top news by tnid
     $scope.getTopNewsByID = function (newsid) {
+        $window.ga('send', 'event', 'home', 'Get Top News by Id');
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
@@ -129,7 +132,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     });
 
     function hamburger_cross() {
-        debugger;
+        $window.ga('send', 'event', 'home', 'Mobile Menu Clicked');
         if ($scope.isClosed === true) {
             overlay.hide();
             trigger.removeClass('is-open');
@@ -149,6 +152,7 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
 
     //get All hot summary news by ndid
     $scope.getHotNewsSummary = function (ndid) {
+        $window.ga('send', 'event', 'home', 'Get Hot News by Id');
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
                 $scope.tpnews = false;
@@ -162,8 +166,8 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.getImpNews();
     $scope.getAllNews();
 
-    
-    
+
+
 
     //$scope.FormatData();
 }]);

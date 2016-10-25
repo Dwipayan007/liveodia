@@ -1,6 +1,6 @@
 ﻿
-LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$location', '$routeParams', '$anchorScroll', 'HotnewsServiceFactory', 'sharedService', 'homeServiceFactory', function ($scope, $rootScope, $location, $routeParams, $anchorScroll,HotnewsServiceFactory, sharedService, homeServiceFactory) {
-    
+LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$location', '$routeParams', '$anchorScroll', '$window', 'HotnewsServiceFactory', 'sharedService', 'homeServiceFactory', function ($scope, $rootScope, $location, $routeParams, $anchorScroll, $window, HotnewsServiceFactory, sharedService, homeServiceFactory) {
+    $window.ga('send', 'detailhotnews', $location.path());
     $scope.newsid = $routeParams.id;
     $scope.viewActive = $rootScope.hideit;
     $scope.hnewsDetail = [];
@@ -19,18 +19,20 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
 
     $scope.getPreviousHotNews = function (newsid) {
+        $window.ga('send', 'event', 'detailhotnews', 'PreviousHotNews');
         $scope.hnewsid = newsid;
         $scope.getHotNewsOnClick($scope.hnewsid);
     };
 
     $scope.getNextHotNews = function (newsid) {
+        $window.ga('send', 'event', 'detailhotnews', 'NextHotNews');
         $scope.hnewsid = newsid;
         $scope.getHotNewsOnClick($scope.hnewsid);
     };
 
     $scope.getAllTopNews = function () {
+        $window.ga('send', 'event', 'detailhotnews', 'All Top News Called');
         HotnewsServiceFactory.getAllTopNews().then(function (newsData) {
-            
             if (newsData) {
                 $scope.topstories = [];
                 $scope.topstories = newsData;
@@ -39,7 +41,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getTopNewsByID = function (newsid) {
-        
+        $window.ga('send', 'event', 'detailhotnews', 'Top News By Id');
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
@@ -52,10 +54,9 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getHotNewsTitle = function () {
-        
+        $window.ga('send', 'event', 'detailhotnews', 'All Hot News Title');
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
-
                 $scope.hnewsTitle = [];
                 $scope.hnewsTitle = hnewsdata;
 
@@ -64,7 +65,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getHotNewsByID = function () {
-        
+        $window.ga('send', 'event', 'detailhotnews', 'Hot News By Id');
         $scope.hnewsid = $scope.newsid;
         HotnewsServiceFactory.getHotNewsSummary($scope.newsid).then(function (hnewsdata) {
             if (hnewsdata) {
@@ -82,7 +83,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getHotNewsOnClick = function (hnid) {
-        
+        $window.ga('send', 'event', 'detailhotnews', 'Hot News Clicked');
         $scope.hnewsid = hnid;
         HotnewsServiceFactory.getHotNewsByID(hnid).then(function (result) {
             if (result) {
@@ -97,8 +98,8 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getHotNewsData = function () {
+
         homeServiceFactory.getAllHotNews().then(function (hnewsData) {
-            
             if (hnewsData) {
                 $scope.hnewsData = hnewsData;
                 if ($scope.hnewsid !== "") {
@@ -113,7 +114,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
 
     $scope.getHotNewsSummary = function (ndid) {
-        
+        $window.ga('send', 'event', 'detailhotnews', 'hot news Summary');
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
 
@@ -127,14 +128,14 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
 
     if ($scope.mobile) {
-        
+
         //$location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }
 
     $(document).ready(function () {
-        
+        $window.ga('send', 'event', 'home', 'Mobile Menu Clicked');
         var trigger = $('.hamburger'),
             overlay = $('.overlay'),
            isClosed = false;
@@ -144,7 +145,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
         });
 
         function hamburger_cross() {
-
+            $window.ga('send', 'event', 'home', 'Mobile Menu Closed');
             if (isClosed === true) {
                 overlay.hide();
                 trigger.removeClass('is-open');

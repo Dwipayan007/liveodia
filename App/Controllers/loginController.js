@@ -1,6 +1,6 @@
 ﻿
 LiveOdiaApp.controller('loginController', ['$scope', '$rootScope', '$location', '$routeParams', 'loginServiceFactory', 'sharedService', function ($scope, $rootScope, $location, $routeParams, loginServiceFactory, sharedService) {
-    
+    $window.ga('send', 'Login Page', $location.path());
     $scope.autho = false;
     //login data
     $scope.loginData = {
@@ -9,7 +9,7 @@ LiveOdiaApp.controller('loginController', ['$scope', '$rootScope', '$location', 
         userRole: "1"
     };
     $scope.login = function () {
-        
+        $window.ga('send', 'event', 'Login Page', 'Login Tried');
         loginServiceFactory.login($scope.loginData).then(function (ldata) {
             if (ldata === false) {
                 $scope.message = "Please Validate the Username and Password";

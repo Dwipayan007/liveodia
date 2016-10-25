@@ -13,7 +13,7 @@ namespace LiveOdiaFinal
     {
         public static DataTable getAllTopStory()
         {
-            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+            //string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -21,7 +21,7 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM topnews where newsdate='" + tdate + "'";
+                scmd.CommandText = "SELECT * FROM topnews";
 
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
@@ -117,7 +117,7 @@ namespace LiveOdiaFinal
 
         public static DataTable GetImpNews()
         {
-            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+           // string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -125,7 +125,7 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM impnews where newsdate='" + tdate + "'";
+                scmd.CommandText = "SELECT * FROM impnews";
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -148,7 +148,7 @@ namespace LiveOdiaFinal
 
         public static DataTable getAllNews(AdminModel val)
         {
-            string tdate = val.newsdate;
+            //string tdate = val.newsdate;
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -156,7 +156,7 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM topnews where newsdate='" + tdate + "'";
+                scmd.CommandText = "SELECT * FROM topnews";
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
             }
@@ -305,7 +305,7 @@ namespace LiveOdiaFinal
 
         public static DataTable GetHotNewsData()
         {
-            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+            //string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -313,7 +313,7 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM hotnews where newsdate='" + tdate + "'";
+                scmd.CommandText = "SELECT * FROM hotnews";
 
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
@@ -539,7 +539,7 @@ namespace LiveOdiaFinal
 
         public static DataTable getAllNewStory()
         {
-            string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+           // string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             //string yesterday = DateTime.Today.AddDays(-2).ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
@@ -548,7 +548,7 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM newstory WHERE newsdate='" + tdate + "'";
+                scmd.CommandText = "SELECT * FROM newstory";
 
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());

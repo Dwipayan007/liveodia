@@ -1,6 +1,6 @@
 ﻿
-LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$location', '$anchorScroll', 'detailnewsServiceFactory', 'HotnewsServiceFactory', 'homeServiceFactory', function ($scope, $routeParams, $location, $anchorScroll, detailnewsServiceFactory, HotnewsServiceFactory, homeServiceFactory) {
-
+LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$location', '$anchorScroll', '$window', 'detailnewsServiceFactory', 'HotnewsServiceFactory', 'homeServiceFactory', function ($scope, $routeParams, $location, $anchorScroll, $window,detailnewsServiceFactory, HotnewsServiceFactory, homeServiceFactory) {
+    $window.ga('send', 'HomePage', $location.path());
     $scope.message = "Welcome to detail view page";
     $scope.detailNews = [];
     $scope.newsid = $routeParams.id;
@@ -42,22 +42,26 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     //};
 
     $scope.getPreviousNews = function (newsid) {
+        $window.ga('send', 'event', 'Detailnews Page', 'PreviousNews Clicked');
         $scope.newsid = newsid;
         $scope.GetDetailNews();
     };
 
     $scope.getNextNews = function (newsid) {
+        $window.ga('send', 'event', 'Detailnews Page', 'Next News Clicked');
         $scope.newsid = newsid;
         $scope.GetDetailNews();
     };
 
     $scope.getPreviousHotNews = function (newsid) {
+        $window.ga('send', 'event', 'Detailnews Page', 'PreviousHotNews');
         $scope.hnewsid = newsid;
         $scope.pnewsclck = true;
         $scope.getHotNewsOnClick($scope.hnewsid);
     };
 
     $scope.getNextHotNews = function (newsid) {
+        $window.ga('send', 'event', 'Detailnews Page', 'NextHotNews');
         $scope.hnewsid = newsid;
         $scope.getHotNewsOnClick($scope.hnewsid);
     };
@@ -75,7 +79,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
     $scope.getHotNewsTitle = function () {
-
+        
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
 
@@ -87,7 +91,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
     $scope.getTopNewsByID = function (newsid) {
-
+        $window.ga('send', 'event', 'Detailnews Page', 'Top News By Id');
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
@@ -102,7 +106,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
 
 
     $scope.getHotNewsSummary = function (ndid) {
-
+        
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
 
@@ -116,7 +120,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
     $scope.getHotNewsOnClick = function (hnid) {
-
+        $window.ga('send', 'event', 'Detailnews Page', 'Hot News On Click');
         $scope.hnewsid = hnid;
         HotnewsServiceFactory.getHotNewsByID(hnid).then(function (result) {
             if (result) {
@@ -178,6 +182,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     });
 
     function hamburger_cross() {
+        $window.ga('send', 'event', 'Detailnews Page', 'Mobile Menu Closed');
         if (isClosed === true) {
             overlay.hide();
             trigger.removeClass('is-open');

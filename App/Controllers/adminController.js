@@ -1,5 +1,6 @@
 ﻿
-LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$location', 'adminServiceFactory', function ($scope, $rootScope, $filter, $location, adminServiceFactory) {
+LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$location', '$window', 'adminServiceFactory', function ($scope, $rootScope, $filter, $location, $window, adminServiceFactory) {
+    $window.ga('send', 'adminview',  $location.path());
     //Save new file 
     $scope.hotnews = {};
     $scope.Newstory = {};
@@ -67,6 +68,7 @@ LiveOdiaApp.controller('adminController', ['$scope', '$rootScope', '$filter', '$
     $scope.changeOption = function () {
 
         $scope.ntitle = $scope.selectedOption.ndid;
+        $window.ga('send', 'event', 'download', $scope.ntitle);
     };
 
     $scope.AddNewCategory = function (cname) {
