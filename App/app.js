@@ -30,6 +30,10 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
         controller: (_isNotMobile) ? 'homeController' : 'homeController',
         css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'
     });
+    $routeProvider.when('/auto', {
+        controller: 'autoCompleteController',
+        templateUrl: 'App/Views/autocomplete.html'
+    });
     $routeProvider.when('/about', {
         controller: 'aboutController',
         templateUrl: 'App/Views/about.html'

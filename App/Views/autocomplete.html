@@ -1,0 +1,2 @@
+﻿<input type="text" ng-model="selected" uib-typeahead="country as country.ititle for country in countries | filter:{ititle:$viewValue}" class="form-control" typeahead-show-hint="true" typeahead-min-length="0">
+{{selected.ititle}}
