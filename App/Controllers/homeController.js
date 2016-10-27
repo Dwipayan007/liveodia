@@ -24,6 +24,39 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     $scope.impnews = [];
     $scope.imnews = [];
 
+
+    //$scope.asideState = {
+    //    open: false
+    //};
+
+    //$scope.openAside = function (position, backdrop) {
+    //    $scope.asideState = {
+    //        open: true,
+    //        position: position
+    //    };
+
+    //    function postClose() {
+    //        $scope.asideState.open = false;
+    //    }
+
+    //    $aside.open({
+    //        templateUrl: 'aside.html',
+    //        placement: position,
+    //        size: 'sm',
+    //        backdrop: backdrop,
+    //        controller: function ($scope, $uibModalInstance) {
+    //            $scope.ok = function (e) {
+    //                $uibModalInstance.close();
+    //                e.stopPropagation();
+    //            };
+    //            $scope.cancel = function (e) {
+    //                $uibModalInstance.dismiss();
+    //                e.stopPropagation();
+    //            };
+    //        }
+    //    }).result.then(postClose, postClose);
+    //}
+
     $scope.GetImpNewsById = function (inid) {
         $window.ga('send', 'event', 'home', 'Get Imp News by Id');
         homeServiceFactory.GetImpNewsById(inid).then(function (newsData) {
@@ -125,13 +158,15 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     };
 
     var trigger = $('.hamburger'),
-        overlay = $('.overlay');
+    overlay = $('.overlay');
 
     trigger.click(function () {
+        debugger;
         hamburger_cross();
     });
 
     function hamburger_cross() {
+        debugger;
         $window.ga('send', 'event', 'home', 'Mobile Menu Clicked');
         if ($scope.isClosed === true) {
             overlay.hide();
@@ -147,11 +182,13 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     }
 
     $('[data-toggle="offcanvas"]').click(function () {
+        debugger;
         $('#wrapper').toggleClass('toggled');
     });
-
     //get All hot summary news by ndid
     $scope.getHotNewsSummary = function (ndid) {
+        debugger;
+        $(".hamburger").trigger("click");
         $window.ga('send', 'event', 'home', 'Get Hot News by Id');
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
@@ -165,10 +202,6 @@ LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '
     };
     $scope.getImpNews();
     $scope.getAllNews();
-
-
-
-
     //$scope.FormatData();
 }]);
 //}]).filter('orderObjectBy', function () {

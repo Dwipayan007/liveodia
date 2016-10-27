@@ -1,7 +1,6 @@
 ﻿<header id="header" ng-show="mobile==true">
     <div id="wrapper">
         <div class="overlay"></div>
-        <!-- Sidebar -->
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
             <ul class="nav sidebar-nav">
                 <li class="sidebar-brand">
@@ -14,13 +13,13 @@
                 <li><a href="#">ଯୋଗାଯୋଗ</a></li>
                 <li><a href="#">ବିଜ୍ଞାପନ</a></li>
                 <li class="btn-nav"><h2 >Hot News</h2></li>
+                <li><div class="overlay1"></div></li>
                 <li class="odia-font"  ng-repeat="hnews in hotNews">
-                    <figcaption><a ng-click="getHotNewsSummary(hnews.ndid)">{{hnews.htitle}}</a></figcaption>
+                    <figcaption><a ng-click="getHotNewsSummary(hnews.ndid)" class="hamburger1" data-toggle="offcanvas1">{{hnews.htitle}}</a></figcaption>
                 </li>
+                
             </ul>
         </nav>
-        <!-- /#sidebar-wrapper -->
-        <!-- Page Content -->
         <div id="page-content-wrapper">
             <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
                 <span class="hamb-top"></span>
@@ -28,8 +27,13 @@
                 <span class="hamb-bottom"></span>
             </button>
         </div>
-        <!-- /#page-content-wrapper -->
     </div>
+
+    <!--<span class="pull-left">
+        <button type="button" class="btn btn-default btn-lg" ng-click="openAside('left', true)">
+            <span class="glyphicon glyphicon-align-justify"></span> Left
+        </button>
+    </span>-->
 </header>
 
 <div class="container">
@@ -50,7 +54,7 @@
             </div>
         </div>
     </div>
-  
+
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-8">
             <div class="middle_content" ng-show="ipnews!=false">
