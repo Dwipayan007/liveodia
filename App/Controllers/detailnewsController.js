@@ -17,29 +17,6 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     $scope.hnewsid = "";
     $scope.nHNews = "";
     $scope.pHNews = "";
-    $scope.impnews = [];
-    $scope.imnews = [];
-
-    //$scope.GetImpNewsById = function (inid) {
-    //    homeServiceFactory.GetImpNewsById(inid).then(function (newsData) {
-    //        if (newsData) {
-    //            $scope.imnews = newsData;
-    //            $scope.ipnews = true;
-    //            $scope.hnews = false;
-    //            $scope.tpnews = false;
-    //            $scope.nstory = false;
-    //            $scope.hnewssummary = false;
-    //        }
-    //    });
-    //};
-
-    //$scope.getImpNews = function () {
-    //    homeServiceFactory.getImpNews().then(function (newsData) {
-    //        if (newsData) {
-    //            $scope.impnews = newsData;
-    //        }
-    //    });
-    //};
 
     $scope.getPreviousNews = function (newsid) {
         $window.ga('send', 'event', 'Detailnews Page', 'PreviousNews Clicked');
@@ -70,7 +47,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
 
     $scope.getAllTopNews = function () {
         HotnewsServiceFactory.getAllTopNews().then(function (newsData) {
-
+            
             if (newsData) {
                 $scope.topstories = [];
                 $scope.topstories = newsData;
@@ -136,9 +113,9 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
     $scope.getHotNewsData = function () {
-
+        
         homeServiceFactory.getAllHotNews().then(function (hnewsData) {
-
+            
             if (hnewsData) {
                 $scope.hnewsData = hnewsData;
                 if ($scope.hnewsid !== "") {
@@ -163,7 +140,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
             }
         });
         homeServiceFactory.getAllNewsStory().then(function (newsData) {
-
+            
             if (newsData) {
                 $scope.newstory = newsData;
                 $scope.index = _.findIndex($scope.newstory, { "nsid": parseInt($scope.newsid) });
@@ -200,12 +177,12 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
         $('#wrapper').toggleClass('toggled');
     });
 
-    if ($scope.mobile) {
-
-        // $location.hash('middle');
+     if ($scope.mobile) {
+        
+       // $location.hash('middle');
         $anchorScroll.yOffset = 20;
         $anchorScroll();
     }
-    //$scope.getImpNews();
+
     $scope.GetDetailNews();
 }]);

@@ -1,5 +1,4 @@
-﻿
-LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', '$window', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, $window, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
+﻿LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', '$window', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, $window, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
     $window.ga('send', 'HomePage', $location.path());
     $scope.mobile = mobileCheck;
     $scope.hotNews = [];

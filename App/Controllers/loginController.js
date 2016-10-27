@@ -1,6 +1,6 @@
 ﻿
-LiveOdiaApp.controller('loginController', ['$scope', '$rootScope', '$location', '$routeParams', 'loginServiceFactory', 'sharedService', function ($scope, $rootScope, $location, $routeParams, loginServiceFactory, sharedService) {
-    $window.ga('send', 'Login Page', $location.path());
+LiveOdiaApp.controller('loginController', ['$scope', '$rootScope', '$location', '$routeParams', '$window', 'loginServiceFactory', 'sharedService', function ($scope, $rootScope, $location, $routeParams, $window,loginServiceFactory, sharedService) {
+    
     $scope.autho = false;
     //login data
     $scope.loginData = {
