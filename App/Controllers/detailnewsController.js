@@ -82,8 +82,37 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
     };
 
 
+    var trigger = $('.hamburger'),
+         overlay = $('.overlay'),
+        isClosed = false;
+
+    trigger.click(function () {
+        hamburger_cross();
+    });
+
+    function hamburger_cross() {
+        $window.ga('send', 'event', 'Detailnews Page', 'Mobile Menu Closed');
+        if (isClosed === true) {
+            overlay.hide();
+            trigger.removeClass('is-open');
+            trigger.addClass('is-closed');
+            isClosed = false;
+        } else {
+            overlay.show();
+            trigger.removeClass('is-closed');
+            trigger.addClass('is-open');
+            isClosed = true;
+        }
+    }
+
+    $('[data-toggle="offcanvas"]').click(function () {
+        $('#wrapper').toggleClass('toggled');
+    });
+
+
+
     $scope.getHotNewsSummary = function (ndid) {
-        
+        $(".hamburger").trigger("click");
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
 
@@ -150,33 +179,7 @@ LiveOdiaApp.controller('detailnewsController', ['$scope', '$routeParams', '$loca
         });
     };
 
-    var trigger = $('.hamburger'),
-          overlay = $('.overlay'),
-         isClosed = false;
-
-    trigger.click(function () {
-        hamburger_cross();
-    });
-
-    function hamburger_cross() {
-        $window.ga('send', 'event', 'Detailnews Page', 'Mobile Menu Closed');
-        if (isClosed === true) {
-            overlay.hide();
-            trigger.removeClass('is-open');
-            trigger.addClass('is-closed');
-            isClosed = false;
-        } else {
-            overlay.show();
-            trigger.removeClass('is-closed');
-            trigger.addClass('is-open');
-            isClosed = true;
-        }
-    }
-
-    $('[data-toggle="offcanvas"]').click(function () {
-        $('#wrapper').toggleClass('toggled');
-    });
-
+   
      if ($scope.mobile) {
         
        // $location.hash('middle');

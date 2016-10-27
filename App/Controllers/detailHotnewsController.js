@@ -68,6 +68,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
     };
 
     $scope.getHotNewsByID = function () {
+        $(".hamburger").trigger("click");
         $window.ga('send', 'event', 'detailhotnews', 'Hot News By Id');
         $scope.hnewsid = $scope.newsid;
         HotnewsServiceFactory.getHotNewsSummary($scope.newsid).then(function (hnewsdata) {
@@ -114,9 +115,39 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
         });
     };
 
+    var trigger = $('.hamburger'),
+        overlay = $('.overlay'),
+       isClosed = false;
+
+    trigger.click(function () {
+        $window.ga('send', 'event', 'home', 'Mobile Menu Clicked');
+        hamburger_cross();
+    });
+
+    function hamburger_cross() {
+        $window.ga('send', 'event', 'home', 'Mobile Menu Closed');
+        if (isClosed === true) {
+            overlay.hide();
+            trigger.removeClass('is-open');
+            trigger.addClass('is-closed');
+            isClosed = false;
+        } else {
+            overlay.show();
+            trigger.removeClass('is-closed');
+            trigger.addClass('is-open');
+            isClosed = true;
+        }
+    }
+
+    $('[data-toggle="offcanvas"]').click(function () {
+        $('#wrapper').toggleClass('toggled');
+    });
+
+
 
 
     $scope.getHotNewsSummary = function (ndid) {
+        $(".hamburger").trigger("click");
         $window.ga('send', 'event', 'detailhotnews', 'hot news Summary');
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
@@ -137,35 +168,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
         $anchorScroll();
     }
 
-    $(document).ready(function () {
-        $window.ga('send', 'event', 'home', 'Mobile Menu Clicked');
-        var trigger = $('.hamburger'),
-            overlay = $('.overlay'),
-           isClosed = false;
-
-        trigger.click(function () {
-            hamburger_cross();
-        });
-
-        function hamburger_cross() {
-            $window.ga('send', 'event', 'home', 'Mobile Menu Closed');
-            if (isClosed === true) {
-                overlay.hide();
-                trigger.removeClass('is-open');
-                trigger.addClass('is-closed');
-                isClosed = false;
-            } else {
-                overlay.show();
-                trigger.removeClass('is-closed');
-                trigger.addClass('is-open');
-                isClosed = true;
-            }
-        }
-
-        $('[data-toggle="offcanvas"]').click(function () {
-            $('#wrapper').toggleClass('toggled');
-        });
-    });
+  
 
 
     //$scope.getHDetailNews = function (hid) {
