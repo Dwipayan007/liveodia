@@ -17,9 +17,11 @@
                                         <br />
                                         <p class="odia-font">{{inews.impnews | limitTo: 25}} <strong>. . .</strong></p>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
+                        
                         <div ng-show="inews.iimage=='Default'" ng-click="GetImpNewsById(inews.inid)">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-left trimLR">
                                 <div class="media">
@@ -33,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
                 </div>
             </div>
@@ -80,7 +82,7 @@
                     </li>
                 </ul>
             </div>
-
+          
             <div class="middle_content" ng-show="hnews!=false">
                 <h2>Hot Stories Summary</h2>
                 <ul class="featured_nav">

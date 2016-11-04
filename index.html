@@ -45,11 +45,54 @@
         ga('send', 'pageview');
 
     </script>
+
+
+
 </head>
 <body ng-controller="indexController">
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1802130976742327";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!--<div id='fb-root'></div>
+    <script src='http://connect.facebook.net/en_US/all.js'></script>
+   
+    <script>
+
+        FB.init({ appId: "1802130976742327", status: true, cookie: true });
+
+      function postToFeed() {
+          debugger;
+        // calling the API ...
+        var obj = {
+          method: 'feed',
+          redirect_uri: 'http://www.liveodia.co.in',
+          link: 'http://www.liveodia.co.in',
+          picture: 'http://fbrell.com/f8.jpg',
+          name: 'Facebook Dialogs',
+          caption: 'Reference Documentation',
+          description: 'Using Dialogs to interact with people.'
+        };
+
+        function callback(response) {
+          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+        }
+
+        FB.ui(obj, callback);
+      }
+
+    </script>-->
     <div id="preloader">
         <div id="status">&nbsp;</div>
     </div>
+
     <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
     <header id="header">
         <nav class="navbar navbar-default navbar-static-top" role="navigation">
@@ -82,6 +125,9 @@
         </nav>
     </header>
     <section id="content">
+        <p><a onclick='postToFeed(); return false;'>Post to Feed</a></p>
+        <p id='msg'></p>
+
         <div ng-view=""></div>
     </section>
     <footer id="footer">
@@ -182,7 +228,8 @@
     <script src="App/Directives/imageShowDirective.js"></script>
     <script src="App/Directives/imageUpload.js"></script>
     <script src="App/Directives/myTickerDirective.js"></script>
-    <script src="App/Directives/autocomplete.js"></script>
+    <!--<script src="App/Directives/autocomplete.js"></script>-->
+    <script src="App/Directives/autoComplete.js"></script>
     <!--Services-->
     <script src="App/Services/imageUploadService.js"></script>
     <script src="App/Services/homeServiceFactory.js"></script>

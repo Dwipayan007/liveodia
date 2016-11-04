@@ -57,6 +57,25 @@
     //}
 
     $scope.GetImpNewsById = function (inid) {
+        //Scroll Problem Solved....
+
+        if ($scope.mobile) {
+
+
+
+            $('html, body').animate({
+                scrollTop: $("#middle_content").offset().top - 100
+            }, 2000);
+
+            //$(this).find("middle_content").stop(true, true).fadeOut();
+            $('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function (e) {
+                if (e.which > 0 || e.type == "mousedown" || e.type == "mousewheel" || e.type == "touchmove") {
+                    $("html,body").stop();
+                }
+            });
+        }
+
+        //$(window).scrollTop($('#middle_content').offset().top-100).fadeOut(1000);
         $window.ga('send', 'event', 'home', 'Get Imp News by Id');
         homeServiceFactory.GetImpNewsById(inid).then(function (newsData) {
             if (newsData) {
@@ -68,11 +87,6 @@
             }
         });
     };
-
-    if ($scope.mobile) {
-        $anchorScroll.yOffset = 20;
-        $anchorScroll();
-    }
 
     $scope.getImpNews = function () {
         homeServiceFactory.getImpNews().then(function (newsData) {
