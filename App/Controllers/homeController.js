@@ -84,12 +84,67 @@
         });
     };
 
+<<<<<<< HEAD
     $scope.GetImpNewsById = function (inid, rid) {
         debugger;
         $scope.rid = rid;
         if ($scope.mobile) {
             $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
         }
+=======
+    //$scope.asideState = {
+    //    open: false
+    //};
+
+    //$scope.openAside = function (position, backdrop) {
+    //    $scope.asideState = {
+    //        open: true,
+    //        position: position
+    //    };
+
+    //    function postClose() {
+    //        $scope.asideState.open = false;
+    //    }
+
+    //    $aside.open({
+    //        templateUrl: 'aside.html',
+    //        placement: position,
+    //        size: 'sm',
+    //        backdrop: backdrop,
+    //        controller: function ($scope, $uibModalInstance) {
+    //            $scope.ok = function (e) {
+    //                $uibModalInstance.close();
+    //                e.stopPropagation();
+    //            };
+    //            $scope.cancel = function (e) {
+    //                $uibModalInstance.dismiss();
+    //                e.stopPropagation();
+    //            };
+    //        }
+    //    }).result.then(postClose, postClose);
+    //}
+
+    $scope.GetImpNewsById = function (inid) {
+        //Scroll Problem Solved....
+
+        if ($scope.mobile) {
+
+
+
+            $('html, body').animate({
+                scrollTop: $("#middle_content").offset().top - 100
+            }, 2000);
+
+            //$(this).find("middle_content").stop(true, true).fadeOut();
+            $('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function (e) {
+                if (e.which > 0 || e.type == "mousedown" || e.type == "mousewheel" || e.type == "touchmove") {
+                    $("html,body").stop();
+                }
+            });
+        }
+
+        //$(window).scrollTop($('#middle_content').offset().top-100).fadeOut(1000);
+>>>>>>> 2e130aaaacbae38d4d586d8d3adcf061a339edf9
         $window.ga('send', 'event', 'home', 'Get Imp News by Id');
         if (rid != 0 || rid != null) {
             homeServiceFactory.getRelatedNews(rid).then(function (rnews) {
@@ -113,6 +168,7 @@
         });
     };
 
+<<<<<<< HEAD
     $scope.DeleteImpNews = function (inid) {
         homeServiceFactory.DeleteImpNews(inid).then(function (res) {
             if (res) {
@@ -125,6 +181,8 @@
         });
     }
 
+=======
+>>>>>>> 2e130aaaacbae38d4d586d8d3adcf061a339edf9
     $scope.getImpNews = function () {
         homeServiceFactory.getImpNews().then(function (newsData) {
             if (newsData) {

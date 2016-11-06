@@ -93,10 +93,16 @@
                                         <br />
                                         <p class="odia-font">{{inews.impnews | limitTo: 35}} <strong>. . .</strong></p>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div ng-show="inews.iimage=='Default'" ng-click="GetImpNewsById(inews.inid,inews.rid)">
+=======
+                        
+                        <div ng-show="inews.iimage=='Default'" ng-click="GetImpNewsById(inews.inid)">
+>>>>>>> 2e130aaaacbae38d4d586d8d3adcf061a339edf9
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-left trimLR">
                                 <div class="media">
                                     <div class="media-body">
@@ -109,7 +115,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
                     <button value="Delete" ng-click="DeleteImpNews(inews.inid)" ng-hide="!authentication.isAuth">Delete</button>
                 </div>
@@ -183,6 +189,7 @@
                     </li>
                 </ul>
             </div>
+<<<<<<< HEAD
             <div class="middle_content" ng-show="rfnews!=false">
                 <h2 class="header-font header-font">ସମ୍ପୂର୍ଣ୍ଣ ଖବର</h2>
                 <ul class="featured_nav">
@@ -203,6 +210,9 @@
                     </li>
                 </ul>
             </div>
+=======
+          
+>>>>>>> 2e130aaaacbae38d4d586d8d3adcf061a339edf9
             <div class="middle_content" ng-show="hnews!=false">
                 <h2>Hot Stories Summary</h2>
                 <ul class="featured_nav">
