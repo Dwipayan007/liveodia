@@ -43,6 +43,461 @@ namespace LiveOdiaFinal
             return dt;
         }
 
+        public static DataTable getFullRnews(int id)
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM fullnews WHERE fnid='" + id + "'";
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return dt;
+        }
+
+        public static DataTable getRelatedNewsById(int id)
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM fullnews WHERE rid='" + id + "'";
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return dt;
+        }
+
+        public static bool addRelated(Related rdt)
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            bool res = false;
+            try
+            {
+                scon.Open();
+                scmd.CommandText = "INSERT INTO relatednews (rnews) VALUES (@rnews)";
+                scmd.Parameters.AddWithValue("rnews", rdt.rdata);
+                scmd.Connection = scon;
+                scmd.Prepare();
+                scmd.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
+        public static bool saveNewsData(Dictionary<string, string> valDict)
+        {
+            bool res = false;
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            scon.Open();
+            scmd.Connection = scon;
+            try
+            {
+                foreach (KeyValuePair<string, string> kvp in valDict)
+                {
+                    
+                    if (kvp.Key == "Topnews")
+                    {
+
+                        if (valDict.ContainsKey("tsub"))
+                        {
+                            scmd.CommandText = "INSERT INTO fullnews (title,sub,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@sub,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("sub", valDict["tsub"]);
+                        }
+                        else
+                            scmd.CommandText = "INSERT INTO fullnews (title,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                        scmd.Parameters.AddWithValue("title", valDict["ttitle"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "Topnews");
+                        scmd.Parameters.AddWithValue("fullnews", valDict["tnews"]);
+                        scmd.Parameters.AddWithValue("image", valDict["img"]);
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                    }
+                    if (kvp.Key == "ImpNews")
+                    {
+                        if (valDict.ContainsKey("isub"))
+                        {
+                            scmd.CommandText = "INSERT INTO fullnews (title,sub,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@sub,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("sub", valDict["isub"]);
+                        }
+                        else
+                            scmd.CommandText = "INSERT INTO fullnews (title,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                        scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        scmd.Parameters.AddWithValue("title", valDict["title"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "ImpNews");
+                        scmd.Parameters.AddWithValue("fullnews", valDict["inews"]);
+                        scmd.Parameters.AddWithValue("image", valDict["img"]);
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                    }
+                    if (kvp.Key == "hotNews")
+                    {
+                        if (valDict.ContainsKey("hsub"))
+                        {
+                            scmd.CommandText = "INSERT INTO fullnews (title,sub,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@sub,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("sub", valDict["hsub"]);
+                        }
+                        else
+                            scmd.CommandText = "INSERT INTO fullnews (title,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                        scmd.Parameters.AddWithValue("title", valDict["title"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "hotNews");
+                        scmd.Parameters.AddWithValue("fullnews", valDict["hfullNews"]);
+                        scmd.Parameters.AddWithValue("image", valDict["img"]);
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                    }
+                    if (kvp.Key == "Newstory")
+                    {
+                        if (valDict.ContainsKey("nsub"))
+                        {
+                            scmd.CommandText = "INSERT INTO fullnews (title,sub,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@sub,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("sub", valDict["nsub"]);
+                        }
+                        else
+                            scmd.CommandText = "INSERT INTO fullnews (title,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
+                        scmd.Parameters.AddWithValue("title", valDict["title"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "Newstory");
+                        scmd.Parameters.AddWithValue("fullnews", valDict["nstory"]);
+                        scmd.Parameters.AddWithValue("image", valDict["img"]);
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                    }
+                   
+                }
+               
+                res = true;
+            }
+
+            catch (Exception ee)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
+        public static DataTable getRelated()
+        {
+            //string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT * FROM relatednews";
+
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return dt;
+        }
+
+        public static bool deleteImpNews(int id)
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            scon.Open();
+            scmd.Connection = scon;
+            bool res = false;
+            try
+            {
+                scmd.CommandText = "delete from impnews where inid=" + id;
+                scmd.Parameters.AddWithValue("inid", id);
+                scmd.Prepare();
+                scmd.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ee)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
+        public static void updateNewsData(Dictionary<string, string> valDict)
+        {
+            bool res = false;
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            scon.Open();
+            scmd.Connection = scon;
+            Dictionary<string, List<HotNewsModel>> fullNews = new Dictionary<string, List<HotNewsModel>>();
+            List<HotNewsModel> _newsData = new List<HotNewsModel>();
+            try
+            {
+                foreach (KeyValuePair<string, string> kvp in valDict)
+                {
+
+                    if (kvp.Key == "ImpNews")
+                    {
+                        if (valDict.ContainsKey("isub"))
+                        {
+                            scmd.CommandText = "UPDATE impnews SET ititle =@ititle,isub = @isub,impnews = @impnews,iimage = @iimage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@myColor WHERE inid=@inid";
+                            scmd.Parameters.AddWithValue("isub", valDict["isub"]);
+                        }
+                        else
+                            scmd.CommandText = "UPDATE impnews SET ititle =@ititle,impnews = @impnews,iimage = @iimage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@myColor WHERE inid=@inid";
+                        scmd.Parameters.AddWithValue("inid", valDict["inid"]);
+                        scmd.Parameters.AddWithValue("ititle", valDict["title"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "Impnews");
+
+                        scmd.Parameters.AddWithValue("impnews", valDict["inews"]);
+                        if (valDict["img"] != "")
+                        {
+                            scmd.Parameters.AddWithValue("iimage", valDict["img"]);
+                        }
+                        else
+                            scmd.Parameters.AddWithValue("iimage", "No Image");
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("priority", valDict["priority"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                        scmd.Parameters.Clear();
+                        if (valDict["img"] != "")
+                        {
+                            long lid = scmd.LastInsertedId;
+                            scmd.CommandText = "UPDATE newsimages SET imgurl=@imgurl,newsdate=@newsdate WHERE inid=@inid";
+                            scmd.Parameters.AddWithValue("imgurl", valDict["img"]);
+                            scmd.Parameters.AddWithValue("inid", valDict["inid"]);
+                            scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                            scmd.Prepare();
+                            scmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    if (kvp.Key == "Topnews")
+                    {
+                        if (valDict.ContainsKey("tsub"))
+                        {
+                            scmd.CommandText = "UPDATE topnews SET ttitle =@ttitle,tsub = @tsub,topnews = @topnews,timage = @timage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@mycolor WHERE tnid=@tnid";
+                            scmd.Parameters.AddWithValue("tsub", valDict["tsub"]);
+                        }
+                        else
+                            scmd.CommandText = "UPDATE topnews SET ttitle =@ttitle,topnews = @topnews,timage = @timage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@mycolor WHERE tnid=@tnid";
+                        scmd.Parameters.AddWithValue("tnid", valDict["tnid"]);
+                        scmd.Parameters.AddWithValue("ttitle", valDict["title"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "Topnews");
+
+                        scmd.Parameters.AddWithValue("topnews", valDict["tnews"]);
+                        if (valDict["img"] != "")
+                        {
+                            scmd.Parameters.AddWithValue("timage", valDict["img"]);
+                        }
+                        else
+                            scmd.Parameters.AddWithValue("timage", "No Image");
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("priority", valDict["priority"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                        scmd.Parameters.Clear();
+                        if (valDict["img"] != "")
+                        {
+                            long lid = scmd.LastInsertedId;
+                            scmd.CommandText = "UPDATE newsimages SET imgurl=@imgurl,newsdate=@newsdate WHERE tnid=@tnid";
+                            scmd.Parameters.AddWithValue("imgurl", valDict["img"]);
+                            scmd.Parameters.AddWithValue("tnid", valDict["tnid"]);
+                            scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                            scmd.Prepare();
+                            scmd.ExecuteNonQuery();
+                        }
+                    }
+                    if (kvp.Key == "hotNews")
+                    {
+                        if (valDict.ContainsKey("hsub"))
+                        {
+                            scmd.CommandText = "UPDATE hotnews SET htitle =@htitle,hsub = @hsub,hotnews = @hotnews,himage = @himage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@myColor WHERE hnid=@hnid";
+                            scmd.Parameters.AddWithValue("hsub", valDict["hsub"]);
+                        }
+                        else
+                            scmd.CommandText = "UPDATE hotnews SET htitle =@htitle,hotnews = @hotnews,himage = @himage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@myColor WHERE hnid=@hnid";
+
+                        scmd.Parameters.AddWithValue("htitle", valDict["title"]);
+                        scmd.Parameters.AddWithValue("hotnews", valDict["hnews"]);
+                        //scmd.Parameters.AddWithValue("ndid", valDict["selOption"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "hotNews");
+
+                        scmd.Parameters.AddWithValue("hnid", valDict["hnid"]);
+
+                        if (valDict["img"] != "")
+                        {
+                            scmd.Parameters.AddWithValue("himage", valDict["img"]);
+                        }
+                        else
+                            scmd.Parameters.AddWithValue("himage", "No Image");
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("priority", valDict["priority"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                        scmd.Parameters.Clear();
+                        if (valDict["img"] != "")
+                        {
+                            long lid = scmd.LastInsertedId;
+                            scmd.CommandText = "UPDATE newsimages SET imgurl=@imgurl,newsdate=@newsdate WHERE hnid=@hnid";
+                            scmd.Parameters.AddWithValue("imgurl", valDict["img"]);
+                            scmd.Parameters.AddWithValue("hnid", valDict["hnid"]);
+                            scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                            scmd.Prepare();
+                            scmd.ExecuteNonQuery();
+                        }
+                    }
+                    if (kvp.Key == "Newstory")
+                    {
+                        if (valDict.ContainsKey("nsub"))
+                        {
+                            scmd.CommandText = "UPDATE newstory SET ntitle =@ntitle,nsub = @nsub,newstory = @newstory,nimage = @nimage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@myColor WHERE nsid=@nsid";
+                            scmd.Parameters.AddWithValue("nsub", valDict["nsub"]);
+                        }
+                        else
+                            scmd.CommandText = "UPDATE newstory SET ntitle =@ntitle,nsub = @nsub,newstory = @newstory,nimage = @nimage,newstype =@newstype,newsdate=@newsdate,priority=@priority,mycolor=@myColor WHERE nsid=@nsid";
+                        scmd.Parameters.AddWithValue("ntitle", valDict["title"]);
+                        scmd.Parameters.AddWithValue("newstory", valDict["nstory"]);
+                        scmd.Parameters.AddWithValue("nsid", valDict["nsid"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
+                        scmd.Parameters.AddWithValue("newstype", "hotNews");
+
+                        if (valDict["img"] != "")
+                        {
+                            scmd.Parameters.AddWithValue("nimage", valDict["img"]);
+                        }
+                        else
+                            scmd.Parameters.AddWithValue("nimage", "No Image");
+                        scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                        scmd.Parameters.AddWithValue("priority", valDict["priority"]);
+                        scmd.Prepare();
+                        scmd.ExecuteNonQuery();
+                        scmd.Parameters.Clear();
+                        if (valDict["img"] != "")
+                        {
+                            long lid = scmd.LastInsertedId;
+                            scmd.CommandText = "UPDATE newsimages SET imgurl=@imgurl,newsdate=@newsdate WHERE nsid=@nsid";
+                            scmd.Parameters.AddWithValue("imgurl", valDict["img"]);
+                            scmd.Parameters.AddWithValue("nsid", valDict["nsid"]);
+                            scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
+                            scmd.Prepare();
+                            scmd.ExecuteNonQuery();
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ee)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+
+        }
+
+
         public static void saveuserVisit(object v)
         {
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
@@ -117,7 +572,7 @@ namespace LiveOdiaFinal
 
         public static DataTable GetImpNews()
         {
-           // string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+            // string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
             DataTable dt = new DataTable();
@@ -539,7 +994,7 @@ namespace LiveOdiaFinal
 
         public static DataTable getAllNewStory()
         {
-           // string tdate = DateTime.Now.ToString("dd-MM-yyyy");
+            // string tdate = DateTime.Now.ToString("dd-MM-yyyy");
             //string yesterday = DateTime.Today.AddDays(-2).ToString("dd-MM-yyyy");
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
             MySqlCommand scmd = new MySqlCommand();
@@ -706,15 +1161,28 @@ namespace LiveOdiaFinal
                 {
                     if (kvp.Key == "Topnews")
                     {
-                        if (valDict.ContainsKey("tsub"))
+                        if (valDict.ContainsKey("tsub") && valDict.ContainsKey("relateNews"))
                         {
-                            scmd.CommandText = "INSERT INTO topnews (ttitle,tsub,topnews,timage,newstype,newsdate) VALUES(@ttitle,@tsub,@topnews,@timage,@newstype,@newsdate)";
+
+                            scmd.CommandText = "INSERT INTO topnews (ttitle,tsub,topnews,timage,newstype,newsdate,mycolor,rid) VALUES(@ttitle,@tsub,@topnews,@timage,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("tsub", valDict["tsub"]);
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("relateNews") && !valDict.ContainsKey("tsub"))
+                        {
+                            scmd.CommandText = "INSERT INTO topnews (ttitle,topnews,timage,newstype,newsdate,mycolor,rid) VALUES(@ttitle,@topnews,@timage,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("tsub") && !valDict.ContainsKey("relateNews"))
+                        {
+                            scmd.CommandText = "INSERT INTO topnews (ttitle,tsub,topnews,timage,newstype,newsdate,mycolor,rid) VALUES(@ttitle,@tsub,@topnews,@timage,@newstype,@newsdate,@mycolor)";
                             scmd.Parameters.AddWithValue("tsub", valDict["tsub"]);
                         }
                         else
-                            scmd.CommandText = "INSERT INTO topnews (ttitle,topnews,timage,newstype,newsdate) VALUES(@ttitle,@topnews,@timage,@newstype,@newsdate)";
-                        //scmd.Parameters.AddWithValue("lid", valDict["HotNews"]);
+                            scmd.CommandText = "INSERT INTO topnews (ttitle,topnews,timage,newstype,newsdate,mycolor) VALUES(@ttitle,@topnews,@timage,@newstype,@newsdate,@mycolor)";
+
                         scmd.Parameters.AddWithValue("ttitle", valDict["title"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
                         scmd.Parameters.AddWithValue("newstype", "Topnews");
 
                         scmd.Parameters.AddWithValue("topnews", valDict["tnews"]);
@@ -743,16 +1211,27 @@ namespace LiveOdiaFinal
 
                     if (kvp.Key == "ImpNews")
                     {
-                        if (valDict.ContainsKey("isub"))
+                        if (valDict.ContainsKey("isub") && valDict.ContainsKey("relateNews"))
                         {
-                            scmd.CommandText = "INSERT INTO impnews (ititle,isub,impnews,iimage,newstype,newsdate,priority) VALUES(@ititle,@isub,@impnews,@iimage,@newstype,@newsdate,@priority)";
+                            scmd.CommandText = "INSERT INTO impnews (ititle,isub,impnews,iimage,newstype,newsdate,priority,mycolor,rid) VALUES(@ititle,@isub,@impnews,@iimage,@newstype,@newsdate,@priority,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("isub", valDict["isub"]);
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("relateNews") && !valDict.ContainsKey("isub"))
+                        {
+                            scmd.CommandText = "INSERT INTO impnews (ititle,impnews,iimage,newstype,newsdate,priority,mycolor,rid) VALUES(@ititle,@isub,@impnews,@iimage,@newstype,@newsdate,@priority,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("isub") && !valDict.ContainsKey("relateNews"))
+                        {
+                            scmd.CommandText = "INSERT INTO impnews (ititle,isub,impnews,iimage,newstype,newsdate,priority,mycolor) VALUES(@ititle,@isub,@impnews,@iimage,@newstype,@newsdate,@priority,@mycolor)";
                             scmd.Parameters.AddWithValue("isub", valDict["isub"]);
                         }
                         else
-                            scmd.CommandText = "INSERT INTO impnews (ititle,impnews,iimage,newstype,newsdate,priority) VALUES(@ititle,@impnews,@iimage,@newstype,@newsdate,@priority)";
+                            scmd.CommandText = "INSERT INTO impnews (ititle,impnews,iimage,newstype,newsdate,priority,mycolor) VALUES(@ititle,@impnews,@iimage,@newstype,@newsdate,@priority,@mycolor)";
                         //scmd.Parameters.AddWithValue("lid", valDict["HotNews"]);
                         scmd.Parameters.AddWithValue("ititle", valDict["title"]);
-
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
                         scmd.Parameters.AddWithValue("newstype", "Impnews");
 
                         scmd.Parameters.AddWithValue("impnews", valDict["inews"]);
@@ -782,18 +1261,30 @@ namespace LiveOdiaFinal
 
                     if (kvp.Key == "hotNews")
                     {
-                        if (valDict.ContainsKey("hsub"))
+                        if (valDict.ContainsKey("hsub") && valDict.ContainsKey("relateNews"))
                         {
-                            scmd.CommandText = "INSERT INTO hotnews (htitle,hsub,hotnews,himage,newstype,newsdate,ndid) VALUES(@htitle,@hsub,@hotnews,@himage,@newstype,@newsdate,@ndid)";
+                            scmd.CommandText = "INSERT INTO hotnews (htitle,hsub,hotnews,himage,newstype,newsdate,ndid,mycolor,rid) VALUES(@htitle,@hsub,@hotnews,@himage,@newstype,@newsdate,@ndid,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("hsub", valDict["hsub"]);
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("relateNews") && !valDict.ContainsKey("hsub"))
+                        {
+                            scmd.CommandText = "INSERT INTO hotnews (htitle,hotnews,himage,newstype,newsdate,ndid,mycolor,rid) VALUES(@htitle,@hotnews,@himage,@newstype,@newsdate,@ndid,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("hsub") && !valDict.ContainsKey("relateNews"))
+                        {
+                            scmd.CommandText = "INSERT INTO hotnews (htitle,hsub,hotnews,himage,newstype,newsdate,ndid,mycolor) VALUES(@htitle,@hsub,@hotnews,@himage,@newstype,@newsdate,@ndid,@mycolor)";
                             scmd.Parameters.AddWithValue("hsub", valDict["hsub"]);
                         }
                         else
                         {
-                            scmd.CommandText = "INSERT INTO hotnews (htitle,hotnews,himage,newstype,newsdate,ndid) VALUES(@htitle,@hotnews,@himage,@newstype,@newsdate,@ndid)";
+                            scmd.CommandText = "INSERT INTO hotnews (htitle,hotnews,himage,newstype,newsdate,ndid,mycolor) VALUES(@htitle,@hotnews,@himage,@newstype,@newsdate,@ndid,@mycolor)";
                         }
                         scmd.Parameters.AddWithValue("htitle", valDict["title"]);
                         scmd.Parameters.AddWithValue("hotnews", valDict["hfullNews"]);
                         scmd.Parameters.AddWithValue("ndid", valDict["selOption"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
                         scmd.Parameters.AddWithValue("newstype", "hotNews");
                         if (valDict["img"] != "")
                         {
@@ -819,16 +1310,27 @@ namespace LiveOdiaFinal
                     }
                     if (kvp.Key == "Newstory")
                     {
-
-                        if (valDict.ContainsKey("nsub"))
+                        if (valDict.ContainsKey("nsub") && valDict.ContainsKey("relateNews"))
                         {
-                            scmd.CommandText = "INSERT INTO newstory (ntitle,nsub,newstory,nimage,newstype,newsdate) VALUES(@ntitle,@nsub,@newstory,@nimage,@newstype,@newsdate)";
+                            scmd.CommandText = "INSERT INTO newstory (ntitle,nsub,newstory,nimage,newstype,newsdate,mycolor,rid) VALUES(@ntitle,@nsub,@newstory,@nimage,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("nsub", valDict["nsub"]);
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("relateNews") && !valDict.ContainsKey("nsub"))
+                        {
+                            scmd.CommandText = "INSERT INTO newstory (ntitle,newstory,nimage,newstype,newsdate,mycolor,rid) VALUES(@ntitle,@newstory,@nimage,@newstype,@newsdate,@mycolor,@rid)";
+                            scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
+                        }
+                        else if (valDict.ContainsKey("nsub") && !valDict.ContainsKey("relateNews"))
+                        {
+                            scmd.CommandText = "INSERT INTO newstory (ntitle,nsub,newstory,nimage,newstype,newsdate,mycolor) VALUES(@ntitle,@nsub,@newstory,@nimage,@newstype,@newsdate,@mycolor)";
                             scmd.Parameters.AddWithValue("nsub", valDict["nsub"]);
                         }
                         else
-                            scmd.CommandText = "INSERT INTO newstory (ntitle,newstory,nimage,newstype,newsdate) VALUES(@ntitle,@newstory,@nimage,@newstype,@newsdate)";
+                            scmd.CommandText = "INSERT INTO newstory (ntitle,newstory,nimage,newstype,newsdate,mycolor) VALUES(@ntitle,@newstory,@nimage,@newstype,@newsdate,@mycolor)";
                         scmd.Parameters.AddWithValue("ntitle", valDict["title"]);
                         scmd.Parameters.AddWithValue("newstory", valDict["nstory"]);
+                        scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
                         scmd.Parameters.AddWithValue("newstype", "Newstory");
                         if (valDict["img"] != "")
                         {

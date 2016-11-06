@@ -1,22 +1,42 @@
 ﻿
-LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$location', '$routeParams', '$anchorScroll', '$window', 'HotnewsServiceFactory', 'sharedService', 'homeServiceFactory', function ($scope, $rootScope, $location, $routeParams, $anchorScroll, $window, HotnewsServiceFactory, sharedService, homeServiceFactory) {
+LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$location', '$routeParams', '$anchorScroll', '$window', '$uibModal', 'HotnewsServiceFactory', 'sharedService', 'homeServiceFactory', function ($scope, $rootScope, $location, $routeParams, $anchorScroll, $window, $uibModal, HotnewsServiceFactory, sharedService, homeServiceFactory) {
     $window.ga('send', 'detailhotnews', $location.path());
-    $scope.newsid = $routeParams.id;
+    debugger;
+    var matrixParams = getIds($routeParams.ids);
+    $scope.newsid = matrixParams.ids;
+    $scope.rid = matrixParams.rid;
     $scope.viewActive = $rootScope.hideit;
     $scope.hnewsDetail = [];
     $scope.hnewsTitle = [];
     $scope.hotnews = [];
     $scope.topstories = [];
+    $scope.relatedNews = [];
     $scope.hnews = false;
     $scope.hnewssummary = false;
     $scope.tpnews = false;
-
+    $scope.rfnews = false;
     $scope.index = "";
     $scope.hnewsData = [];
     $scope.hnewsid = "";
     $scope.nHNews = "";
     $scope.pHNews = "";
-
+    $scope.editNewstory = function (hnid) {
+        debugger;
+        var modalInstance = $uibModal.open({
+            templateUrl: 'editHotNews.html',
+            controller: 'editHotNewsController',
+            resolve: {
+                hnewsDetail: function () {
+                    return $scope.hnewsDetail;
+                }
+            }
+        });
+        modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date() + " " + $scope.selected);
+        });
+    };
 
     $scope.getPreviousHotNews = function (newsid) {
         $window.ga('send', 'event', 'detailhotnews', 'PreviousHotNews');
@@ -42,35 +62,97 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
         });
     };
 
-    $scope.getTopNewsByID = function (newsid) {
+    $scope.getTopNewsByID = function (newsid, rid) {
+        $scope.rid = rid;
+        if ($scope.mobile) {
+            $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
+        }
         $window.ga('send', 'event', 'detailhotnews', 'Top News By Id');
+        if (rid != 0 && rid != null) {
+            homeServiceFactory.getRelatedNews(rid).then(function (rnews) {
+                $scope.relatedNews = rnews;
+            });
+        }
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
                 $scope.hnews = false;
                 $scope.hnewssummary = [];
                 $scope.hnewssummary = false;
+                $scope.rfnews = false;
                 $scope.tnews = result;
             }
         });
     };
 
+    $scope.getHotNewsSummaryData = function (ndid) {
+        debugger;
+        homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
+            if (hnewsdata) {
+                if (ndid === 1)
+                    $scope.hnewsData1 = hnewsdata;
+                else if (ndid === 2)
+                    $scope.hnewsData2 = hnewsdata;
+                else if (ndid === 3)
+                    $scope.hnewsData3 = hnewsdata;
+            }
+        });
+    };
+
+
     $scope.getHotNewsTitle = function () {
         $window.ga('send', 'event', 'detailhotnews', 'All Hot News Title');
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
-
                 $scope.hnewsTitle = [];
                 $scope.hnewsTitle = hnewsdata;
+                for (var i = 0; i < $scope.hnewsTitle.length; i++)
+                    $scope.getHotNewsSummaryData($scope.hnewsTitle[i].ndid);
+            }
+        });
+    };
+    //related news
+    $scope.getFullRnews = function (fnid) {
+        homeServiceFactory.getFullRnews(fnid).then(function (newsData) {
+            if (newsData) {
+                $scope.rnewsdata = newsData;
+                if ($scope.rnewsdata[0].mycolor) {
+                    $scope.CustomStyle = {
+                        'color': $scope.rnewsdata[0].mycolor
+                    };
+                }
+                $scope.ipnews = false;
+                $scope.tpnews = false;
+                $scope.hnews = false;
+                $scope.nstory = false;
+                $scope.rfnews = true;
+                $scope.hnewssummary = false;
 
             }
         });
     };
 
+
     $scope.getHotNewsByID = function () {
+        debugger;
+        if ($scope.mobile) {
+            $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
+            $('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function (e) {
+                if (e.which > 0 || e.type == "mousedown" || e.type == "mousewheel" || e.type == "touchmove") {
+                    $("html,body").stop();
+                }
+            });
+        }
         $(".hamburger").trigger("click");
         $window.ga('send', 'event', 'detailhotnews', 'Hot News By Id');
         $scope.hnewsid = $scope.newsid;
+
+        if ($scope.rid != 0 && $scope.rid != null) {
+            homeServiceFactory.getRelatedNews($scope.rid).then(function (rnews) {
+                $scope.relatedNews = rnews;
+            });
+        }
+
         HotnewsServiceFactory.getHotNewsSummary($scope.newsid).then(function (hnewsdata) {
             if (hnewsdata) {
 
@@ -78,6 +160,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
                 $scope.hnewssummary = true;
                 $scope.hnews = false;
                 $scope.tpnews = false;
+                $scope.rfnews = false;
                 $scope.hnewsDetail = hnewsdata[0];
                 $scope.getHotNewsTitle();
                 $scope.getAllTopNews();
@@ -86,15 +169,27 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
         });
     };
 
-    $scope.getHotNewsOnClick = function (hnid) {
+    $scope.getHotNewsOnClick = function (hnid, rid) {
+        debugger;
+        if ($scope.mobile) {
+            $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
+        }
         $window.ga('send', 'event', 'detailhotnews', 'Hot News Clicked');
-        $scope.hnewsid = hnid;
+        $scope.hnewsid = hnid;  
+        $scope.rid = rid;
+        if ($scope.rid != 0 && $scope.rid != null) {
+            homeServiceFactory.getRelatedNews($scope.rid).then(function (rnews) {
+                $scope.relatedNews = rnews;
+            });
+        }
+
         HotnewsServiceFactory.getHotNewsByID(hnid).then(function (result) {
             if (result) {
                 $scope.hnews = false;
                 $scope.tpnews = false;
                 $scope.hnewssummary = [];
                 $scope.hnewssummary = true;
+                $scope.rfnews = false;
                 $scope.hnewsDetail = result[0];
                 $scope.getHotNewsData();
             }
@@ -114,6 +209,7 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
             }
         });
     };
+
 
     var trigger = $('.hamburger'),
         overlay = $('.overlay'),
@@ -145,8 +241,10 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
 
 
 
-
     $scope.getHotNewsSummary = function (ndid) {
+        if ($scope.mobile) {
+            $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
+        }
         $(".hamburger").trigger("click");
         $window.ga('send', 'event', 'detailhotnews', 'hot news Summary');
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
@@ -155,27 +253,10 @@ LiveOdiaApp.controller('detailHotnewsController', ['$scope', '$rootScope', '$loc
                 $scope.hnewssummary = false;
                 $scope.hnews = true;
                 $scope.tpnews = false;
+                $scope.rfnews = false;
                 $scope.hotnews = hnewsdata;
             }
         });
     };
-
-
-    if ($scope.mobile) {
-
-        //$location.hash('middle');
-        $anchorScroll.yOffset = 20;
-        $anchorScroll();
-    }
-
-  
-
-
-    //$scope.getHDetailNews = function (hid) {
-    //    
-    //    sharedService.getHotDetailNews(hid);
-    //    $location.path('/detailhotnews');
-    //};
-
     $scope.getHotNewsByID();
 }]);

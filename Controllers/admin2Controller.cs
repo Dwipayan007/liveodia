@@ -76,6 +76,11 @@ namespace LiveOdiaFinal.Controllers
                         myData.Add("todaydate", DateTime.Now.ToString("dd-MM-yyyy"));
 
                     dbutility.SaveData(myData);
+                    string v = "";
+                    if (myData.ContainsKey("relateNews"))
+                        myData.TryGetValue("relateNews", out v);
+                    if (v != "0")
+                        dbutility.saveNewsData(myData);
                 }
                 catch (Exception e)
                 {

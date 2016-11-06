@@ -1,4 +1,45 @@
-﻿<div class="container">
+﻿
+<script type="text/ng-template" id="editNewstory.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Edit News</h3>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+            {{detailNews}}
+            <div class="col-lg-12 col-sm-12 col-sm-12">
+                <div>
+                    <input class="form-control" type="text" placeholder="News Title" ng-model="detailNews[0].ntitle">
+                    <br />
+                    <input class="form-control" type="text" placeholder="News Subheading" ng-model="detailNews[0].nsub">
+                    <input type="color" ng-model="myColor" />{{myColor}}
+                    <textarea class="form-control" cols="30" rows="10" placeholder="Hot News" ng-model="detailNews[0].newstory"></textarea>
+                    <form enctype="multipart/form-data" name="form1" ng-submit="submitHotNews()">
+                        <div class="col-lg-11">
+                            <input type="file" image-upload="myFile2" id="file2" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col-lg-1" ng-hide="loader.loading1==true">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        </div>
+        <div class="col-lg-1" ng-show="loader.loading1==true">
+            <button class="btn btn-success">
+                Updating...
+                <i class="fa fa-spinner fa-spin"></i>
+            </button>
+        </div>
+        <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <span class="success">{{mesgHnews}}</span>
+    </div>
+</script>
+
+<div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="topadd_bar">
@@ -15,10 +56,34 @@
                     <h2>Hot News</h2>
                     <ul class="post_nav">
                         <li class="odia-font" ng-repeat="hnews in hnewsTitle">
-                            <figure class="effect-lily">
-                                <a href="pages/single_page.html"><img src="images/270x150x4.jpg" alt=""></a>
-                                <figcaption><a ng-click="getHotNewsSummary(hnews.ndid)">{{hnews.htitle}}</a></figcaption>
-                            </figure>
+                            <h2 class="hotnews-summary"><a ng-click="getHotNewsSummary(hnews.ndid)">{{hnews.htitle}}</a></h2>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="mostPopular">
+                                    <ul class="ppost_nav wow fadeInDown">
+                                        <li ng-show="hnews.ndid===1" ng-repeat="news in hnewsData1 | orderBy :'-hnid' | limitTo : 2">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img ng-show="news.himage!='Default'" ng-src="../UploadedImage/{{news.himage}}" width="100" height="100" alt=""></a>
+                                                <div class="media-body"><a class="catg_title" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></div>
+                                                <h4 ng-show="news.hsub!=null" style="color:{{news.mycolor}}">{{news.hsub}}</h4>
+                                            </div>
+                                        </li>
+                                        <li ng-show="hnews.ndid===2" ng-repeat="news in hnewsData2 | orderBy :'-hnid' | limitTo : 2">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img ng-show="news.himage!='Default'" ng-src="../UploadedImage/{{news.himage}}" width="100" height="100" alt=""></a>
+                                                <div class="media-body"><a class="catg_title" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></div>
+                                                <h4 ng-show="news.hsub!=null" style="color:{{news.mycolor}}">{{news.hsub}}</h4>
+                                            </div>
+                                        </li>
+                                        <li ng-show="hnews.ndid===3" ng-repeat="news in hnewsData3 | orderBy :'-hnid' | limitTo : 2">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img ng-show="news.himage!='Default'" ng-src="../UploadedImage/{{news.himage}}" width="100" height="100" alt=""></a>
+                                                <div class="media-body"><a class="catg_title" ng-click="getHotNewsOnClick(news.hnid)">{{news.htitle}}</a></div>
+                                                <h4 ng-show="news.hsub!=null" style="color:{{news.mycolor}}">{{news.hsub}}</h4>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -110,6 +175,7 @@
                             <h4>{{detailNews[0].nsub}}</h4>
                             <p class="detailnews odia-font">{{detailNews[0].newstory}}</p>
                         </div>
+                        <button value="Edit" ng-click="editNewstory(news.nsid)" ng-hide="!authentication.isAuth">Edt</button>
                     </li>
                 </ul>
             </div>

@@ -12,12 +12,12 @@
                 <li><a href="about">ଆମ ବିଷୟରେ</a></li>
                 <li><a href="#">ଯୋଗାଯୋଗ</a></li>
                 <li><a href="#">ବିଜ୍ଞାପନ</a></li>
-                <li class="btn-nav"><h2 >Hot News</h2></li>
+                <li class="btn-nav"><h2>Hot News</h2></li>
                 <li><div class="overlay1"></div></li>
-                <li class="odia-font"  ng-repeat="hnews in hotNews">
-                    <figcaption><a ng-click="getHotNewsSummary(hnews.ndid)" class="hamburger1" data-toggle="offcanvas1">{{hnews.htitle}}</a></figcaption>
+                <li class="odia-font" ng-repeat="hnews in hotNews">
+                    <figcaption><a ng-click="getHotNewsSummary(hnews.ndid)">{{hnews.htitle}}</a></figcaption>
                 </li>
-                
+
             </ul>
         </nav>
         <div id="page-content-wrapper">
@@ -37,12 +37,12 @@
 </header>
 
 <div class="container">
-     <div class="row">
+    <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="featured_slider">
                 <h2 class="featured_title">ନିଶ୍ଚୟ ପଢନ୍ତୁ</h2>
                 <div class="slick_slider" ng-repeat="inews in impnews">
-                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 box trimLR scrollbar" id="style-3"">
+                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 box trimLR scrollbar" id="style-3" ">
                         <div ng-show="inews.iimage!='Default'" ng-click="GetImpNewsById(inews.inid)">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-left trimLR force-overflow" ng-click="GetImpNewsById(inews.inid)">
                                 <div class="media">
@@ -78,7 +78,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-8">
+        <div class="col-lg-6 col-md-6 col-sm-8" id="middle_content">
             <div class="middle_content" ng-show="ipnews!=false">
                 <h2>Important News</h2>
                 <ul class="featured_nav">
@@ -101,6 +101,28 @@
                     </li>
                 </ul>
             </div>
+            <div class="middle_content" ng-show="hnewsdetail!=false">
+                <h2>Hot News</h2>
+                <ul class="featured_nav">
+                    <li class="wow fadeInDown">
+                        <div ng-show="hnewsDetail[0].himage!='Default'">
+                            <h2 class="article_titile">
+                                {{hnewsDetail[0].htitle}}
+                            </h2>
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{hnewsDetail[0].himage}}" alt=""></a></figure>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{hnewsDetail[0].newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{hnewsDetail[0].hotnews}}</p>
+                        </div>
+                        <div ng-show="hnewsDetail[0].himage=='Default'">
+                            <h2 class="article_titile1">
+                                {{hnewsDetail[0].htitle}}
+                            </h2>
+                            <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{hnewsDetail[0].newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+                            <p class="odia-font">{{hnewsDetail[0].topnews}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
             <div class="middle_content" ng-show="hnews!=false">
                 <h2>Hot Stories Summary</h2>
                 <ul class="featured_nav">
@@ -108,13 +130,13 @@
                         <div ng-show="news.himage!='Default'">
                             <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.himage}}" alt=""></a></figure>
                             <article class="featured_article">
-                                <h2 class="article_titile"><a class="odia-font" href="detailhotnews/{{news.hnid}}">{{news.htitle}}</a></h2>
+                                <h2 class="article_titile"><a class="odia-font" ng-click="getHotNewsByID(news.hnid)">{{news.htitle}}</a></h2>
                                 <h4 ng-show="news.hsub!=null">{{news.hsub}}</h4>
                             </article>
                         </div>
                         <div ng-show="news.himage=='Default'">
                             <article class="featured_article1">
-                                <h2 class="article_titile"><a class="odia-font" href="detailhotnews/{{news.hnid}}">{{news.htitle}}</a></h2>
+                                <h2 class="article_titile"><a class="odia-font"ng-click="getHotNewsByID(news.hnid)">{{news.htitle}}</a></h2>
                                 <h4 ng-show="news.hsub!=null">{{news.hsub}}</h4>
                             </article>
                         </div>
@@ -177,14 +199,7 @@
                 </pagination>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-4">
-            <div class="left_sidebar">
-                <div class="single_widget">
 
-                    <ul class="post_nav"></ul>
-                </div>
-            </div>
-        </div>
         <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="right_sidebar">
                 <div class="single_widget">
@@ -227,6 +242,45 @@
                         <option>Technology</option>
                         <option>Treads</option>
                     </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-4">
+            <div class="left_sidebar">
+                <div class="single_widget">
+                    <h2>Hot News</h2>
+                    <ul class="post_nav">
+                        <li class="odia-font" ng-repeat="hnews in hotNews">
+                            <h2><a ng-click="getHotNewsSummaryLast(hnews.ndid)">{{hnews.htitle}}</a></h2>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="mostPopular">
+                                    <ul class="ppost_nav wow fadeInDown">
+                                        <li ng-show="hnews.ndid===1" ng-repeat="news in hnewsData1 | orderBy :'-hnid' | limitTo : 4">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img ng-show="news.himage!='Default'" ng-src="../UploadedImage/{{news.himage}}" width="100" height="100" alt=""></a>
+                                                <div class="media-body"><a class="catg_title" ng-click="getHotNewsByID(news.hnid)">{{news.htitle}}</a></div>
+                                                <h4 ng-show="news.hsub!=null" style="color:{{news.mycolor}}">{{news.hsub}}</h4>
+                                            </div>
+                                        </li>
+                                        <li ng-show="hnews.ndid===2" ng-repeat="news in hnewsData2 | orderBy :'-hnid' | limitTo : 4">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img ng-show="news.himage!='Default'" ng-src="../UploadedImage/{{news.himage}}" width="100" height="100" alt=""></a>
+                                                <div class="media-body"><a class="catg_title" ng-click="getHotNewsByID(news.hnid)">{{news.htitle}}</a></div>
+                                                <h4 ng-show="news.hsub!=null" style="color:{{news.mycolor}}">{{news.hsub}}</h4>
+                                            </div>
+                                        </li>
+                                        <li ng-show="hnews.ndid===3" ng-repeat="news in hnewsData3 | orderBy :'-hnid' | limitTo : 4">
+                                            <div class="media">
+                                                <a class="media-left" href="#"><img ng-show="news.himage!='Default'" ng-src="../UploadedImage/{{news.himage}}" width="100" height="100" alt=""></a>
+                                                <div class="media-body"><a class="catg_title" ng-click="getHotNewsByID(news.hnid)">{{news.htitle}}</a></div>
+                                                <h4 ng-show="news.hsub!=null" style="color:{{news.mycolor}}">{{news.hsub}}</h4>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
