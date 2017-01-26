@@ -42,7 +42,7 @@ LiveOdiaApp.config(['$routeProvider', '$httpProvider', '$locationProvider', func
         controller: 'contactController',
         templateUrl: 'contact.html'
     });
-    $routeProvider.when('/detailnews/:id', {
+    $routeProvider.when('/detailnews/:ids', {
         controller: (_isNotMobile) ? 'detailnewsController' : 'detailnewsController',
         templateUrl: (_isNotMobile) ? 'App/Views/detailnews.html' : 'App/MobileViews/detailnews.html',
         css: (_isNotMobile) ? 'css/mobileview.css' : 'css/mobileview.css'

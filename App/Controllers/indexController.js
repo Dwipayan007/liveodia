@@ -8,24 +8,6 @@ LiveOdiaApp.controller('indexController', ['$scope', '$rootScope', '$location', 
     //    $anchorScroll.yOffset = 20;
     //    $anchorScroll();
     //}
-
-    $scope.selected = undefined;
-    $scope.countries = [
-     { ititle: 'Afghanistan', code: 'AF' },
-     { ititle: 'Antigua and Barbuda', code: 'AG' },
-     { ititle: 'Bahamas', code: 'BS' },
-     { ititle: 'Cambodia', code: 'KH' },
-     { ititle: 'Cape Verde', code: 'CV' }
-    ];
-    $scope.getAllData = function () {
-        debugger;
-        $scope.allData = [];
-        homeServiceFactory.getImpNews().then(function (data) {
-            debugger;
-            $scope.countries = data;
-        });
-    };
-    
     $scope.viewActive = $rootScope.hideit;
     //logout 
     $scope.logOut = function () {
@@ -39,6 +21,5 @@ LiveOdiaApp.controller('indexController', ['$scope', '$rootScope', '$location', 
    
 
     $scope.authentication = loginServiceFactory.authentication;
-
 
 }]);

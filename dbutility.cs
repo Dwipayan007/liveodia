@@ -43,6 +43,43 @@ namespace LiveOdiaFinal
             return dt;
         }
 
+        public static bool ReorderImpNews(List<ImpNews> impnews)
+        {
+
+            bool res = false;
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            scon.Open();
+            scmd.Connection = scon;
+            try
+            {
+                foreach (var entry in impnews)
+                {
+                    string priority = entry.priority;
+                    string inid = entry.inid;
+                    scmd.CommandText = "update impnews set priority='" + priority + "' where inid='" + inid + "'";
+                    scmd.Prepare();
+                    res = Convert.ToBoolean(scmd.ExecuteNonQuery());
+                }
+                res = true;
+            }
+            catch (Exception ee)
+            {
+                res = false;
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return res;
+        }
+
         public static DataTable getFullRnews(int id)
         {
             MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
@@ -146,7 +183,7 @@ namespace LiveOdiaFinal
             {
                 foreach (KeyValuePair<string, string> kvp in valDict)
                 {
-                    
+
                     if (kvp.Key == "Topnews")
                     {
 
@@ -157,7 +194,7 @@ namespace LiveOdiaFinal
                         }
                         else
                             scmd.CommandText = "INSERT INTO fullnews (title,fullnews,image,newstype,newsdate,mycolor,rid) VALUES(@title,@fullnews,@image,@newstype,@newsdate,@mycolor,@rid)";
-                        scmd.Parameters.AddWithValue("title", valDict["ttitle"]);
+                        scmd.Parameters.AddWithValue("title", valDict["title"]);
                         scmd.Parameters.AddWithValue("mycolor", valDict["myColor"]);
                         scmd.Parameters.AddWithValue("newstype", "Topnews");
                         scmd.Parameters.AddWithValue("fullnews", valDict["tnews"]);
@@ -224,9 +261,7 @@ namespace LiveOdiaFinal
                         scmd.Prepare();
                         scmd.ExecuteNonQuery();
                     }
-                   
                 }
-               
                 res = true;
             }
 
@@ -257,7 +292,7 @@ namespace LiveOdiaFinal
             {
                 scon.Open();
                 scmd.Connection = scon;
-                scmd.CommandText = "SELECT * FROM relatednews";
+                scmd.CommandText = "SELECT * FROM relatednews ORDER BY rnews ASC";
 
                 scmd.Prepare();
                 dt.Load(scmd.ExecuteReader());
@@ -497,6 +532,36 @@ namespace LiveOdiaFinal
 
         }
 
+        public static DataTable getPriorityNews()
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            DataTable dt = new DataTable();
+            try
+            {
+                scon.Open();
+                scmd.Connection = scon;
+                scmd.CommandText = "SELECT inid,ititle,priority  FROM impnews WHERE  NOT priority='null' AND NOT priority='7'";
+
+                scmd.Prepare();
+                dt.Load(scmd.ExecuteReader());
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
+            return dt;
+        }
 
         public static void saveuserVisit(object v)
         {
@@ -1211,6 +1276,12 @@ namespace LiveOdiaFinal
 
                     if (kvp.Key == "ImpNews")
                     {
+                        var pr = valDict["priority"].ToString();
+                        if (pr != "undefined")
+                        {
+                            updatePriority(valDict);
+                        }
+
                         if (valDict.ContainsKey("isub") && valDict.ContainsKey("relateNews"))
                         {
                             scmd.CommandText = "INSERT INTO impnews (ititle,isub,impnews,iimage,newstype,newsdate,priority,mycolor,rid) VALUES(@ititle,@isub,@impnews,@iimage,@newstype,@newsdate,@priority,@mycolor,@rid)";
@@ -1219,7 +1290,7 @@ namespace LiveOdiaFinal
                         }
                         else if (valDict.ContainsKey("relateNews") && !valDict.ContainsKey("isub"))
                         {
-                            scmd.CommandText = "INSERT INTO impnews (ititle,impnews,iimage,newstype,newsdate,priority,mycolor,rid) VALUES(@ititle,@isub,@impnews,@iimage,@newstype,@newsdate,@priority,@mycolor,@rid)";
+                            scmd.CommandText = "INSERT INTO impnews (ititle,impnews,iimage,newstype,newsdate,priority,mycolor,rid) VALUES(@ititle,@impnews,@iimage,@newstype,@newsdate,@priority,@mycolor,@rid)";
                             scmd.Parameters.AddWithValue("rid", valDict["relateNews"]);
                         }
                         else if (valDict.ContainsKey("isub") && !valDict.ContainsKey("relateNews"))
@@ -1301,7 +1372,7 @@ namespace LiveOdiaFinal
                             long lid = scmd.LastInsertedId;
                             scmd.CommandText = "INSERT INTO newsimages(imgurl,hnid,newsdate) values (@imgurl,@hnid,@newsdate)";
                             scmd.Parameters.AddWithValue("imgurl", valDict["img"]);
-                            scmd.Parameters.AddWithValue("inid", lid);
+                            scmd.Parameters.AddWithValue("hnid", lid);
                             scmd.Parameters.AddWithValue("newsdate", valDict["todaydate"]);
                             scmd.Prepare();
                             scmd.ExecuteNonQuery();
@@ -1371,6 +1442,87 @@ namespace LiveOdiaFinal
                 }
             }
             return res;
+        }
+
+        private static void updatePriority(Dictionary<string, string> valDict)
+        {
+            MySqlConnection scon = new MySqlConnection(WebConfigurationManager.ConnectionStrings["MyLocalDb"].ConnectionString);
+            MySqlCommand scmd = new MySqlCommand();
+            try
+            {
+                int pr = Convert.ToInt32(valDict["priority"]);
+                scon.Open();
+                scmd.Connection = scon;
+                string query = "";
+
+                if (pr == 1)
+                {
+                    query = " WHEN priority = '1' THEN '2' "
+                    + " WHEN priority = '2' THEN '3'"
+                    + " WHEN priority = '3' THEN '4'"
+                    + " WHEN priority = '4' THEN '5'"
+                    + " WHEN priority = '5' THEN '6'"
+                    + " WHEN priority = '6' THEN '7' END)";
+                }
+                if (pr == 2)
+                    query = " WHEN priority = '1' THEN '1' "
+                    + " WHEN priority = '2' THEN '3'"
+                    + " WHEN priority = '3' THEN '4'"
+                    + " WHEN priority = '4' THEN '5'"
+                    + " WHEN priority = '5' THEN '6'"
+                    + " WHEN priority = '6' THEN '7' END)";
+                if (pr == 3)
+                    query = " WHEN priority = '1' THEN '1'  WHEN priority = '2' THEN '2'"
+                    + " WHEN priority = '3' THEN '4'"
+                    + " WHEN priority = '4' THEN '5'"
+                    + " WHEN priority = '5' THEN '6'"
+                    + " WHEN priority = '6' THEN '7' END)";
+                if (pr == 4)
+                    query = " WHEN priority = '1' THEN '1'"
+                    + " WHEN priority = '2' THEN '2'"
+                         + " WHEN priority = '3' THEN '3'"
+                        + " WHEN priority = '4' THEN '5' "
+                    + " WHEN priority = '5' THEN '6'"
+                    + " WHEN priority = '6' THEN '7' END)";
+                if (pr == 5)
+                    query = " WHEN priority = '1' THEN '1'"
+                    + " WHEN priority = '2' THEN '2'"
+                    + " WHEN priority = '3' THEN '3'"
+                    + " WHEN priority = '4' THEN '4' "
+                    + " WHEN priority = '5' THEN '6'"
+                    + " WHEN priority = '6' THEN '7' END)";
+                if (pr == 6)
+                    query =
+                        " WHEN priority = '1' THEN '1'"
+                        + " WHEN priority = '2' THEN '2'"
+                         + " WHEN priority = '3' THEN '3'"
+                        + " WHEN priority = '4' THEN '4' "
+                        + " WHEN priority = '5' THEN '5'"
+                        + " WHEN priority = '6' THEN '7 'END)";
+                scmd.CommandText = "UPDATE impnews SET priority = (CASE " + query;
+                /*priority = '1' THEN '2'"*/
+                //+"WHEN priority = '2' THEN '3'"
+                //+"WHEN priority = '3' THEN '4'"
+                //+"WHEN priority = '4' THEN '5'"
+                //+"WHEN priority = '5' THEN '6'"
+                //+"WHEN priority = '6' THEN '7' END)";
+                scmd.Prepare();
+                scmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                if (scmd != null)
+                    scmd.Dispose();
+                if (scon.State == ConnectionState.Open)
+                {
+                    scon.Dispose();
+                    scon.Close();
+                }
+            }
         }
     }
 }

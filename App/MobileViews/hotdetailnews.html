@@ -36,14 +36,15 @@
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-8" id="middle_content">
             <div class="middle_content" ng-show="hnewssummary!=false">
-                <h2>Hot News Detail</h2>
+              	<h2 class="header-font header-font">ସମ୍ପୂର୍ଣ୍ଣ ଖବର</h2>
                 <ul class="featured_nav">
                     <li class="wow fadeInDown">
                         <div ng-show="hnewsDetail.himage!='Default'">
-                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{hnewsDetail.himage}}" alt=""></a></figure>
-                            <h2 class="article_titile">
+							  <h2 class="article_titile">
                                 {{hnewsDetail.htitle}}
                             </h2>
+                            <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{hnewsDetail.himage}}" alt=""></a></figure>
+                          
                             <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i>{{hnewsDetail.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
                             <p class="odia-font">{{hnewsDetail.hotnews}}</p>
                         </div>
@@ -58,21 +59,22 @@
                 </ul>
             </div>
             <div class="middle_content" ng-show="tpnews!=false">
-                <h2>Top News Detail</h2>
+                	<h2 class="header-font header-font">ସମ୍ପୂର୍ଣ୍ଣ ଖବର</h2>
                 <ul class="featured_nav">
                     <li class="wow fadeInDown" ng-repeat="news in tnews | orderBy :'-tnid'">
                         <div ng-show="news.timage!='Default'">
+							<h2 class="article_titile">{{news.ttitle}}</h2>
                             <figure class="featured_img"><a href="#"><img ng-src="../UploadedImage/{{news.timage}}" alt=""></a></figure>
-                            <h2 class="article_titile">{{news.ttitle}}</h2>
-                            <h4>{{news.tsub}}</h4>
                             <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+							<h4 ng-style="CustomStyle" class="newstory-heading">{{news.tsub}}</h4>
                             <p class="odia-font">{{news.topnews}}</p>
                         </div>
                         <div ng-show="news.timage=='Default'">
 
                             <h2 class="article_titile1">{{news.ttitle}}</h2>
-                            <h4>{{news.tsub}}</h4>
+                            
                             <div class="post_commentbox"><a href="#"><i class="fa fa-user"></i> Wpfreeware</a> <span><i class="fa fa-calendar"></i> {{news.newsdate}}</span> <a href="#"><i class="fa fa-tags"></i> Technology</a></div>
+							<h4 ng-style="CustomStyle" class="newstory-heading">{{news.tsub}}</h4>
                             <p class="odia-font">{{news.topnews}}</p>
                         </div>
                     </li>
@@ -140,15 +142,11 @@
         <div class="col-lg-3 col-md-3 col-sm-12">
             <div class="right_sidebar">
                 <div class="single_widget">
-                    <h2>Popular News</h2>
-                    <ul class="nav nav-tabs custom-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true">Recent Post</a></li>
-                        <li role="presentation" class=""><a href="#recentComent" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false">Recent Comment</a></li>
-                    </ul>
+                        <h2 class="header-font">ଦୁନିଆ ଖବର</h2>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade active in" id="mostPopular">
                             <ul class="ppost_nav wow fadeInDown">
-                                <li ng-repeat="news in topstories | orderBy :'-tnid'">
+                                <li ng-repeat="news in topstories | orderBy :'-tnid' | limitTo: 10">
                                     <div class="media">
                                         <a class="media-left" href="#"><img ng-show="news.timage!='Default'" ng-src="../UploadedImage/{{news.timage}}" width="100" height="100" alt=""></a>
                                         <div class="media-body"><a class="catg_title" href="#" ng-click="getTopNewsByID(news.tnid)">{{news.ttitle}}</a></div>

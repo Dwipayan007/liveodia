@@ -358,5 +358,9 @@ namespace LiveOdiaFinal.Controllers
         public void Delete(int id)
         {
         }
+        public DataTable Get()
+        {
+            return dbutility.getPriorityNews();
+        }
     }
 }

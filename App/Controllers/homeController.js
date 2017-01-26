@@ -1,7 +1,8 @@
-﻿LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', '$window', '$uibModal', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, $window, $uibModal, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
+﻿LiveOdiaApp.controller('homeController', ['$scope', '$rootScope', '$location', '$anchorScroll', '$route', '$routeParams', '$window','$uibModal', 'homeServiceFactory', 'HotnewsServiceFactory', 'mobileCheck', function ($scope, $rootScope, $location, $anchorScroll, $route, $routeParams, $window,$uibModal, homeServiceFactory, HotnewsServiceFactory, mobileCheck) {
     $window.ga('send', 'HomePage', $location.path());
     $scope.mobile = mobileCheck;
     $scope.hotNews = [];
+	$scope.vvnews=[];
     $scope.topstories = [];
     $scope.newsories = [];
     $scope.filteredNews = [];
@@ -9,29 +10,37 @@
     $scope.numPerPage = 10;
     $scope.maxSize = 5;
     $scope.fullnews = [];
+	$scope.vinews=[];
     $scope.cleanData = [];
     $scope.topnews = [];
     $scope.hotnews = [];
     $scope.newstory = [];
+	$scope.hnewsData=[];
+	$scope.morenews=[];
+	$scope.relatedNews = [];
     $scope.letterLimit = 120;
     $scope.impnewsLimit = 10;
-    $scope.rid = null;
     $scope.tpnews = false;
+ 	$scope.rid = null;
+  	$scope.rfnews = false;
     $scope.hnews = false;
     $scope.nstory = false;
     $scope.ipnews = false;
     $scope.isClosed = false;
-    $scope.newsTitle = false;
-    $scope.hnewsdetail = false;
-    $scope.rfnews = false;
+	$scope.hnewsdetail=false;
     $scope.impnews = [];
     $scope.imnews = [];
-    $scope.relatedNews = [];
-    $scope.hnewsData = [];
-    $scope.rnewsdata = [];
-    $scope.mycolor = "#000000";
+    $scope.rating = 5;
 
-    $scope.open = function (hnid) {
+    $scope.getRating = function () {
+        debugger;
+        $scope.rating = 6;
+    };
+    $scope.rateFunction = function (rating) {
+        $scope.startrating = rating;
+    };
+
+	$scope.open = function (hnid) {
         debugger;
         var modalInstance = $uibModal.open({
             templateUrl: 'editnews.html',
@@ -66,7 +75,47 @@
             console.log('Modal dismissed at: ' + new Date() + " " + $scope.selected);
         });
     };
-    $scope.getFullRnews = function (fnid) {
+   
+ $scope.clicked = function ($event) {
+        var a = jQuery($event.target);
+        var p = a.next("#panel");
+         p.stop().slideToggle(300);
+    };
+
+    $scope.GetImpNewsById = function (inid, rid) {
+ 	$scope.rid = rid;
+ 		if ($scope.mobile) {
+            $('html, body').animate({ scrollTop: $("#middle_content").offset().top-100 }, 2000);
+			$('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function(e){
+				if ( e.which > 0 || e.type == "mousedown" || e.type == "mousewheel" || e.type == "touchmove"){
+					$("html,body").stop();
+				}
+        	});
+        }
+		if (rid != 0 || rid != null) {
+            homeServiceFactory.getRelatedNews(rid).then(function (rnews) {
+				debugger;
+                $scope.relatedNews = rnews;
+            });
+        }
+        $window.ga('send', 'event', 'home', 'Get Imp News by Id');
+        homeServiceFactory.GetImpNewsById(inid).then(function (newsData) {
+            if (newsData) {
+                $scope.imnews = newsData;
+				if ($scope.imnews[0].mycolor) {
+                    $scope.CustomStyle = {
+                        'color': $scope.imnews[0].mycolor
+                    };
+                }
+                $scope.ipnews = true;
+                $scope.tpnews = false;
+                $scope.hnews = false;
+                $scope.nstory = false;
+ 				$scope.rfnews = false;
+            }
+        });
+    };
+ 	$scope.getFullRnews = function (fnid) {
         homeServiceFactory.getFullRnews(fnid).then(function (newsData) {
             if (newsData) {
                 $scope.rnewsdata = newsData;
@@ -83,93 +132,36 @@
             }
         });
     };
-
-<<<<<<< HEAD
-    $scope.GetImpNewsById = function (inid, rid) {
-        debugger;
-        $scope.rid = rid;
-        if ($scope.mobile) {
-            $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
-        }
-=======
-    //$scope.asideState = {
-    //    open: false
-    //};
-
-    //$scope.openAside = function (position, backdrop) {
-    //    $scope.asideState = {
-    //        open: true,
-    //        position: position
-    //    };
-
-    //    function postClose() {
-    //        $scope.asideState.open = false;
-    //    }
-
-    //    $aside.open({
-    //        templateUrl: 'aside.html',
-    //        placement: position,
-    //        size: 'sm',
-    //        backdrop: backdrop,
-    //        controller: function ($scope, $uibModalInstance) {
-    //            $scope.ok = function (e) {
-    //                $uibModalInstance.close();
-    //                e.stopPropagation();
-    //            };
-    //            $scope.cancel = function (e) {
-    //                $uibModalInstance.dismiss();
-    //                e.stopPropagation();
-    //            };
-    //        }
-    //    }).result.then(postClose, postClose);
-    //}
-
-    $scope.GetImpNewsById = function (inid) {
-        //Scroll Problem Solved....
-
-        if ($scope.mobile) {
+    //$scope.getImpNews = function () {
+        //homeServiceFactory.getImpNews().then(function (newsData) {
+          //  if (newsData) {
+             //   $scope.impnews = newsData;
+				//$scope.vinews = $scope.impnews.splice(0,$scope.impnews.length - 1);
+ 				//$scope.morenews = $scope.vinews.splice(0, $scope.vinews.length - 5);
+           // }
+        //});
+   // };
+ 	$scope.getImpNews = function () {
+			debugger;
+			homeServiceFactory.getImpNews().then(function (newsData) {
+				if (newsData) {
+					$scope.inews = _.find(newsData, { priority: "1" });
+					$scope.impnews = newsData;
+					if ($scope.impnews[0].mycolor) {
+						$scope.CustomStyle = {
+							'color': $scope.impnews[0].mycolor
+						};
+					}
+					$scope.vinews= _.reject($scope.impnews, { priority: null });
+					$scope.vinews = _.reject($scope.vinews, { priority: "1" });
+					$scope.vvnews = _.reject($scope.impnews, { priority: null });
+					$scope.morenews = $scope.impnews.splice(0, $scope.impnews.length - 5);
+				}
+			});
+		};
 
 
-
-            $('html, body').animate({
-                scrollTop: $("#middle_content").offset().top - 100
-            }, 2000);
-
-            //$(this).find("middle_content").stop(true, true).fadeOut();
-            $('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function (e) {
-                if (e.which > 0 || e.type == "mousedown" || e.type == "mousewheel" || e.type == "touchmove") {
-                    $("html,body").stop();
-                }
-            });
-        }
-
-        //$(window).scrollTop($('#middle_content').offset().top-100).fadeOut(1000);
->>>>>>> 2e130aaaacbae38d4d586d8d3adcf061a339edf9
-        $window.ga('send', 'event', 'home', 'Get Imp News by Id');
-        if (rid != 0 || rid != null) {
-            homeServiceFactory.getRelatedNews(rid).then(function (rnews) {
-                $scope.relatedNews = rnews;
-            });
-        }
-        homeServiceFactory.GetImpNewsById(inid).then(function (newsData) {
-            if (newsData) {
-                $scope.imnews = newsData;
-                if ($scope.imnews[0].mycolor) {
-                    $scope.CustomStyle = {
-                        'color': $scope.imnews[0].mycolor
-                    };
-                }
-                $scope.ipnews = true;
-                $scope.tpnews = false;
-                $scope.hnews = false;
-                $scope.nstory = false;
-                $scope.rfnews = false;
-            }
-        });
-    };
-
-<<<<<<< HEAD
-    $scope.DeleteImpNews = function (inid) {
+$scope.DeleteImpNews = function (inid) {
         homeServiceFactory.DeleteImpNews(inid).then(function (res) {
             if (res) {
                 $scope.getAllNews();
@@ -180,16 +172,6 @@
             }
         });
     }
-
-=======
->>>>>>> 2e130aaaacbae38d4d586d8d3adcf061a339edf9
-    $scope.getImpNews = function () {
-        homeServiceFactory.getImpNews().then(function (newsData) {
-            if (newsData) {
-                $scope.impnews = newsData;
-            }
-        });
-    };
 
     $scope.DeleteNewsStory = function (nsid) {
         homeServiceFactory.DeleteNewsStory(nsid).then(function (res) {
@@ -244,25 +226,31 @@
 
     //Get top news by tnid
     $scope.getTopNewsByID = function (newsid, rid) {
-        $scope.rid = rid;
-        if ($scope.mobile) {
-            $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
+		 $scope.rid = rid;
+ 		if ($scope.mobile) {
+            $('html, body').animate({ scrollTop: $("#middle_content").offset().top-100 }, 2000);
+			$('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function(e){
+				if ( e.which > 0 || e.type == "mousedown" || e.type == "mousewheel" || e.type == "touchmove"){
+					$("html,body").stop();
+				}
+        	});
         }
-        $window.ga('send', 'event', 'home', 'Get Top News by Id');
-        if (rid != 0 && rid != null) {
+		if (rid != 0 && rid != null) {
             homeServiceFactory.getRelatedNews(rid).then(function (rnews) {
                 $scope.relatedNews = rnews;
             });
         }
+        $window.ga('send', 'event', 'home', 'Get Top News by Id');
         homeServiceFactory.getTopNewsByID(newsid).then(function (result) {
             if (result) {
                 $scope.tpnews = true;
                 $scope.ipnews = false;
                 $scope.hnews = false;
                 $scope.nstory = false;
-                $scope.rfnews = false;
+				$scope.rfnews = false;
+                $scope.hnewsdetail = false;
                 $scope.tnews = result;
-                if ($scope.tnews[0].mycolor) {
+				if ($scope.tnews[0].mycolor) {
                     $scope.CustomStyle = {
                         'color': $scope.tnews[0].mycolor
                     };
@@ -271,42 +259,45 @@
         });
     };
 
-    $scope.getHotNewsSummaryData = function (ndid) {
-        debugger;
-
-        homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
-            if (hnewsdata) {
-                if (ndid === 1)
-                    $scope.hnewsData1 = hnewsdata;
-                else if (ndid === 2)
-                    $scope.hnewsData2 = hnewsdata;
-                else if (ndid === 3)
-                    $scope.hnewsData3 = hnewsdata;
-            }
-        });
+		 $scope.getHotNewsSummaryData = function (ndid) {
+			homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
+				if (hnewsdata) {
+					if (ndid === 1)
+						$scope.hnewsData1 = hnewsdata;
+					else if (ndid === 2)
+						$scope.hnewsData2 = hnewsdata;
+					else if (ndid === 3)
+						$scope.hnewsData3 = hnewsdata;
+					else if (ndid === 4)
+						$scope.hnewsData4 = hnewsdata;
+					else if (ndid === 5)
+						$scope.hnewsData5 = hnewsdata;
+					else if (ndid === 6)
+						$scope.hnewsData6 = hnewsdata;
+					else if (ndid === 7)
+						$scope.hnewsData7 = hnewsdata;
+				}
+			});
     };
-
     //Get Title for hot news
     $scope.getHotNewsTitle = function () {
         HotnewsServiceFactory.getHotFullNewsTitle().then(function (hnewsdata) {
             if (hnewsdata) {
                 $scope.hotNews = hnewsdata;
-                for (var i = 0; i < $scope.hotNews.length; i++)
+ 				for (var i = 0; i < $scope.hotNews.length; i++)
                     $scope.getHotNewsSummaryData($scope.hotNews[i].ndid);
             }
         });
     };
 
     var trigger = $('.hamburger'),
-    overlay = $('.overlay');
+        overlay = $('.overlay');
 
     trigger.click(function () {
-        debugger;
         hamburger_cross();
     });
 
     function hamburger_cross() {
-        debugger;
         $window.ga('send', 'event', 'home', 'Mobile Menu Clicked');
         if ($scope.isClosed === true) {
             overlay.hide();
@@ -322,12 +313,9 @@
     }
 
     $('[data-toggle="offcanvas"]').click(function () {
-        debugger;
         $('#wrapper').toggleClass('toggled');
     });
-    //get All hot summary news by ndid
-
-    $scope.getHotNewsSummaryLast = function (ndid) {
+ $scope.getHotNewsSummaryLast = function (ndid) {
         debugger;
 
         $window.ga('send', 'event', 'home', 'Get Hot News by Id');
@@ -342,7 +330,6 @@
                 $scope.ipnews = false;
                 $scope.nstory = false;
                 $scope.hnews = true;
-                $scope.rfnews = false;
 
                 $scope.hnewsDetail = hnewsdata;
 
@@ -370,59 +357,34 @@
                 $scope.ipnews = false;
                 $scope.nstory = false;
                 $scope.hnews = false;
-                $scope.rfnews = false;
+     			$scope.rfnews = false;
                 $scope.hnewsDetail = hnewsdata;
             }
         });
     };
+    //get All hot summary news by ndid
     $scope.getHotNewsSummary = function (ndid) {
-        debugger;
+		 if ($scope.mobile) {
+            $('html, body').animate({ scrollTop: $("#middle_content").offset().top-100 }, 2000);
+			$('body,html').bind('scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove', function(e){
+				if ( e.which > 0 || e.type == "mousedown" || e.type == "mousewheel" || e.type == "touchmove"){
+					$("html,body").stop();
+				}
+        	});
+        }
         $(".hamburger").trigger("click");
         $window.ga('send', 'event', 'home', 'Get Hot News by Id');
-        if ($scope.mobile) {
-            $('html, body').animate({ scrollTop: $("#middle_content").offset().top - 100 }, 2000);
-        }
         homeServiceFactory.getHotNewsSummary(ndid).then(function (hnewsdata) {
             if (hnewsdata) {
-
                 $scope.tpnews = false;
                 $scope.ipnews = false;
                 $scope.nstory = false;
                 $scope.hnews = true;
-                $scope.rfnews = false;
-
+     			$scope.rfnews = false;
                 $scope.hnewsDetail = hnewsdata;
-
             }
         });
-
     };
     $scope.getImpNews();
     $scope.getAllNews();
-    //$scope.FormatData();
 }]);
-//}]).filter('orderObjectBy', function () {
-//    return function (items, field, reverse) {
-//        var filtered = [];
-//        angular.forEach(items, function (item) {
-//            filtered.push(item);
-//        });
-//        if (items[0].newstory) {
-//            filtered.sort(function (a, b) {
-//                return (a.newstory[field] > b.newstory[field] ? 1 : -1);
-//            });
-//        }
-//        if (items[0].topnews) {
-//            filtered.sort(function (a, b) {
-//                return (a.topnews[field] > b.topnews[field] ? 1 : -1);
-//            });
-//        }
-//        //if (items.topnews) {//For hot News
-//        //    filtered.sort(function (a, b) {
-//        //        return (a.topnews[field] > b.topnews[field] ? 1 : -1);
-//        //    });
-//        //}
-//        if (reverse) filtered.reverse();
-//        return filtered;
-//    };
-//});

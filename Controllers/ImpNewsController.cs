@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveOdiaFinal.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -25,8 +26,9 @@ namespace LiveOdiaFinal.Controllers
         }
 
         // POST: api/ImpNews
-        public void Post([FromBody]string value)
+        public void Post(List<ImpNews> impnews)
         {
+            dbutility.ReorderImpNews(impnews);
         }
 
         // PUT: api/ImpNews/5
