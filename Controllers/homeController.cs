@@ -29,6 +29,9 @@ namespace LiveOdiaFinal.Controllers
         {
             return dbutility.addNewCategory(value);
         }
+        public bool Put(int id,AdminModel value) {
+            return true;
+        }
 
         // DELETE: api/home/5
         public bool Delete(int id)
@@ -37,7 +40,6 @@ namespace LiveOdiaFinal.Controllers
             bool res = false;
             res = dbutility.deleteTopNews(id);
             return res;
-
         }
     }
 }

@@ -24,7 +24,6 @@ namespace LiveOdiaFinal.Controllers
 
         public bool Post(Login login)
         {
-
             return dbutility.getLoginData(login);
         }
 
